@@ -1,0 +1,36 @@
+
+html, body{
+    height: 100%;
+	font-family: "Roboto", sans-serif;
+}
+
+.footer{
+	height: 3em;
+}
+
+.btn-blue{
+	background-color: #1B4D8C;
+}
+
+.bg-blue{
+	background-color: #1B4D8C;
+	color: #FFF;
+}
+
+.bg-warmwhite{
+	background-color: #EEE;
+	color: #111;
+}
+
+.title{
+	margin: 3em;
+	font-size: 2em;
+}
+
+.content{
+	margin: 0;
+}
+
+p{
+	color: #999;
+}
