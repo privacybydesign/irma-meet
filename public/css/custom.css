@@ -23,7 +23,7 @@ html, body{
 }
 
 .title{
-	margin: 3em;
+	margin: 1em;
 	font-size: 2em;
 }
 
@@ -34,3 +34,4 @@ html, body{
 p{
 	color: #999;
 }
+
