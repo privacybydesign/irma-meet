@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Invitation;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Session;
 
@@ -35,11 +37,11 @@ class IrmaSessionController extends Controller
      */
     public function store(Request $request)
     {
-        //@TODO: verify and store all
+        $validated_email = Session::get('validated_email', '');
         $validatedData = $request->validate([
             'meeting_name' => 'required|max:255',
             'hoster_name' => 'required',
-            'hoster_email_address' => 'required',
+            'hoster_email_address' => 'required|in:' . $validated_email,
             'start_time' => '', //not yet used
             'invitation_note' => 'required|max:255',
             'participant_email_address1' => 'required|email',
@@ -53,8 +55,8 @@ class IrmaSessionController extends Controller
         $validatedData = array_merge($validatedData, [ 'irma_session_id' => $uniqueId, 'start_time' => now() ]);
         $irma_session = \App\IrmaMeetSessions::create($validatedData);
 
-       // TODO verify emial address with session
-       //for all participants store data
+        //for all participants store data 
+        $participantsEmails = [];
         for ($i = 1; $i < 7; $i++) {
             if ( $validatedData['participant_email_address'.$i] ) {
                 $irmaParticipant=[
@@ -63,8 +65,22 @@ class IrmaSessionController extends Controller
                     'authentication' => 1, 
                 ];
                 $irma_participants = \App\IrmaMeetParticipants::create($irmaParticipant);
+                array_push($participantsEmails, $validatedData['participant_email_address'.$i]);
             }
         } 
+
+        $invitationLink = url('/') . "/irma_session/start/" . $uniqueId;
+
+        //Send mail with link
+        Mail::to($validatedData['hoster_email_address'])
+            ->bcc($participantsEmails)
+            ->send(new Invitation([
+                'hoster_name' => $validatedData['hoster_name'],
+                'invitation_note' => $validatedData['invitation_note'],
+                'invitation_link' => $invitationLink
+            ]));
+
+
         
         return redirect()->route('irma_session.success');
     }

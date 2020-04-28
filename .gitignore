@@ -17,3 +17,4 @@ yarn-error.log
 .gitattributes
 .styleci.yml
 resources/sass/_variables.scss
+laravel.sublime-*

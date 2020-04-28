@@ -25,13 +25,10 @@ class IrmaAuthenticate
         } else {
             //verify
             $result = $this->irma_get_session_result($token);
-                //var_dump($result);
             if ( $result && $result->proofStatus == 'VALID' ) {
                 $test = $result->disclosed[0][0]->rawvalue;
-                var_dump($test);
                 $validated_email = $result->disclosed[0][0]->rawvalue;
                 session(['validated_email' => $validated_email]);
-                //print_r($result);
             } else {
                 //TODO present error
                 return redirect(route('home'));
