@@ -3,18 +3,21 @@ Hello,
 </div>
 
 <div>
-You are invited to an IRMA meet session with {{ $hoster_name }}. Please follow the next link to join.
+You are invited to host an IRMA meet session with {{ $hoster_name }}. Please follow the next link to join.
 </div>
 
 <div>
-<a href="{{ $invitation_link }}">{{ $invitation_link }}</a>
+<a href="{{ $hoster_invitation_link }}">{{ $hoster_invitation_link }}</a>
 </div>
 
 <div>
-{{ $invitation_note }}
-</div>
+Provide the following link to the participants:</div>
 
 <div>
+<div>
+{{ $participant_invitation_link }}
+</div>
+
 Kind regards,
 </div>
 <div>

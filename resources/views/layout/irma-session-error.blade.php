@@ -30,21 +30,7 @@
 	        </div>
         </main>
         <main class="col-4 bg-warmwhite text-center">
-            <div>
-                {{ $mainContent }}
-            </div>
-            <div>
-                Use this url to host the meeting:
-            </div>
-            <div>
-                <a href="{{ $hosterInvitationLink }}">{{ $hosterInvitationLink }}</a>
-            </div>
-            <div>
-                Forward the next link to your participants:
-            </div>
-            <div>
-                {{ $participantInvitationLink }}
-            </div>
+            <a href="{{ $mainContent }}">{{ $mainContent }}</a>
         </main>
         <main class="col-4 bg-warmwhite">
         	<div class="content">
