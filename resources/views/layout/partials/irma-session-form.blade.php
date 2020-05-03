@@ -21,6 +21,7 @@
 	<input id="hoster_email_address"  value="{{ $validated_email }}" name="hoster_email_address" type="text" class="@error('hoster_email_address') is-invalid @enderror" readonly>
 </div>
 
+<!--
 <div>
 	<label for="invitation_note">Invitation note</label>
 	<textarea id="invitation_note" name="invitation_note" class="@error('invitation_note') is-invalid @enderror">{{ old('invitation_note') }}</textarea>
@@ -32,6 +33,7 @@
 	<input id="participant_email_address{{ $i }}"  value="{{ old('participant_email_address'.$i) }}" name="participant_email_address{{ $i }}" type="text" class="@error('participant_email_address{{ $i }}') is-invalid @enderror">
 </div>
 @endfor
+-->
 
  	<button type="submit" class="btn btn-primary">Send invite</button>
 </form>

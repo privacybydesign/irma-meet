@@ -1,5 +1,5 @@
-function startInvitation() {
-    fetch('./irma_auth/start', { credentials: 'include' })
+function startInvitation(authUrl, redirectUrl) {
+    fetch(authUrl, { credentials: 'include' })
         .then((response) => {
             return response.json();
         })
@@ -7,7 +7,7 @@ function startInvitation() {
             return irma.handleSession(qr, { language: 'nl' });
         })
         .then(() => {
-            window.location.replace('./irma_session/create');
+            window.location.replace(redirectUrl);
         })
         .catch((error) => {
             document.getElementById('errorboxtext').innerText = error;
