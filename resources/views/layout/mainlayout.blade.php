@@ -34,9 +34,9 @@
         </main>
         <main class="col-4 bg-warmwhite">
         	<div class="content">
-        		<p class="cl-grey">THE SECURE VIDEO CHAT</p>
-        		<h1>Meet online, safe and sound!</h1>
-        		<p>Invite your guests and IRMA-meet will do the rest. No surprise visitors guaranteed</p>
+        		<p class="cl-grey">AUTHENTICATED VIDEO CHATTING</p>
+        		<h1>Meet online, without surprises!</h1>
+        		<p>Only people who prove who they are can participate in IRMA-meet video. Chat with certainty, without being fooled, in your business meeting, (medical) consult, or online oral exam.</p>
                 <div class="">
                     <button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation('./irma_auth/start', './irma_session/create');">Start a meeting now!</a>
                 </div>
