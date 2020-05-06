@@ -80,7 +80,7 @@ class IrmaAuthenticate
 
         $url = env("IRMA_SERVER_URL") . $suburl;
         $file_headers = @get_headers($url);
-        if (!$file_headers || $file_headers[0] == 'HTTP/1.0 404 Not Found' || $file_headers[0] == 'HTTP/1.0 400 Bad Request') {
+        if (!$file_headers || $file_headers[0] == 'HTTP/1.0 404 Not Found' || $file_headers[0] == 'HTTP/1.0 400 Bad Request'|| $file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.1 400 Bad Request') {
             $response_data = false;
         } else {
             $response = file_get_contents($url, false, stream_context_create($api_call));
