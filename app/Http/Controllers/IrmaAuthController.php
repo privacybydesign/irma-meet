@@ -36,6 +36,4 @@ class IrmaAuthController extends Controller
 
         return json_encode($irmasession->sessionPtr);
     }
-
-
 }
