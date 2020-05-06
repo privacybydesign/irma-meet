@@ -31,7 +31,7 @@ class IrmaAuthController extends Controller
                 ],
             ],
         ]);
-
+        
         $_SESSION['irmasession'] = $irmasession->token;
 
         return json_encode($irmasession->sessionPtr);

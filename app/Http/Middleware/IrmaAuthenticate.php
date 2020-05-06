@@ -19,7 +19,12 @@ class IrmaAuthenticate
         $token = Session::get('irma_session_token', '');
         if ($request->route()->getName() === 'irma_auth.start') {
             //start session
-            return response($this->start($request));
+            $response = response($this->start($request));
+            if ($response) {
+                return response($this->start($request));
+            } else {
+                return redirect()->route('irma_session.authenticate', urlencode(urlencode(\URL::to('/').'/'.$request->path())));
+            }
         } elseif ($token === '') {
             //echo \URL::to('/').'/'.$request->path();
             //return \URL::to('/').'/'.$request->path();
@@ -50,9 +55,12 @@ class IrmaAuthenticate
             ],
         ]);
 
-        session(['irma_session_token' => $irmasession->token]);
-
-        return json_encode($irmasession->sessionPtr);
+        if ($irmasession) {
+            session(['irma_session_token' => $irmasession->token]);
+            return json_encode($irmasession->sessionPtr);
+        } else {
+            return json_encode(false);
+        }
     }
 
     private function irma_server_call($method, $suburl, $payload = null)
@@ -80,7 +88,7 @@ class IrmaAuthenticate
 
         $url = env("IRMA_SERVER_URL") . $suburl;
         $file_headers = @get_headers($url);
-        if (!$file_headers || $file_headers[0] == 'HTTP/1.0 404 Not Found' || $file_headers[0] == 'HTTP/1.0 400 Bad Request'|| $file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.1 400 Bad Request') {
+        if (!$file_headers || ($file_headers[0] == 'HTTP/1.0 404 Not Foundx') || $file_headers[0] == ('HTTP/1.0 400 Bad Request') || ($file_headers[0] == 'HTTP/1.1 404 Not Foundx') || ($file_headers[0] == 'HTTP/1.1 400 Bad Request')) {
             $response_data = false;
         } else {
             $response = file_get_contents($url, false, stream_context_create($api_call));
