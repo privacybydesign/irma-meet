@@ -13,7 +13,6 @@ npm-debug.log
 yarn-error.log
 .DS_Store
 .editorconfig
-.env.example
 .gitattributes
 .styleci.yml
 resources/sass/_variables.scss

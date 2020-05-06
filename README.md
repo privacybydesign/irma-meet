@@ -15,3 +15,8 @@ run [composer](https://getcomposer.org/) to get dependencies:
 ```
 composer update
 ```
+
+Generate unique key:
+```
+php artisan key:generate
+```
