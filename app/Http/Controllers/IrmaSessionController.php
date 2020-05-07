@@ -70,7 +70,7 @@ class IrmaSessionController extends Controller
             'participant_email_address5' => 'nullable|email',
             'participant_email_address6' => 'nullable|email',
         ]);
-        $uniqueId = bin2hex(openssl_random_pseudo_bytes(24));
+        $uniqueId = bin2hex(openssl_random_pseudo_bytes(4));
         //we use another session id for bbb so the bbb session id is not exposed in the url
         $bbbSessionId = bin2hex(openssl_random_pseudo_bytes(12));
         $validatedData = array_merge($validatedData, ['irma_session_id' => $uniqueId, 'start_time' => now(), 'bbb_session_id' => $bbbSessionId]);

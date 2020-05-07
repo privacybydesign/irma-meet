@@ -30,6 +30,7 @@
 	        </div>
         </main>
         <main class="col-4 bg-warmwhite text-center">
+        <div class="create_form card">
             <div>
                 {{ $mainContent }}
             </div>
@@ -45,6 +46,7 @@
             <div>
                 {{ $participantInvitationLink }}
             </div>
+        </div>
         </main>
         <main class="col-4 bg-warmwhite">
         	<div class="content">

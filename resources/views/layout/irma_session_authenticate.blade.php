@@ -30,8 +30,12 @@
 	        </div>
         </main>
         <main class="col-4 bg-warmwhite text-center">
+            <div class="create_form card">
+
             Please authenticate with IRMA before entering the room.
             <button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation('../../irma_auth/start', '{{ $url }}');">Authenticate with IRMA</a>
+            </button>
+        </div>
         </main>
         <main class="col-4 bg-warmwhite">
         	<div class="content">
