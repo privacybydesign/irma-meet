@@ -90,8 +90,7 @@ class IrmaSessionController extends Controller
             }
         }
 
-        $participantLink = url('/') . "/irma_session/join/participant/" . $uniqueId;
-        $hosterLink = url('/') . "/irma_session/join/hoster/" . $uniqueId;
+        $invitationLink = url('/') . "/irma_session/join/" . $uniqueId;
 
         //Create session in BBB
         $bbb = new BigBlueButton();
@@ -111,8 +110,7 @@ class IrmaSessionController extends Controller
                 ->send(new Invitation([
                     'hoster_name' => $validatedData['hoster_name'],
                     'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
-                    'hoster_invitation_link' => $hosterLink,
-                    'participant_invitation_link' => $participantLink,
+                    'invitation_link' => $invitationLink,
                 ]));
             if (false && count($participantsEmails)) {
                 //Send mail with links to participants
@@ -122,7 +120,7 @@ class IrmaSessionController extends Controller
                 ->send(new Invitation([
                     'hoster_name' => $validatedData['hoster_name'],
                     'invitation_note' => $validatedData['invitation_note'],
-                    'participant_invitation_link' => $participantLink,
+                    'invitation_link' => $invitationLink,
                 ]));
             }
             $mainContent = 'Meeting is successfully validated and data has been saved';
@@ -130,34 +128,9 @@ class IrmaSessionController extends Controller
                 'layout/irma_session_success',
                 [
                     'mainContent' => $mainContent,
-                    'participantInvitationLink' => $participantLink,
-                    'hosterInvitationLink' => $hosterLink,
+                    'invitationLink' => $invitationLink
                 ]
             );
-        }
-    }
-
-    /**
-     * Redirect authenticated participant to session
-     *
-     * @return redirect to bbb
-     */
-    public function joinParticipant($irmaSessionId)
-    {
-        $irmaSession = \App\IrmaMeetSessions::where('irma_session_id', $irmaSessionId)->first();
-        $bbbSessionId = $irmaSession->bbb_session_id;
-        $participantEmail = Session::get('validated_email', '');
-        if (($participantEmail !== '') && ($irmaSessionId !== '')) {
-            $bbb = new BigBlueButton();
-            //redirect to bbb
-            $joinParams = new JoinMeetingParameters($bbbSessionId, '[' . $participantEmail . ']', md5('participant' . $bbbSessionId));
-            $joinParams->setRedirect(true);
-            // Join the meeting by redirecting the user to the generated URL
-            $url = $bbb->getJoinMeetingURL($joinParams);
-            return \Redirect::to($url);
-        } else {
-            $mainContent = 'Your email address could not be verified by IRMA.';
-            return view('layout/irma_session_error')->with('mainContent', $mainContent);
         }
     }
 
@@ -166,18 +139,31 @@ class IrmaSessionController extends Controller
      *
      * @return redirect to bbb
      */
-    public function joinHoster($irmaSessionId)
+    public function join($irmaSessionId)
     {
         $irmaSession = \App\IrmaMeetSessions::where('irma_session_id', $irmaSessionId)->first();
         $hosterName = $irmaSession->hoster_name;
         $hosterEmailAddress = $irmaSession->hoster_email_address;
         $bbbSessionId = $irmaSession->bbb_session_id;
         $bbb = new BigBlueButton();
-        //redirect to bbb
-        $joinParams = new JoinMeetingParameters($bbbSessionId, $hosterName . ' [' . $hosterEmailAddress . ']', md5('hoster' . $bbbSessionId));
-        $joinParams->setRedirect(true);
-        // Join the meeting by redirecting the user to the generated URL
-        $url = $bbb->getJoinMeetingURL($joinParams);
-        return \Redirect::to($url);
+        $email = Session::get('validated_email', '');
+        if (($email !== '') && ($irmaSessionId !== '')) {
+            if ($email === $hosterEmailAddress) {
+                $password = md5('hoster' . $bbbSessionId);
+                $visibleName = $hosterName . ' [' . $hosterEmailAddress . ']';
+            } else {
+                $password = md5('participant' . $bbbSessionId);
+                $visibleName = '[' . $email . ']';
+            }
+            //redirect to bbb
+            $joinParams = new JoinMeetingParameters($bbbSessionId, $visibleName, $password);
+            $joinParams->setRedirect(true);
+            // Join the meeting by redirecting the user to the generated URL
+            $url = $bbb->getJoinMeetingURL($joinParams);
+            return \Redirect::to($url);
+        } else {
+            $mainContent = 'Your email address could not be verified by IRMA.';
+            return view('layout/irma_session_error')->with('mainContent', $mainContent);
+        }
     }
 }

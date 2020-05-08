@@ -24,9 +24,7 @@ Route::get('/irma_session/create', 'IrmaSessionController@create')->name('irma_s
 Route::post('/irma_session/store', 'IrmaSessionController@store')->name('irma_session.store');
 
 //TODO: Next 2 statements needs irmaauth
-Route::get('/irma_session/join/hoster/{irmaSessionId}', 'IrmaSessionController@joinHoster')->name('irma_session.join_hoster')->middleware('irma_auth');
-
-Route::get('/irma_session/join/participant/{irmaSessionId}', 'IrmaSessionController@joinParticipant')->name('irma_session.join_participant')->middleware('irma_auth');
+Route::get('/irma_session/join/{irmaSessionId}', 'IrmaSessionController@join')->name('irma_session.join')->middleware('irma_auth');
 
 Auth::routes();
 

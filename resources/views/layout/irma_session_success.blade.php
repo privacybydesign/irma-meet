@@ -38,13 +38,7 @@
                 Use this url to host the meeting:
             </div>
             <div>
-                <a href="{{ $hosterInvitationLink }}">{{ $hosterInvitationLink }}</a>
-            </div>
-            <div>
-                Forward the next link to your participants:
-            </div>
-            <div>
-                {{ $participantInvitationLink }}
+                <a href="{{ $invitationLink }}">{{ $invitationLink }}</a>
             </div>
         </div>
         </main>

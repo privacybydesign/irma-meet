@@ -7,7 +7,7 @@ You are invited to host an IRMA meet session with {{ $hoster_name }}. Please fol
 </div>
 
 <div>
-<a href="{{ $hoster_invitation_link }}">{{ $hoster_invitation_link }}</a>
+<a href="{{ $invitation_link }}">{{ $invitation_link }}</a>
 </div>
 
 <div>
@@ -15,7 +15,7 @@ Provide the following link to the participants:</div>
 
 <div>
 <div>
-{{ $participant_invitation_link }}
+{{ $invitation_link }}
 </div>
 
 Kind regards,

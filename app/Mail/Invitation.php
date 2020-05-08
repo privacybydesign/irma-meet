@@ -37,8 +37,7 @@ class Invitation extends Mailable
         return $this->from(env('MAIL_FROM_ADDRESS'))->view('emails.invitation')->with([
             'hoster_name' => $this->mailinfo['hoster_name'],
             'invitation_note' => $this->mailinfo['invitation_note'],
-            'hoster_invitation_link' => $this->mailinfo['hoster_invitation_link'],
-            'participant_invitation_link' => $this->mailinfo['participant_invitation_link'],
+            'invitation_link' => $this->mailinfo['invitation_link'],
         ]);
     }
 }
