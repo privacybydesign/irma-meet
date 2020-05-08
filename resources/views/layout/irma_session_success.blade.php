@@ -35,7 +35,7 @@
                 {{ $mainContent }}
             </div>
             <div>
-                Use this url to host the meeting:
+                Use this url to host the meeting or send to your participants:
             </div>
             <div>
                 <a href="{{ $invitationLink }}">{{ $invitationLink }}</a>

@@ -108,6 +108,7 @@ class IrmaSessionController extends Controller
             //Send mail with links to hoster
             Mail::to($validatedData['hoster_email_address'])
                 ->send(new Invitation([
+                    'meeting_name' => $validatedData['meeting_name'],
                     'hoster_name' => $validatedData['hoster_name'],
                     'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
                     'invitation_link' => $invitationLink,
@@ -118,6 +119,7 @@ class IrmaSessionController extends Controller
                 Mail::from($validatedData['hoster_email_address'])
                 ->bcc($participantsEmails)
                 ->send(new Invitation([
+                    'meeting_name' => $validatedData['meeting_name'],
                     'hoster_name' => $validatedData['hoster_name'],
                     'invitation_note' => $validatedData['invitation_note'],
                     'invitation_link' => $invitationLink,

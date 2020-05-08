@@ -34,10 +34,13 @@ class Invitation extends Mailable
      */
     public function build()
     {
-        return $this->from(env('MAIL_FROM_ADDRESS'))->view('emails.invitation')->with([
-            'hoster_name' => $this->mailinfo['hoster_name'],
-            'invitation_note' => $this->mailinfo['invitation_note'],
-            'invitation_link' => $this->mailinfo['invitation_link'],
-        ]);
+        return $this->from(env('MAIL_FROM_ADDRESS'))->
+            view('emails.invitation')->
+            subject("IRMA-meet link for " . $this->mailinfo['meeting_name'])
+            with([
+                'hoster_name' => $this->mailinfo['hoster_name'],
+                'invitation_note' => $this->mailinfo['invitation_note'],
+                'invitation_link' => $this->mailinfo['invitation_link'],
+            ]);
     }
 }
