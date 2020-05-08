@@ -69,7 +69,7 @@ class IrmaAuthenticate
             $api_call = array(
                 'http' => array(
                     'method' => $method,
-                    //'header' => "Authorization: " . IRMA_API_TOKEN . "\r\n",
+                    'header' => "Authorization: " . env('IRMA_API_TOKEN') . "\r\n",
                 ),
             );
         } else {
@@ -79,7 +79,7 @@ class IrmaAuthenticate
                 'http' => array(
                     'method' => $method,
                     'header' => "Content-Type: application/json\r\n"
-                    . "Content-Length: " . strlen($json_payload) . "\r\n",
+                    . "Content-Length: " . strlen($json_payload) . "\r\n"
                     . "Authorization: " . env('IRMA_API_TOKEN') ."\r\n",
                     'content' => $json_payload,
                 ),
