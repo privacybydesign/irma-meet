@@ -29,6 +29,11 @@ class IrmaAuthController extends Controller
                 [
                     ['pbdf.pbdf.email.email'],
                 ],
+                [
+                    ['pbdf.gemeente.personalData.fullname'],
+                    ['pbdf.pbdf.linkedin.fullname']
+
+                ]
             ],
         ]);
         

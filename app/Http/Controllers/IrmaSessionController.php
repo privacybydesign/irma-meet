@@ -46,7 +46,11 @@ class IrmaSessionController extends Controller
     public function create()
     {
         $validated_email = Session::get('validated_email', '');
-        return view('layout/irma_session_create')->with('validated_email', $validated_email);
+        $validated_name = Session::get('validated_brp_name', Session::get('validated_linkedin_name', ''));
+        return view('layout/irma_session_create')->with([
+            'validated_email' => $validated_email,
+            'validated_name' => $validated_name
+        ]);
     }
 
     /**
@@ -144,18 +148,27 @@ class IrmaSessionController extends Controller
     public function join($irmaSessionId)
     {
         $irmaSession = \App\IrmaMeetSessions::where('irma_session_id', $irmaSessionId)->first();
-        $hosterName = $irmaSession->hoster_name;
+        //$hosterName = $irmaSession->hoster_name;
         $hosterEmailAddress = $irmaSession->hoster_email_address;
         $bbbSessionId = $irmaSession->bbb_session_id;
         $bbb = new BigBlueButton();
         $email = Session::get('validated_email', '');
+        $validatedBrpName = Session::get('validated_brp_name', '');
+        $validatedLinkedinName = Session::get('validated_linkedin_name', '');
+        if ($validatedBrpName !== '') {
+            $validatedName = '[BRP]' . $validatedBrpName;
+        }
+        if ($validatedLinkedinName !== '') {
+            $validatedName = '[LinkedIn]' . $validatedLinkedinName;
+        }
+
         if (($email !== '') && ($irmaSessionId !== '')) {
             if ($email === $hosterEmailAddress) {
                 $password = md5('hoster' . $bbbSessionId);
-                $visibleName = $hosterName . ' [' . $hosterEmailAddress . ']';
+                $visibleName = '* ' . $validatedName . ' [' . $hosterEmailAddress . ']';
             } else {
                 $password = md5('participant' . $bbbSessionId);
-                $visibleName = '[' . $email . ']';
+                $visibleName = $validatedName . ' [' . $email . ']';
             }
             //redirect to bbb
             $joinParams = new JoinMeetingParameters($bbbSessionId, $visibleName, $password);

@@ -15,7 +15,7 @@
 
 <div class="form-group">
 	<label class="control-label"  for="hoster_name">Hoster name</label>
-		<input id="hoster_name" name="hoster_name"  value="{{ old('hoster_name') }}" type="text" class="form-control @error('hoster_name') is-invalid @enderror">
+		<input id="hoster_name" name="hoster_name"  value="{{ $validated_name }}" type="text" class="form-control @error('hoster_name') is-invalid @enderror" readonly>
 </div>
 
 <div class="form-group">

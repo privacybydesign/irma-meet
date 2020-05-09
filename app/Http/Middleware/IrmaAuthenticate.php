@@ -33,8 +33,16 @@ class IrmaAuthenticate
             //verify
             $result = $this->irma_get_session_result($token);
             if ($result && $result->proofStatus == 'VALID') {
-                $validated_email = $result->disclosed[0][0]->rawvalue;
+                $disclosed = $result->disclosed;
+                $validated_email = $disclosed[0][0]->rawvalue;
                 session(['validated_email' => $validated_email]);
+                if ($disclosed[1][0]->id === 'pbdf.pbdf.linkedin.firstname') {
+                    $validatedLinkedinName = $disclosed[1][0]->rawvalue;
+                    session(['validated_linkedin_name' => $validatedLinkedinName]);
+                } elseif ($disclosed[1][0]->id === 'pbdf.gemeente.personalData.fullname') {
+                    $validatedBrpName = $disclosed[1][0]->rawvalue;
+                    session(['validated_brp_name' => $validatedBrpName]);
+                }
             } else {
                 //empty token to try again
                 session(['irma_session_token' => '']);
@@ -52,6 +60,11 @@ class IrmaAuthenticate
                 [
                     ['pbdf.pbdf.email.email'],
                 ],
+                [
+                    ['pbdf.gemeente.personalData.fullname'],
+                    ['pbdf.pbdf.linkedin.firstname']
+
+                ]
             ],
         ]);
 
