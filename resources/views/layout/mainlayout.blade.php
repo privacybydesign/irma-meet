@@ -64,14 +64,14 @@
             </div>
         </main>
         <main class="col-md-5 bg-grey" >
-            <div class="">
+            <div class="info">
                 <img class="img-fluid " src="{{ url('/') }}/img/know.svg" />
             </div>
         </main>
     </div>
     <div class="row">
         <main class="col-md-7 bg-light-grey" >
-            <div class="">
+            <div class="info">
                 <img class="img-fluid " src="{{ url('/') }}/img/prove.svg" />
                 <img class="img-fluid " src="{{ url('/') }}/img/irma_logo.svg" />
             </div>
@@ -85,7 +85,7 @@
     </div>
     <div class="row">
         <main class="col-md-7 bg-grey" >
-            <div class="">
+            <div class="info">
                 <h2>Get ready</h2>
                 <p>All IRMA-meet users need to have the IRMA app on their phone, filled with the relevant personal data. Which data is required may depend on the video call.</p>
                 <p>If you don't have IRMA yet, install it from the IOS appstore or Google Play store and load the required personal data, like your name or e-mail address.</p>
