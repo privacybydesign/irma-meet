@@ -64,20 +64,20 @@
             </div>
         </main>
         <main class="col-md-5 bg-grey" >
-            <div class="info">
+            <div class="">
                 <img class="img-fluid " src="{{ url('/') }}/img/know.svg" />
             </div>
         </main>
     </div>
     <div class="row">
         <main class="col-md-7 bg-light-grey" >
-            <div class="info">
+            <div class="">
                 <img class="img-fluid " src="{{ url('/') }}/img/prove.svg" />
                 <img class="img-fluid " src="{{ url('/') }}/img/irma_logo.svg" />
             </div>
         </main>
         <main class="col-md-5 bg-light-grey" >
-            <div class="">
+            <div class="info">
                 <h2>Prove who you are with IRMA</h2>
                 <p>You can prove who you are via <a href="https://privacybydesign.foundation">IRMA</a>. It is a freely available open source identity app; it is a wallet on your phone for collecting personal data. This data is stored only on your phone, and nowhere else. You control where you disclose it.</p>
             </div>
