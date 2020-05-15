@@ -14,27 +14,35 @@
 <div class="container-fluid h-100 d-flex flex-column">
 
     <div class="row">
-        <main class="col-4 bg-blue" >
+        <main class="col-md-4 bg-blue" >
         	<div class="title">
         		IRMA-meet.nl
 	        </div>
         </main>
-        <main class="col-4 bg-warmwhite">
+        <main class="col-md-4 bg-warmwhite">
         </main>
-        <main class="col-4 bg-warmwhite">
+        <main class="col-md-4 bg-warmwhite">
         </main>
     </div>
     <div class="row flex-fill">
-        <main class="col-4 bg-blue" >
-        	<div class="title">
-	        </div>
+        <main class="col-md-4 bg-blue" >
+            <div class="title">
+            </div>
         </main>
-        <main class="col-4 bg-warmwhite text-center">
-            <img class="img-fluid" src="{{ url('/') }}/img/IRMA-meet.png" alt="IRMA-meet logo">
+        <main class="col-md-4 nopadding-md bg-warmwhite text-center">
+            <div class="card">
+                <div class="card-header">
+                    Welcome
+                </div>              
+                <div class="card-body">
+                   <img class="img-fluid" src="{{ url('/') }}/img/irma-meet.svg" alt="IRMA-meet logo">
+                </div>
+            </div>
+            
         </main>
-        <main class="col-4 bg-warmwhite">
+        <main class="col-md-4 bg-warmwhite">
         	<div class="content">
-        		<p class="cl-grey">AUTHENTICATED VIDEO CHATTING</p>
+        		<p class="cl-grey">AUTHENTICATED VIDEO CALLS</p>
         		<h1>Meet online, without surprises!</h1>
         		<p>Only people who prove who they are can participate in IRMA-meet video. Chat with certainty, without being fooled, in your business meeting, (medical) consult, or online oral exam.</p>
                 <div class="">
@@ -47,17 +55,22 @@
 	        </div>
         </main>
     </div>
-    <div class="row footer">
-        <main class="col-4 bg-blue" >
-        	<div class="title">
-	        </div>
+
+    <div class="row">
+        <main class="col-7-md bg-grey" >
+            <div class="">
+                <h2>Know who you are talking to</h2>
+                <p>Participants in IRMA-meet video calls need to prove who they are by disclosing relevant information (like their name and e-mail address) about themselves before they can enter a video chat.</p>
+            </div>
         </main>
-        <main class="col-4 bg-warmwhite">
-        </main>
-        <main class="col-4 bg-warmwhite">
-        	<p class="cl-grey">FAQ</p>
+        <main class="col-5-md bg-grey" >
+            <div class="">
+                <img class="img-fluid " src="{{ url('/') }}/img/know.svg" />
+            </div>
         </main>
     </div>
+    
+
 </div>
 
 @include('layout.partials.footer-scripts')

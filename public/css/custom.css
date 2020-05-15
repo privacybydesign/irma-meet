@@ -1,15 +1,11 @@
 
 html, body{
-    height: 100%;
 	font-family: "Roboto", sans-serif;
-}
-
-.footer{
-	height: 3em;
 }
 
 .btn-blue{
 	background-color: #1B4D8C;
+	border-radius: 5rem;
 }
 
 .bg-blue{
@@ -22,6 +18,16 @@ html, body{
 	color: #111;
 }
 
+.bg-grey {
+	background-color: rgba(0,0,0,.15);
+	color: #000;
+}
+
+.bg-light-grey {
+	background-color: rgba(0,0,0,.8);
+	color: #000;
+}
+
 .title{
 	margin: 1em;
 	font-size: 2em;
@@ -31,11 +37,26 @@ html, body{
 	margin: 0;
 }
 
-p{
+.content p{
 	color: #999;
 }
 
-.create_form{
+.card-header {
+  background: rgba(0,0,0,.15)
+}
 
-	padding: 2em;
+@media (min-width: 767.98px) {
+.card {
+  margin-left: -33.333333%;
+  margin-right: 3rem;
+  margin-bottom: 3rem;
+  box-shadow: rgba(0, 0, 0, 0.22) 0px 2rem 2rem;
+}
+}
+
+@media (max-width: 767.98px) {
+.nopadding-md {
+  padding-left: 0;
+  padding-right: 0;
+}
 }
