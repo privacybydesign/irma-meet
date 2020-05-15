@@ -45,6 +45,16 @@ html, body{
 	padding: 3rem;
 }
 
+.irma_logo_info{
+	padding: 3rem;
+	height: 15rem;
+}
+
+.prove{
+	float: left;
+	vertical-align: baseline;
+}
+
 .card-header {
   background: rgba(0,0,0,.15)
 }

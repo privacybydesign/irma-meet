@@ -35,7 +35,7 @@
                     Welcome
                 </div>              
                 <div class="card-body">
-                   <img class="img-fluid" src="{{ url('/') }}/img/irma-meet.svg" alt="IRMA-meet logo">
+                   <img class="img-fluid" src="{{ url('/') }}/img/IRMA-meet.png" alt="IRMA-meet logo">
                 </div>
             </div>
             
@@ -72,8 +72,8 @@
     <div class="row">
         <main class="col-md-7 bg-light-grey" >
             <div class="">
-                <img class="img-fluid " src="{{ url('/') }}/img/prove.svg" />
-                <img class="img-fluid " src="{{ url('/') }}/img/irma_logo.svg" />
+                <img class="img-fluid prove" src="{{ url('/') }}/img/prove.svg" />
+                <img class="img-fluid irma_logo_info" src="{{ url('/') }}/img/irma_logo.svg" />
             </div>
         </main>
         <main class="col-md-5 bg-light-grey" >
@@ -84,15 +84,17 @@
         </main>
     </div>
     <div class="row">
-        <main class="col-md-7 bg-grey" >
+        <main class="col-md-7" >
             <div class="info">
-                <h2>Get ready</h2>
+                <div>
+                    <h2>Get ready</h2>
+                </div>
                 <p>All IRMA-meet users need to have the IRMA app on their phone, filled with the relevant personal data. Which data is required may depend on the video call.</p>
                 <p>If you don't have IRMA yet, install it from the IOS appstore or Google Play store and load the required personal data, like your name or e-mail address.</p>
                 <p>At this early stage, there is only one type of free meeting available, which requires your e-mail address and your name in IRMA. Your name can be obtained either from your LinkedIn profile or for users in the Netherlands from the Dutch citizen registry.</p>
             </div>
         </main>
-        <main class="col-md-5 bg-grey" >
+        <main class="col-md-5" >
             <div class="">
                 <img class="img-fluid " src="{{ url('/') }}/img/getready.svg" />
             </div>
