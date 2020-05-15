@@ -57,15 +57,44 @@
     </div>
 
     <div class="row">
-        <main class="col-7-md bg-grey" >
-            <div class="">
+        <main class="col-md-7 bg-grey" >
+            <div class="info">
                 <h2>Know who you are talking to</h2>
                 <p>Participants in IRMA-meet video calls need to prove who they are by disclosing relevant information (like their name and e-mail address) about themselves before they can enter a video chat.</p>
             </div>
         </main>
-        <main class="col-5-md bg-grey" >
+        <main class="col-md-5 bg-grey" >
             <div class="">
                 <img class="img-fluid " src="{{ url('/') }}/img/know.svg" />
+            </div>
+        </main>
+    </div>
+    <div class="row">
+        <main class="col-md-7 bg-light-grey" >
+            <div class="">
+                <img class="img-fluid " src="{{ url('/') }}/img/prove.svg" />
+                <img class="img-fluid " src="{{ url('/') }}/img/irma_logo.svg" />
+            </div>
+        </main>
+        <main class="col-md-5 bg-light-grey" >
+            <div class="">
+                <h2>Prove who you are with IRMA</h2>
+                <p>You can prove who you are via <a href="https://privacybydesign.foundation">IRMA</a>. It is a freely available open source identity app; it is a wallet on your phone for collecting personal data. This data is stored only on your phone, and nowhere else. You control where you disclose it.</p>
+            </div>
+        </main>
+    </div>
+    <div class="row">
+        <main class="col-md-7 bg-grey" >
+            <div class="">
+                <h2>Get ready</h2>
+                <p>All IRMA-meet users need to have the IRMA app on their phone, filled with the relevant personal data. Which data is required may depend on the video call.</p>
+                <p>If you don't have IRMA yet, install it from the IOS appstore or Google Play store and load the required personal data, like your name or e-mail address.</p>
+                <p>At this early stage, there is only one type of free meeting available, which requires your e-mail address and your name in IRMA. Your name can be obtained either from your LinkedIn profile or for users in the Netherlands from the Dutch citizen registry.</p>
+            </div>
+        </main>
+        <main class="col-md-5 bg-grey" >
+            <div class="">
+                <img class="img-fluid " src="{{ url('/') }}/img/getready.svg" />
             </div>
         </main>
     </div>

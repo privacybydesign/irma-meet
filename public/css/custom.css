@@ -24,7 +24,7 @@ html, body{
 }
 
 .bg-light-grey {
-	background-color: rgba(0,0,0,.8);
+	background-color: rgba(0,0,0,.07);
 	color: #000;
 }
 
@@ -39,6 +39,10 @@ html, body{
 
 .content p{
 	color: #999;
+}
+
+.info{
+	padding: 3rem;
 }
 
 .card-header {
