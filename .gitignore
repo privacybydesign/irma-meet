@@ -17,3 +17,4 @@ yarn-error.log
 .styleci.yml
 resources/sass/_variables.scss
 laravel.sublime-*
+resources/views/layout/mainlayout.blade.html

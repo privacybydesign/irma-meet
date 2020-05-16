@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Karla:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
 <link rel="apple-touch-icon" sizes="180x180" href="{{ url('/') }}/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ url('/') }}/favicon/favicon-32x32.png">

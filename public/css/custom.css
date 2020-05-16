@@ -1,12 +1,28 @@
 
 html, body{
-	font-family: "Roboto", sans-serif;
+	font-family: 'Montserrat', sans-serif;
 }
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Karla', sans-serif; 
+	font-family: 'Karla', sans-serif;
+}
+
+p {
+	font-size: medium;
+}
+
 
 .btn-blue{
 	background-color: #1B4D8C;
 	border-radius: 5rem;
 }
+
+.btn-primary{
+	border-color: #FFF;
+	border-width: 2px;
+}
+
 
 .bg-blue{
 	background-color: #1B4D8C;
@@ -46,17 +62,47 @@ html, body{
 }
 
 .irma_logo_info{
-	padding: 3rem;
-	height: 15rem;
+	max-height: 80%;
+    max-width: 80%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 .prove{
-	float: left;
-	vertical-align: baseline;
+	padding-left: 48px;
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	max-height: 100%;
 }
 
 .card-header {
   background: rgba(0,0,0,.15)
+}
+
+.img-fluid {
+	padding-top: 20px;
+} 
+
+.img-warp {
+	position: relative;
+	min-height: 100%;
+}
+
+
+
+.know {
+	padding-right: 48px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	max-height: 100%;
 }
 
 @media (min-width: 767.98px) {
@@ -73,4 +119,18 @@ html, body{
   padding-left: 0;
   padding-right: 0;
 }
+.know {
+	position: relative;
+	padding-left: 20px;
+	padding-right: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	max-height: none;
+	max-width: 50%;
+}
+.irma_logo_info {
+	position: relative;
+}
+
+
 }
