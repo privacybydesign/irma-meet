@@ -9,7 +9,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-	font-size: medium;
+	font-size: 18px;
+	line-height: 1.7;
+}
+
+.row-full {
+	width: 100vw;
+	position: relative;
+	margin-left: -50vw;
+	left: 50%;
+}
+
+
+.tight {
+	max-width: 1200px;
+	margin: auto;
 }
 
 
@@ -61,9 +75,19 @@ p {
 	padding: 3rem;
 }
 
-.irma_logo_info{
-	max-height: 80%;
-    max-width: 80%;
+.card-header {
+	background: rgba(0,0,0,.15)
+  }
+  
+
+.img-warp {
+	position: relative;
+	min-height: 100%;
+}
+
+.irma_logo_info, .getready{
+	max-height: 100%;
+    max-width: 100%;
     width: auto;
     height: auto;
     position: absolute;
@@ -71,7 +95,9 @@ p {
     bottom: 0;
     left: 0;
     right: 0;
-    margin: auto;
+	margin: auto;
+	padding: 3rem;
+	padding-top: 3rem;
 }
 
 .prove{
@@ -79,31 +105,17 @@ p {
 	position: absolute;
 	bottom: 10px;
 	left: 0;
-	max-height: 100%;
+	max-height: 90%;
 }
-
-.card-header {
-  background: rgba(0,0,0,.15)
-}
-
-.img-fluid {
-	padding-top: 20px;
-} 
-
-.img-warp {
-	position: relative;
-	min-height: 100%;
-}
-
-
 
 .know {
 	padding-right: 48px;
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	max-height: 100%;
+	max-height: 80%;
 }
+
 
 @media (min-width: 767.98px) {
 .card {
@@ -112,24 +124,46 @@ p {
   margin-bottom: 3rem;
   box-shadow: rgba(0, 0, 0, 0.22) 0px 2rem 2rem;
 }
+
+.irma_logo_small {
+	display: none;
 }
+}
+
 
 @media (max-width: 767.98px) {
 .nopadding-md {
   padding-left: 0;
   padding-right: 0;
 }
-.know {
+.info {
+	padding-bottom: 0px;
+}
+.know,  .getready {
 	position: relative;
 	padding-left: 20px;
 	padding-right: 20px;
+	padding-top: 0px;
 	left: 50%;
 	transform: translateX(-50%);
 	max-height: none;
 	max-width: 50%;
 }
 .irma_logo_info {
+	display: none;
+}
+.irma_logo_small {
+	display: block;
 	position: relative;
+	padding: 1rem 1rem 1rem 1rem;
+	left: 50%;
+	transform: translateX(-50%);
+	max-height: none;
+	max-width: 40%;
+}
+
+.slogan {
+	padding-top: 3rem;
 }
 
 
