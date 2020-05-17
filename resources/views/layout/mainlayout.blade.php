@@ -82,7 +82,7 @@
                 <main class="col-md-7">
                     <div class="info">
                         <h2>Prove who you are with IRMA</h2>
-                        <p>You can prove who you are via <a href="https://privacybydesign.foundation">IRMA</a>. It is a
+                        <p>You can prove who you are via <a href="https://www.irma.app">IRMA</a>. It is a
                             freely available open source identity app; it is a wallet on your phone for collecting personal
                             data. This data is stored only on your phone, and nowhere else. You control where you disclose
                             it.</p>
@@ -140,6 +140,80 @@
                 </main>
             </div>
         </div>
+
+        <div class="row tight">
+            <main class="col-md-12">
+                <div class="info" style="padding-bottom: 1rem;">
+                    <h2>Privacy policy</h2>
+                    <p>The IRMA-meet service is offered jointly by the company <a
+                            href="https://www.procolix.com">ProcoliX</a> and the <a
+                            href="https://privacybydesign.foundation">Privacy by Design Foundation</a>. Both <a
+                            href="https://www.procolix.com">ProcoliX</a> and
+                        the foundation are jointly the data controller, but only <a
+                            href="https://www.procolix.com">ProcoliX</a> is
+                        the data processor: it hosts the servers (for BigBlueButton video and
+                        for IRMA authentication, and for the webpages) that process the
+                        relevant (personal) data. The <a href="https://privacybydesign.foundation">Privacy by Design
+                            Foundation</a> does not
+                        process any personal data as part of IRMA-meet.</p>
+                    <p>IRMA-meet video calls are protected in two ways.</p>
+                    <ul>
+                        <li> The connections that carry the video and audio (and other) signals between
+                            each user and <a href="https://www.procolix.com">ProcoliX</a> are encrypted, using the
+                            BigBlueButton
+                            software.</li>
+                        <li>Hosts and participants in IRMA-meet are authenticated via IRMA. The
+                            types of attributes and their trust-worthiness may differ per
+                            meeting. It is the responsibility of hosts and participants to judge
+                            whether these attributes offer a sufficiently high level of certainty.</li>
+
+                    </ul>
+                    <p>IRMA-meet does not offer end-to-end encryption between hosts and
+                        participants.</p>
+                    <p><a href="https://www.procolix.com">ProcoliX</a> processess only minimal personal data required
+                        for the
+                        IRMA-meet functionality. In particular, it does not record or store
+                        content from meetings, like video, audio, chat, presentations, shared
+                        screens etc. The functionality (for hosts) to record meetings within
+                        IRMA-meet is not available at this early stage. Also, personal data
+                        from authentication with IRMA, for getting access to IRMA-meet calls,
+                        is not stored by <a href="https://www.procolix.com">ProcoliX</a> beyond the meeting. Other,
+                        technical
+                        personal data such as IP-addresses will be stored and deleted in
+                        accordance <a href="https://www.procolix.com">ProcoliX</a>'s general company policy. When no
+                        technical
+                        abnormalities occur, they are deleted after 2 days.</p>
+                    <p><a href="https://www.procolix.com">ProcoliX</a> may ask hosts of meetings if their name and/or
+                        email address
+                        can be retained in order to stay informed about future IRMA-meet
+                        developments. Such processing of personal data happens on the (legal)
+                        basis of the consent.</p>
+                    <p>Statistical information about IRMA-meet video chats may be aggregated
+                        (duration, numbers of participants, numbers of meetings per
+                        day/week/month/year, origin etc.) and may be used by <a
+                            href="https://www.procolix.com">ProcoliX</a> and by
+                        the <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> for
+                        documentation and
+                        publications. If needed, IRMA-meet data can be used in a minimal way
+                        for technical purposes, such as maintenance and performance tuning,
+                        but they will be destroyed after a maximum of 2 days.</p>
+                    <p>Technical changes in the IRMA-meet system, or possible new services,
+                        may lead to adaptation of this privacy policy. <a href="https://www.procolix.com">ProcoliX</a>
+                        and the
+                        <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> reserve the right
+                        to make such changes
+                        and will publish the adapted privacy policy via this website as soon
+                        as possible.</p>
+                    <p>For questions, remarks, or complaints about this data processing by
+                        <a href="https://www.procolix.com">ProcoliX</a> for IRMA-meet functionality, please contact the
+                        <a href="https://www.procolix.com">ProcoliX</a> at
+                        info@irma-meet.nl. For complaints about the IRMA-meet data processing
+                        one can also contact the Data Protection Authority of the Netherlands.</p>
+                </div>
+
+            </main>
+        </div>
+        
 
     </div>
 
