@@ -1,10 +1,9 @@
-
-html, body{
+html, body {
 	font-family: 'Montserrat', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Karla', sans-serif; 
+	font-family: 'Karla', sans-serif;
 	font-family: 'Karla', sans-serif;
 }
 
@@ -20,87 +19,83 @@ p {
 	left: 50%;
 }
 
-
 .tight {
 	max-width: 1200px;
 	margin: auto;
 }
 
-
-.btn-blue{
+.btn-blue {
 	background-color: #1B4D8C;
 	border-radius: 5rem;
 }
 
-.btn-primary{
+.btn-primary {
 	border-color: #FFF;
 	border-width: 2px;
 }
 
-
-.bg-blue{
+.bg-blue {
 	background-color: #1B4D8C;
 	color: #FFF;
 }
 
-.bg-warmwhite{
-	background-color:#F2F5F8;
+.bg-warmwhite {
+	background-color: #F2F5F8;
 	color: #111;
 }
 
 .bg-grey {
-	background-color:#E0E6ED;
+	background-color: #E0E6ED;
 	color: #000;
 }
 
 .bg-light-grey {
-	background-color:#F2F5F8;
+	background-color: #F2F5F8;
 	color: #000;
 }
 
-.title{
+.title {
 	margin: 1em;
 	font-size: 2em;
 }
 
-.content{
+.content {
 	margin: 0;
 }
 
-.content p{
+.content p {
 	color: #999;
 }
 
-.info{
+.info {
 	padding: 3rem;
 }
 
 .card-header {
-	background: rgba(0,0,0,.15)
-  }
-  
+	background: rgba(0, 0, 0, .15)
+}
 
 .img-warp {
 	position: relative;
 	min-height: 100%;
 }
 
-.irma_logo_info, .getready{
+.irma_logo_info, .getready {
 	max-height: 100%;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+	max-width: 100%;
+	width: auto;
+	height: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	margin: auto;
 	padding: 3rem;
 	padding-top: 3rem;
 }
 
-.prove{
+.prove {
 	padding-left: 48px;
 	position: absolute;
 	bottom: 10px;
@@ -116,55 +111,49 @@ p {
 	max-height: 80%;
 }
 
-
 @media (min-width: 767.98px) {
-.card {
-  margin-left: -33.333333%;
-  margin-right: 3rem;
-  margin-bottom: 3rem;
-  box-shadow: rgba(0, 0, 0, 0.22) 0px 2rem 2rem;
+	.card {
+		margin-left: -33.333333%;
+		margin-right: 3rem;
+		margin-bottom: 3rem;
+		box-shadow: rgba(0, 0, 0, 0.22) 0px 2rem 2rem;
+	}
+	.irma_logo_small {
+		display: none;
+	}
 }
-
-.irma_logo_small {
-	display: none;
-}
-}
-
 
 @media (max-width: 767.98px) {
-.nopadding-md {
-  padding-left: 0;
-  padding-right: 0;
-}
-.info {
-	padding-bottom: 0px;
-}
-.know,  .getready {
-	position: relative;
-	padding-left: 20px;
-	padding-right: 20px;
-	padding-top: 0px;
-	left: 50%;
-	transform: translateX(-50%);
-	max-height: none;
-	max-width: 50%;
-}
-.irma_logo_info {
-	display: none;
-}
-.irma_logo_small {
-	display: block;
-	position: relative;
-	padding: 1rem 1rem 1rem 1rem;
-	left: 50%;
-	transform: translateX(-50%);
-	max-height: none;
-	max-width: 40%;
-}
-
-.content {
-	padding: 3rem;
-}
-
-
+	.nopadding-md {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.info {
+		padding-bottom: 0px;
+	}
+	.know, .getready {
+		position: relative;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 0px;
+		left: 50%;
+		transform: translateX(-50%);
+		max-height: none;
+		max-width: 50%;
+	}
+	.irma_logo_info {
+		display: none;
+	}
+	.irma_logo_small {
+		display: block;
+		position: relative;
+		padding: 1rem 1rem 1rem 1rem;
+		left: 50%;
+		transform: translateX(-50%);
+		max-height: none;
+		max-width: 40%;
+	}
+	.content {
+		padding: 3rem;
+	}
 }
