@@ -166,7 +166,6 @@
                             types of attributes and their trust-worthiness may differ per
                             meeting. It is the responsibility of hosts and participants to judge
                             whether these attributes offer a sufficiently high level of certainty.</li>
-
                     </ul>
                     <p>IRMA-meet does not offer end-to-end encryption between hosts and
                         participants.</p>
@@ -210,10 +209,43 @@
                         info@irma-meet.nl. For complaints about the IRMA-meet data processing
                         one can also contact the Data Protection Authority of the Netherlands.</p>
                 </div>
-
             </main>
         </div>
-        
+
+        <div class="row-full bg-blue">
+            <div class="row img-warp tight">
+                <main class="col-xl-4">
+                    <div class="footer">
+                        <h5>About</h5>
+                        <p>The IRMA-meet video chat service is based on the open source video platform <a href="https://bigbluebutton.org/">BigBlueButton</a>. It
+                            runs at the hosting company <a href="https://www.procolix.com">ProcoliX</a> in the Netherlands. It has been developed jointly with
+                            the <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> with support from SIDNfonds.</p>
+                    </div>
+                </main>
+                <main class="col-xl-4">
+                    <div class="footer">
+                        <h5>Open Source</h5>
+                        <p>The free version of IRMA-meet is open source. You can find the source code and documentation
+                            on GitHub.</p>
+                        <p>Feel free to contribute or set up your own IRMA-meet server. </p>
+                        <p> Visit the <a href="https://github.com/privacybydesign/irma-meet">GitHub repository</a></p>
+                    </div>
+                </main>
+                <main class="col-xl-4">
+                    <div class="footer">
+                        <h5>Contact</h5>
+                        <p>Visit the <a href="https://www.procolix.com">ProcoliX website</a> for more information about the hosting company.</p>
+
+                           <p>Visit the <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> for background information and the <a href="https://www.irma.app">IRMA website</a> to learn more about the IRMA app.</p> 
+                            
+                        <p> Follow us on twitter:</p>
+                            
+                            <p>IMRA-meet:  <a href="https://twitter.com/IRMA_meet/">@IRMA_meet</a></p>
+                            <p>Privacy by Design Foundation: <a href="https://twitter.com/IRMA_privacy/">@IRMA_privacy</a></p>
+                    </div>
+                </main>
+            </div>
+        </div>
 
     </div>
 
