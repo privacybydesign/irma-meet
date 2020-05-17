@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <div class="row-full bg-grey bg-light-grey">
+        <div class="row-full bg-light-grey">
             <div class="row img-warp tight">
                 <main class="col-md-5">
                     <div class="">
@@ -114,6 +114,75 @@
                     <img class="img-fluid getready" src="{{ url('/') }}/img/getready.svg" />
                 </div>
             </main>
+        </div>
+
+        <div class="row-full bg-light-grey">
+            <div class="info">
+                <h2 style="text-align: center;">How it works</h2>
+            </div>
+            <div class="row img-warp tight">
+                <main class="col-lg-4">
+                    <div class="step">
+                        <h3>Step 1</h3>
+                        <h5>Host proves who (s)he is</h5>
+                        <p class="explanation">The host initiates a new meeting on this website and makes
+                            herself/himself known,
+                            via the IRMA app.</p>
+                        <img class="step-img" src="{{ url('/') }}/img/irma_logo.svg" />
+                    </div>
+                </main>
+                <main class="col-lg-4">
+                    <div class="step">
+                        <h3>Step 2</h3>
+                        <h5>Host chooses meeting name</h5>
+                        <p class="explanation">The host chooses a name for the meeting and obtains a link for the
+                            meeting.</p>
+                        <img class="step-img" src="{{ url('/') }}/img/step2.svg" />
+
+                    </div>
+                </main>
+                <main class="col-lg-4">
+                    <div class="step">
+                        <h3>Step 3</h3>
+                        <h5>Host distributes meeting link</h5>
+                        <p class="explanation">The host distributes the meeting link to the intended participants, for
+                            instance via email or direct messaging.</p>
+                        <img class="step-img" src="{{ url('/') }}/img/step3.svg" />
+
+                    </div>
+                </main>
+            </div>
+            <div class="row img-warp tight">
+                <main class="col-lg-4">
+                    <div class="step">
+                        <h3>Step 4</h3>
+                        <h5>Participants prove who they are</h5>
+                        <p class="explanation">When a participant clicks on the link (s)he is asked to prove who (s)he
+                            via IRMA.</p>
+                        <img class="step-img" src="{{ url('/') }}/img/irma_logo.svg" />
+
+                    </div>
+                </main>
+                <main class="col-lg-4">
+                    <div class="step">
+                        <h3>Step 5</h3>
+                        <h5>Participants enter meeting</h5>
+                        <p class="explanation">Each participant joins the meeting automatically. The verified identity
+                            of everyone in the meeting is visible.</p>
+                        <img class="step-img" src="{{ url('/') }}/img/step5.svg" />
+
+                    </div>
+                </main>
+                <main class="col-lg-4">
+                    <div class="step">
+                        <h3>Step 6</h3>
+                        <h5>Host leads the meeting</h5>
+                        <p class="explanation">If needed, the host can remove unintended participants.</p>
+                        <img class="step-img" src="{{ url('/') }}/img/step6.svg" />
+
+                    </div>
+                </main>
+            </div>
         </div>
 
         <div class="row-full bg-grey">

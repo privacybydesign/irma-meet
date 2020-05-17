@@ -7,6 +7,10 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Karla', sans-serif;
 }
 
+h2 {
+	padding-bottom: 1rem;
+}
+
 p, li {
 	font-size: 18px;
 	line-height: 1.7;
@@ -73,6 +77,28 @@ p, li {
 
 .info a {
 	color: #1B4D8C;
+}
+
+.step {
+	padding-bottom: 3rem;
+	padding-right: 0.5rem;
+	padding-left: 0.5rem;
+	text-align: center;
+}
+
+.step-img {
+	display: block;
+	position: relative;
+	padding: 0.1rem 0.1rem 0.1rem 0.1rem;
+	left: 50%;
+	transform: translateX(-50%);
+	max-height: none;
+	max-width: 36%;
+	min-height: 100px;
+}
+
+.explanation {
+	min-height: 5em;
 }
 
 .footer p {
@@ -200,5 +226,15 @@ p, li {
 		-webkit-column-count: 1;
 		-moz-column-count: 1;
 		column-count: 1;
+	}
+}
+
+@media (max-width: 992px) {
+	.step-img {
+		max-width: 20%;
+	}
+	.step {
+		text-align: left;
+		padding-left: 3rem;
 	}
 }
