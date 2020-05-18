@@ -36,12 +36,17 @@ class IrmaAuthenticate
                 $disclosed = $result->disclosed;
                 $validated_email = $disclosed[0][0]->rawvalue;
                 session(['validated_email' => $validated_email]);
-                if ($disclosed[1][0]->id === 'pbdf.pbdf.linkedin.firstname') {
-                    $validatedLinkedinName = $disclosed[1][0]->rawvalue;
-                    session(['validated_linkedin_name' => $validatedLinkedinName]);
-                } elseif ($disclosed[1][0]->id === 'pbdf.gemeente.personalData.fullname') {
+                if ($disclosed[1][0]->id === 'pbdf.gemeente.personalData.fullname') {
                     $validatedBrpName = $disclosed[1][0]->rawvalue;
                     session(['validated_brp_name' => $validatedBrpName]);
+                } else {
+                    if ($disclosed[1][0]->id === 'pbdf.pbdf.linkedin.firstname') {
+                        $linkedinFirstName = $disclosed[1][0]->rawvalue;
+                    }
+                    if ($disclosed[1][1]->id === 'pbdf.pbdf.linkedin.familyname') {
+                        $linkedinLastName = $disclosed[1][1]->rawvalue;
+                        session(['validated_linkedin_name' => $linkedinFirstName . ' ' . $linkedinLastName]);
+                    }
                 }
             } else {
                 //empty token to try again
@@ -62,7 +67,8 @@ class IrmaAuthenticate
                 ],
                 [
                     ['pbdf.gemeente.personalData.fullname'],
-                    ['pbdf.pbdf.linkedin.firstname']
+                    ['pbdf.pbdf.linkedin.firstname',
+                    'pbdf.pbdf.linkedin.familyname']
 
                 ]
             ],

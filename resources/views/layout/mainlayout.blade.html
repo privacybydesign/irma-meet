@@ -38,7 +38,7 @@
 
     <!-- Custom styles for this template -->
 
-    <link href="../../../public/css/custom.css" rel="stylesheet">
+    <link href="{{ $url() }}/public/css/custom.css" rel="stylesheet">
 
 </head>
 
@@ -69,7 +69,7 @@
                         Welcome
                     </div>
                     <div class="card-body">
-                        <img class="img-fluid" src="../../../public/img/IRMA-meet.png" alt="IRMA-meet logo">
+                        <img class="img-fluid" src="{{ $url() }} public/img/IRMA-meet.png" alt="IRMA-meet logo">
                     </div>
                 </div>
 
@@ -249,7 +249,6 @@
                             <li>only one active link is allowed per host</li>
                             <li>participants also need to disclose their name and email address</li>
                             <li>at most 6 participants can join a video meeting, including the host</li>
-                            <li>the video meeting itself lasts at most one hour</li>
                             <li>no BigBlueButton control options are available - in particular, no recordings can be
                                 made</li>
                         </ul>

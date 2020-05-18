@@ -43,7 +43,7 @@ everyone in the meeting.
 <div>
 Please note:
 <ul>
-<li>The video meeting can last at most one hour. When this meeting is
+<li>When the meeting is
   finished, the host link expires. You can then create a new meeting,
   but you can not have two links/meeting reservations that are active
   at the same time.</li>

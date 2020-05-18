@@ -202,7 +202,6 @@
                             <li>only one active link is allowed per host</li>
                             <li>participants also need to disclose their name and email address</li>
                             <li>at most 6 participants can join a video meeting, including the host</li>
-                            <li>the video meeting itself lasts at most one hour</li>
                             <li>no BigBlueButton control options are available - in particular, no recordings can be made</li>
                         </ul>
                     </div>
@@ -255,7 +254,7 @@
                         email address
                         can be retained in order to stay informed about future IRMA-meet
                         developments. Such processing of personal data happens on the (legal)
-                        basis of the consent.</p>
+                        basis of freely given consent.</p>
                     <p>Statistical information about IRMA-meet video chats may be aggregated
                         (duration, numbers of participants, numbers of meetings per
                         day/week/month/year, origin etc.) and may be used by <a
