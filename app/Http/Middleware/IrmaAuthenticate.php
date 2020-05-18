@@ -32,7 +32,7 @@ class IrmaAuthenticate
         } else {
             //verify
             $result = $this->irma_get_session_result($token);
-            if ($result && $result->proofStatus == 'VALID') {
+            if ($result && property_exists($result, 'proofStatus') && $result->proofStatus == 'VALID') {
                 $disclosed = $result->disclosed;
                 $validated_email = $disclosed[0][0]->rawvalue;
                 session(['validated_email' => $validated_email]);
