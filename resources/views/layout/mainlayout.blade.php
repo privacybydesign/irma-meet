@@ -32,10 +32,10 @@
             <main class="col-md-4 nopadding-md bg-warmwhite text-center">
                 <div class="card">
                     <div class="card-header">
-                        Welcome
+                        {!! $title !!}
                     </div>
                     <div class="card-body">
-                        <img class="img-fluid" src="{{ url('/') }}/img/IRMA-meet.png" alt="IRMA-meet logo">
+                        {!! $message !!}
                     </div>
                 </div>
 
@@ -46,7 +46,7 @@
                     <h1>Meet online, without surprises!</h1>
                     <p>Only people who prove who they are can participate in IRMA-meet video. Chat with certainty, without being fooled, in your business meeting, (medical) consult, or online oral exam.</p>
                     <div class="">
-                        <button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation('./irma_auth/start', './irma_session/create');">Start a meeting now!</a>
+                        {!! $buttons !!}
                     </div>
                     <div id="errorbox" class="alert alert-danger alert-dismissible fade">
                         <span id="errorboxtext"></span>
@@ -102,7 +102,7 @@
                     </div>
                     <p>All IRMA-meet users need to have the IRMA app on their phone, filled with the relevant personal
                         data. Which data is required may depend on the video call.</p>
-                    <p>If you don't have IRMA yet, install it from the IOS appstore or Google Play store and load the
+                    <p>If you don't have IRMA yet, install it from the <a href=“https://apps.apple.com/us/app/irma-authentication/id1294092994”>iOS App Store</a> or <a href=“https://play.google.com/store/apps/details?id=org.irmacard.cardemu&hl=en”>Google Play Store</a> and load the
                         required personal data, like your name or e-mail address.</p>
                     <p>At this early stage, there is only one type of free meeting available, which requires your e-mail
                         address and your name in IRMA. Your name can be obtained either from your LinkedIn profile or
@@ -125,7 +125,7 @@
                     <div class="step">
                         <h3>Step 1</h3>
                         <h5>Host proves who (s)he is</h5>
-                        <p class="explanation">The host initiates a new meeting on this website and makes
+                        <p class="explanation">The host initiates a new meeting on <a href="#">this website</a> and makes
                             herself/himself known,
                             via the IRMA app.</p>
                         <img class="step-img" src="{{ url('/') }}/img/irma_logo.svg" />
@@ -269,7 +269,7 @@
                         and the
                         <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> reserve the right
                         to make such changes
-                        and will publish the adapted privacy policy via this website as soon
+                        and will publish the adapted privacy policy via <a href="#">this website</a> as soon
                         as possible.</p>
                     <p>For questions, remarks, or complaints about this data processing by
                         <a href="https://www.procolix.com">ProcoliX</a> for IRMA-meet functionality, please contact the

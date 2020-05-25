@@ -1,13 +1,5 @@
 <!-- /resources/views/layout/irma-session-form.blade.php -->
 
-<div class="create_form card">
-	<div class="card-header">
-		Create meeting
-    </div>              
-    <div class="card-body">
-
-
-
 		<form method="post" class="" action="{{ route('irma_session.store') }}">
 			{{ csrf_field() }}
 
@@ -45,8 +37,6 @@
 
 
 		</form>
-	</div>
-</div>
 
 
 @if ($errors->any())

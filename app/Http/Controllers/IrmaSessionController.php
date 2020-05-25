@@ -27,30 +27,21 @@ class IrmaSessionController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function authenticate($url)
-    {
-        $token = Session::get('irma_session_token', '');
-        if ($token === '') {
-            return view('layout/irma_session_authenticate')->with('url', urldecode(urldecode($url)));
-        } else {
-            echo $url;
-            return redirect(urldecode(urldecode($url)));
-        }
-    }
-
-    /**
-     * Show the store session screen.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function create()
     {
         $validated_email = Session::get('validated_email', '');
         $validated_name = Session::get('validated_brp_name', Session::get('validated_linkedin_name', ''));
-        return view('layout/irma_session_create')->with([
+        $form = view('layout.partials.irma-session-form')->with([
             'validated_email' => $validated_email,
             'validated_name' => $validated_name
-        ]);
+        ])->render();
+        return view('layout/mainlayout')->with(
+            [
+            'message' => $form,
+            'title' => '',
+            'buttons' => ''
+        ]
+        );
     }
 
     /**
@@ -129,7 +120,16 @@ class IrmaSessionController extends Controller
                     'invitation_link' => $invitationLink,
                 ]));
             }
-            $mainContent = 'Meeting is successfully validated and data has been saved';
+            $mainContent = '<p>Meeting is successfully validated and data has been saved.</p>';
+            $mainContent .= '<p>Use the link below to share with your participants:</p>';
+            $mainContent .= '<a href="' . $invitationLink . '">' . $invitationLink . '</a>';
+            return view('layout/mainlayout')->with(
+                [
+                'message' => $mainContent,
+                'title' => 'Success',
+                'buttons' => ''
+            ]
+            );
             return view(
                 'layout/irma_session_success',
                 [
@@ -178,7 +178,13 @@ class IrmaSessionController extends Controller
             return \Redirect::to($url);
         } else {
             $mainContent = 'Your email address could not be verified by IRMA.';
-            return view('layout/irma_session_error')->with('mainContent', $mainContent);
+            return view('layout/mainlayout')->with(
+                [
+                'message' => $mainContent,
+                'title' => 'Error',
+                'buttons' => ''
+            ]
+            );
         }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 class IrmaAuthController extends Controller
 {
@@ -40,5 +41,32 @@ class IrmaAuthController extends Controller
         $_SESSION['irmasession'] = $irmasession->token;
 
         return json_encode($irmasession->sessionPtr);
+    }
+
+
+    /**
+     * Show the authenticate screen.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function authenticate($url)
+    {
+        $token = Session::get('irma_session_token', '');
+        if ($token === '') {
+            $mainContent = view('layout.partials.irma-authenticate')->with([
+                'url' => urldecode(urldecode($url))
+            ])->render();
+
+            return view('layout/mainlayout')->with(
+                [
+                'message' => $mainContent,
+                'title' => 'Authenticate with IRMA',
+                'buttons' => ''
+            ]
+            );
+        } else {
+            echo $url;
+            return redirect(urldecode(urldecode($url)));
+        }
     }
 }
