@@ -25,7 +25,7 @@ class MainController extends Controller
     {
         return view('layout/mainlayout')->with([
             'message' => '<img class="img-fluid" src="'.url('/') .'/img/IRMA-meet.png" alt="IRMA-meet logo">',
-            'title' => 'welcome',
+            'title' => __('welcome'),
             'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start\', \'./irma_session/create\');">' . __('Start a meeting now') . '</button>'
         ]);
     }
