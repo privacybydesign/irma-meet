@@ -98,7 +98,7 @@ class IrmaSessionController extends Controller
         $response = $bbb->createMeeting($createParams);
 
         if ($response->getReturnCode() == 'FAILED') {
-            return 'Can\'t create room! please contact our administrator.';
+            return __('Can\'t create room! please contact our administrator.');
         } else {
             //Send mail with links to hoster
             Mail::to($validatedData['hoster_email_address'])
@@ -120,8 +120,8 @@ class IrmaSessionController extends Controller
                     'invitation_link' => $invitationLink,
                 ]));
             }
-            $mainContent = '<p>Meeting is successfully validated and data has been saved.</p>';
-            $mainContent .= '<p>Use the link below to share with your participants:</p>';
+            $mainContent = '<p>' . __('Meeting is successfully validated and data has been saved.') . '</p>';
+            $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
             $mainContent .= '<a href="' . $invitationLink . '">' . $invitationLink . '</a>';
             return view('layout/mainlayout')->with(
                 [
@@ -177,7 +177,7 @@ class IrmaSessionController extends Controller
             $url = $bbb->getJoinMeetingURL($joinParams);
             return \Redirect::to($url);
         } else {
-            $mainContent = 'Your email address could not be verified by IRMA.';
+            $mainContent = __('Your email address could not be verified by IRMA.');
             return view('layout/mainlayout')->with(
                 [
                 'message' => $mainContent,
