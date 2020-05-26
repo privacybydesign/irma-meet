@@ -4,17 +4,17 @@
 			{{ csrf_field() }}
 
 		<div class="form-group">
-			<label class="control-label"  for="meeting_name">Meeting name</label>
+			<label class="control-label"  for="meeting_name">{{ __('Meeting name') }}</label>
 				<input id="meeting_name" name="meeting_name"  value="{{ old('meeting_name') }}" type="text" class="form-control @error('meeting_name') is-invalid @enderror">
 		</div>
 
 		<div class="form-group">
-			<label class="control-label"  for="hoster_name">Hoster name</label>
+			<label class="control-label"  for="hoster_name">{{ __('Hoster name') }}</label>
 				<input id="hoster_name" name="hoster_name"  value="{{ $validated_name }}" type="text" class="form-control @error('hoster_name') is-invalid @enderror" readonly>
 		</div>
 
 		<div class="form-group">
-			<label class="control-label"  for="hoster_email_address">Hoster email address</label>
+			<label class="control-label"  for="hoster_email_address">{{ __('Hoster email address') }}</label>
 				<input id="hoster_email_address"  value="{{ $validated_email }}" name="hoster_email_address" type="text" class="form-control @error('hoster_email_address') is-invalid @enderror" readonly>
 		</div>
 
@@ -32,7 +32,7 @@
 		@endfor
 		-->
 		    <div class="form-group">        
-			 	<button type="submit" class="btn btn-primary">Send invite</button>
+			 	<button type="submit" class="btn btn-primary">{{ __('Send invite') }}</button>
 		    </div>
 
 

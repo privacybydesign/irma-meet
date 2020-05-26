@@ -6,7 +6,7 @@
 
 <meta name="author" content="">
 
-<title>IRMA-meet the secure video chat</title>
+<title>{{ __('IRMA-meet the secure video chat') }}</title>
 
 <!-- Bootstrap core CSS -->
 

@@ -23,8 +23,9 @@ Route::get('/irma_session/create', 'IrmaSessionController@create')->name('irma_s
 
 Route::post('/irma_session/store', 'IrmaSessionController@store')->name('irma_session.store');
 
-//TODO: Next 2 statements needs irmaauth
 Route::get('/irma_session/join/{irmaSessionId}', 'IrmaSessionController@join')->name('irma_session.join')->middleware('irma_auth');
+
+Route::get('lang/{locale}', 'LocalizationController@index');
 
 Auth::routes();
 
