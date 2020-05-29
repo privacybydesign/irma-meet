@@ -72,8 +72,8 @@
     "Hoster name": "Naam van host",
     "Hoster email address": "E-mail van host",
     "Send me the meeting link": "Stuur me de bijeenkomst link",
-    "Meeting is successfully validated and data has been saved.": "",
-    "Use the link below to share with your participants:": "",
+    "Meeting is successfully validated and data has been saved.": "De bijeenkomst is aangemaakt",
+    "Use the link below to share with your participants:": "Gebruik de link hieronder om aan de deelnemers te sturen.",
     "Login": "",
     "E-Mail Address": "",
     "Password": "",
@@ -91,6 +91,6 @@
     "If you did not receive the email": "",
     "click here to request another": "",
     "Visit the <a\n                                href=\"https:\/\/github.com\/privacybydesign\/irma-meet\">GitHub repository<\/a>": "",
-    "Send invite": "",
+    "Send invite": "Stuur uitnodiging",
     "welcome": "welkom"
 }

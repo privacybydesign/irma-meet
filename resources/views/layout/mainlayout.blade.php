@@ -37,8 +37,8 @@
                                 <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="lang/en"><img src="{{asset('img/flags/gbr.svg')}}" width="30px" height="20x"> English</a>
-                                <a class="dropdown-item" href="lang/nl"><img src="{{asset('img/flags/nld.svg')}}" width="30px" height="20x"> Nederlands</a>
+                                <a class="dropdown-item" href="{{ url('/') }}/lang/en"><img src="{{asset('img/flags/gbr.svg')}}" width="30px" height="20x"> English</a>
+                                <a class="dropdown-item" href="{{ url('/') }}/lang/nl"><img src="{{asset('img/flags/nld.svg')}}" width="30px" height="20x"> Nederlands</a>
                             </div>
                         </li>
                     </ul>
