@@ -56,11 +56,10 @@ class IrmaAuthController extends Controller
             $mainContent = view('layout.partials.irma-authenticate')->with([
                 'url' => urldecode(urldecode($url))
             ])->render();
-
             return view('layout/mainlayout')->with(
                 [
                 'message' => $mainContent,
-                'title' => 'Authenticate with IRMA',
+                'title' => __('Authenticate with IRMA'),
                 'buttons' => ''
             ]
             );
