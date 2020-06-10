@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'MainController@index')->name('home');
 
-Route::get('/irma_auth/start', 'IrmaAuthController@start')->name('irma_auth.start')->middleware('irma_auth');
+Route::get('/irma_auth/start/{meetingType}', 'IrmaAuthController@start')->name('irma_auth.start')->middleware('irma_auth');
 
 Route::get('/irma_session/authenticate/{url}', 'IrmaAuthController@authenticate')->name('irma_session.authenticate');
 
-Route::get('/irma_session/create', 'IrmaSessionController@create')->name('irma_session.create')->middleware('irma_auth');
+Route::get('/irma_session/create/{meetingType}', 'IrmaSessionController@create')->name('irma_session.create')->middleware('irma_auth');
 
 Route::post('/irma_session/store', 'IrmaSessionController@store')->name('irma_session.store');
 

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Session;
+use Config;
 
 class IrmaAuthenticate
 {
@@ -19,9 +20,10 @@ class IrmaAuthenticate
         $token = Session::get('irma_session_token', '');
         if ($request->route()->getName() === 'irma_auth.start') {
             //start session
-            $response = response($this->start($request));
+            $meetingType = $request->route('meetingType');
+            $response = response($this->start($meetingType));
             if ($response) {
-                return response($this->start($request));
+                return response($this->start($meetingType));
             } else {
                 return redirect()->route('irma_session.authenticate', urlencode(urlencode(\URL::to('/').'/'.$request->path())));
             }
@@ -34,8 +36,11 @@ class IrmaAuthenticate
             $result = $this->irma_get_session_result($token);
             if ($result && property_exists($result, 'proofStatus') && $result->proofStatus == 'VALID') {
                 $disclosed = $result->disclosed;
-                $validated_email = $disclosed[0][0]->rawvalue;
-                session(['validated_email' => $validated_email]);
+                foreach ($disclosed as $attributeSource) {
+                    foreach ($attributeSource as $attribute) {
+                        session([$attribute->id => sprintf("%s", $attribute->rawvalue)]);
+                    }
+                }
                 if ($disclosed[1][0]->id === 'pbdf.gemeente.personalData.fullname') {
                     $validatedBrpName = $disclosed[1][0]->rawvalue;
                     session(['validated_brp_name' => $validatedBrpName]);
@@ -57,22 +62,9 @@ class IrmaAuthenticate
         return $next($request);
     }
 
-    private function start()
+    private function start($meetingType)
     {
-        $irmasession = $this->irma_start_session([
-            '@context' => 'https://irma.app/ld/request/disclosure/v2',
-            'disclose' => [
-                [
-                    ['pbdf.pbdf.email.email'],
-                ],
-                [
-                    ['pbdf.gemeente.personalData.fullname'],
-                    ['pbdf.pbdf.linkedin.firstname',
-                    'pbdf.pbdf.linkedin.familyname']
-
-                ]
-            ],
-        ]);
+        $irmasession = $this->irma_start_session(Config::get('meeting-types.' . $meetingType . '.irma_disclosure'));
 
         if ($irmasession) {
             session(['irma_session_token' => $irmasession->token]);
@@ -93,7 +85,6 @@ class IrmaAuthenticate
             );
         } else {
             $json_payload = json_encode($payload);
-
             $api_call = array(
                 'http' => array(
                     'method' => $method,
@@ -107,7 +98,7 @@ class IrmaAuthenticate
 
         $url = env("IRMA_SERVER_URL") . $suburl;
         $file_headers = @get_headers($url);
-        if (!$file_headers || ($file_headers[0] == 'HTTP/1.0 404 Not Foundx') || $file_headers[0] == ('HTTP/1.0 400 Bad Request') || ($file_headers[0] == 'HTTP/1.1 404 Not Foundx') || ($file_headers[0] == 'HTTP/1.1 400 Bad Request')) {
+        if (!$file_headers || ($file_headers[0] == 'HTTP/1.0 404 Not Foundx') || ($file_headers[0] == 'HTTP/1.0 400 Bad Request') || ($file_headers[0] == 'HTTP/1.1 404 Not Foundx') || ($file_headers[0] == 'HTTP/1.1 400 Bad Request')) {
             $response_data = false;
         } else {
             $response = file_get_contents($url, false, stream_context_create($api_call));

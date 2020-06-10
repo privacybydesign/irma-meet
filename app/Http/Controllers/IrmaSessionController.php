@@ -27,11 +27,11 @@ class IrmaSessionController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function create()
+    public function create($meetingType)
     {
-        $validated_email = Session::get('validated_email', '');
+        $validated_email = Session::get('pbdf.pbdf.email.email', '');
         $validated_name = Session::get('validated_brp_name', Session::get('validated_linkedin_name', ''));
-        $form = view('layout.partials.irma-session-form')->with([
+        $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
             'validated_email' => $validated_email,
             'validated_name' => $validated_name
         ])->render();
@@ -51,11 +51,11 @@ class IrmaSessionController extends Controller
      */
     public function store(Request $request)
     {
-        $validated_email = Session::get('validated_email', '');
+        $validated_email = Session::get('pbdf.pbdf.email.email', '');
         $validatedData = $request->validate([
             'meeting_name' => 'required|max:255',
             'hoster_name' => 'required',
-            'hoster_email_address' => 'required|in:' . $validated_email,
+            'hoster_email_address' => 'required|in:' . sprintf("%s", $validated_email),
             'start_time' => '', //not yet used
             'invitation_note' => 'nullable|max:255',
             'participant_email_address1' => 'nullable|email',
@@ -151,8 +151,10 @@ class IrmaSessionController extends Controller
         //$hosterName = $irmaSession->hoster_name;
         $hosterEmailAddress = $irmaSession->hoster_email_address;
         $bbbSessionId = $irmaSession->bbb_session_id;
+
         $bbb = new BigBlueButton();
-        $email = Session::get('validated_email', '');
+        //validation
+        $email = Session::get('pbdf.pbdf.email.email', '');
         $validatedBrpName = Session::get('validated_brp_name', '');
         $validatedLinkedinName = Session::get('validated_linkedin_name', '');
         if ($validatedBrpName !== '') {

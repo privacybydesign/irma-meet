@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use Config;
 
 class IrmaAuthController extends Controller
 {
@@ -22,21 +23,10 @@ class IrmaAuthController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function start()
+    public function start($meetingType)
     {
-        $irmasession = $this->irma_start_session([
-            '@context' => 'https://irma.app/ld/request/disclosure/v2',
-            'disclose' => [
-                [
-                    ['pbdf.pbdf.email.email'],
-                ],
-                [
-                    ['pbdf.gemeente.personalData.fullname'],
-                    ['pbdf.pbdf.linkedin.fullname']
-
-                ]
-            ],
-        ]);
+        print_r(Config::get('meeting-types.' . $meetingType . '.irma_disclosure'));
+        $irmasession = $this->irma_start_session(Config::get('meeting-types.' . $meetingType . '.irma_disclosure'));
         
         $_SESSION['irmasession'] = $irmasession->token;
 
