@@ -9,6 +9,7 @@ use BigBlueButton\Parameters\JoinMeetingParameters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Session;
+use Config;
 
 class IrmaSessionController extends Controller
 {
@@ -23,14 +24,17 @@ class IrmaSessionController extends Controller
     }
 
     /**
-     * Show the store session screen.
+     * Show the create session screen.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function create($meetingType)
     {
         $validated_email = Session::get('pbdf.pbdf.email.email', '');
-        $validated_name = Session::get('validated_brp_name', Session::get('validated_linkedin_name', ''));
+        $validated_name = Session::get(
+            'pbdf.gemeente.personalData.fullname',
+            Session::get('pbdf.pbdf.linkedin.firstname', '') . ' ' . Session::get('pbdf.pbdf.linkedin.familyname', '')
+        );
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
             'validated_email' => $validated_email,
             'validated_name' => $validated_name
@@ -64,6 +68,7 @@ class IrmaSessionController extends Controller
             'participant_email_address4' => 'nullable|email',
             'participant_email_address5' => 'nullable|email',
             'participant_email_address6' => 'nullable|email',
+            'meeting_type' => 'required'
         ]);
         $uniqueId = bin2hex(openssl_random_pseudo_bytes(4));
         //we use another session id for bbb so the bbb session id is not exposed in the url
@@ -91,9 +96,9 @@ class IrmaSessionController extends Controller
         $bbb = new BigBlueButton();
         $createParams = new CreateMeetingParameters($bbbSessionId, $validatedData['meeting_name']);
         //we use an md5 hash from the bbb session id. The bbb session id is not exposed, so md5 should be enough protection
-        $createParams->setAttendeePassword(md5('participant' . $bbbSessionId));
+        $createParams->setAttendeePassword(hash('sha256', 'participant' . $bbbSessionId));
         //$createParams->setAttendeePassword('participant');
-        $createParams->setModeratorPassword(md5('hoster' . $bbbSessionId));
+        $createParams->setModeratorPassword(hash('sha256', 'hoster' . $bbbSessionId));
         //$createParams->setModeratorPassword('hoster');
         $response = $bbb->createMeeting($createParams);
 
@@ -148,38 +153,91 @@ class IrmaSessionController extends Controller
     public function join($irmaSessionId)
     {
         $irmaSession = \App\IrmaMeetSessions::where('irma_session_id', $irmaSessionId)->first();
+        $meetingType = $irmaSession->meeting_type;
+        $hosterEmailAddress = $irmaSession->hoster_email_address;
+        $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
+        $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
+
+        $email = Session::get('pbdf.pbdf.email.email', '');
+        if (($email !== '') && ($email === $hosterEmailAddress)) {
+            //hoster is already logged in
+            //TODO validate attributes
+            return $this->_join($irmaSessionId);
+        }
+        $mainContent = view('layout.partials.irma-session-join')->with([
+                'irmaSessionId' => $irmaSessionId,
+                'disclosureTypeHost' => $disclosureTypeHost,
+                'disclosureTypeParticipant' => $disclosureType
+            ])->render();
+        return view('layout/mainlayout')->with(
+            [
+                'message' => $mainContent,
+                'title' => __('Choose your role'),
+                'buttons' => ''
+            ]
+        );
+    }
+            
+    public function join_host($irmaSessionId)
+    {
+        return $this->_join($irmaSessionId);
+    }
+
+    public function join_participant($irmaSessionId)
+    {
+        return $this->_join($irmaSessionId);
+    }
+
+
+    private function _join($irmaSessionId)
+    {
+        $irmaSession = \App\IrmaMeetSessions::where('irma_session_id', $irmaSessionId)->first();
         //$hosterName = $irmaSession->hoster_name;
         $hosterEmailAddress = $irmaSession->hoster_email_address;
         $bbbSessionId = $irmaSession->bbb_session_id;
+        $meetingType = $irmaSession->meeting_type;
+        $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
+
+        $email = Session::get('pbdf.pbdf.email.email', '');
+        if ($email === $hosterEmailAddress) {
+            $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
+        }
 
         $bbb = new BigBlueButton();
-        //validation
-        $email = Session::get('pbdf.pbdf.email.email', '');
-        $validatedBrpName = Session::get('validated_brp_name', '');
-        $validatedLinkedinName = Session::get('validated_linkedin_name', '');
-        if ($validatedBrpName !== '') {
-            $validatedName = '[BRP]' . $validatedBrpName;
+        //validation  TODO:move this to a seperate function
+        $authentications = Config::get('disclosure-types.' . $disclosureType . '.valid_authentication');
+        $visibleName = '';
+        foreach ($authentications as $authentication) {
+            $validAttr = true;
+            $visibleName = '';
+            foreach ($authentication as $attribute) {
+                $value = Session::get($attribute, '');
+                if ($value == '') {
+                    $validAttr = false;
+                } else {
+                    $visibleName .= sprintf("%s%s", Config::get('meeting-types.free.attribute_abbreviation')[$attribute], $value);
+                }
+            }
+            if ($validAttr) {
+                break;
+            };
         }
-        if ($validatedLinkedinName !== '') {
-            $validatedName = '[LinkedIn]' . $validatedLinkedinName;
-        }
-
-        if (($email !== '') && ($irmaSessionId !== '')) {
+        if (($email !== '') && ($visibleName !== '') && ($irmaSessionId !== '')) {
             if ($email === $hosterEmailAddress) {
-                $password = md5('hoster' . $bbbSessionId);
-                $visibleName = '* ' . $validatedName . ' [' . $hosterEmailAddress . ']';
+                $password = hash('sha256', 'hoster' . $bbbSessionId);
+                $visibleName = '* ' . $visibleName;
             } else {
-                $password = md5('participant' . $bbbSessionId);
-                $visibleName = $validatedName . ' [' . $email . ']';
+                $password = hash('sha256', 'participant' . $bbbSessionId);
             }
             //redirect to bbb
             $joinParams = new JoinMeetingParameters($bbbSessionId, $visibleName, $password);
             $joinParams->setRedirect(true);
             // Join the meeting by redirecting the user to the generated URL
             $url = $bbb->getJoinMeetingURL($joinParams);
+            print_r($url);
             return \Redirect::to($url);
         } else {
-            $mainContent = __('Your email address could not be verified by IRMA.');
+            $mainContent = __('Your attributes could not be verified by IRMA.');
             return view('layout/mainlayout')->with(
                 [
                 'message' => $mainContent,

@@ -23,15 +23,15 @@ class IrmaAuthController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function start($meetingType)
-    {
-        print_r(Config::get('meeting-types.' . $meetingType . '.irma_disclosure'));
-        $irmasession = $this->irma_start_session(Config::get('meeting-types.' . $meetingType . '.irma_disclosure'));
-        
-        $_SESSION['irmasession'] = $irmasession->token;
+    #public function start($meetingType)
+    #{
+    #    print_r(Config::get('meeting-types.' . $meetingType . '.irma_disclosure'));
+    #    $irmasession = $this->irma_start_session(Config::get('meeting-types.' . sprintf("%s", $meetingType) . '.irma_disclosure'));
+    #
+    #    $_SESSION['irmasession'] = $irmasession->token;
 
-        return json_encode($irmasession->sessionPtr);
-    }
+    #    return json_encode($irmasession->sessionPtr);
+    #}
 
 
     /**
@@ -39,12 +39,13 @@ class IrmaAuthController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function authenticate($url)
+    public function authenticate($disclosureType, $url)
     {
         $token = Session::get('irma_session_token', '');
         if ($token === '') {
             $mainContent = view('layout.partials.irma-authenticate')->with([
-                'url' => urldecode(urldecode($url))
+                'url' => urldecode(urldecode($url)),
+                'disclosureType' => $disclosureType
             ])->render();
             return view('layout/mainlayout')->with(
                 [

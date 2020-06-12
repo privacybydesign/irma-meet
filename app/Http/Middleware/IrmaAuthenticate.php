@@ -20,17 +20,17 @@ class IrmaAuthenticate
         $token = Session::get('irma_session_token', '');
         if ($request->route()->getName() === 'irma_auth.start') {
             //start session
-            $meetingType = $request->route('meetingType');
-            $response = response($this->start($meetingType));
+            $disclosureType = $request->route('disclosureType');
+            $response = response($this->start($disclosureType));
             if ($response) {
-                return response($this->start($meetingType));
+                return response($this->start($disclosureType));
             } else {
-                return redirect()->route('irma_session.authenticate', urlencode(urlencode(\URL::to('/').'/'.$request->path())));
+                return redirect()->route('irma_session.authenticate', Session::get('disclosure_type', 'default'), urlencode(urlencode(\URL::to('/').'/'.$request->path())));
             }
         } elseif ($token === '') {
             //echo \URL::to('/').'/'.$request->path();
             //return \URL::to('/').'/'.$request->path();
-            return redirect()->route('irma_session.authenticate', urlencode(urlencode(\URL::to('/').'/'.$request->path())));
+            return redirect()->route('irma_session.authenticate', Session::get('disclosure_type', 'default'), urlencode(urlencode(\URL::to('/').'/'.$request->path())));
         } else {
             //verify
             $result = $this->irma_get_session_result($token);
@@ -39,18 +39,6 @@ class IrmaAuthenticate
                 foreach ($disclosed as $attributeSource) {
                     foreach ($attributeSource as $attribute) {
                         session([$attribute->id => sprintf("%s", $attribute->rawvalue)]);
-                    }
-                }
-                if ($disclosed[1][0]->id === 'pbdf.gemeente.personalData.fullname') {
-                    $validatedBrpName = $disclosed[1][0]->rawvalue;
-                    session(['validated_brp_name' => $validatedBrpName]);
-                } else {
-                    if ($disclosed[1][0]->id === 'pbdf.pbdf.linkedin.firstname') {
-                        $linkedinFirstName = $disclosed[1][0]->rawvalue;
-                    }
-                    if ($disclosed[1][1]->id === 'pbdf.pbdf.linkedin.familyname') {
-                        $linkedinLastName = $disclosed[1][1]->rawvalue;
-                        session(['validated_linkedin_name' => $linkedinFirstName . ' ' . $linkedinLastName]);
                     }
                 }
             } else {
@@ -62,12 +50,13 @@ class IrmaAuthenticate
         return $next($request);
     }
 
-    private function start($meetingType)
+    private function start($disclosureType)
     {
-        $irmasession = $this->irma_start_session(Config::get('meeting-types.' . $meetingType . '.irma_disclosure'));
+        $irmasession = $this->irma_start_session(Config::get('disclosure-types.' . $disclosureType . '.irma_disclosure'));
 
         if ($irmasession) {
             session(['irma_session_token' => $irmasession->token]);
+            session(['disclosure_type' => $disclosureType]);
             return json_encode($irmasession->sessionPtr);
         } else {
             return json_encode(false);

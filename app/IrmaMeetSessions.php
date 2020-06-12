@@ -12,7 +12,7 @@ class IrmaMeetSessions extends Model
      * @var array
      */
     protected $fillable = [
-        'irma_session_id', 'meeting_name', 'hoster_name', 'hoster_email_address', 'start_time', 'invitation_note', 'bbb_session_id',
+        'irma_session_id', 'meeting_name', 'hoster_name', 'hoster_email_address', 'start_time', 'invitation_note', 'bbb_session_id', 'meeting_type'
     ];
 
     /**
@@ -21,6 +21,6 @@ class IrmaMeetSessions extends Model
      * @var array
      */
     protected $hidden = [
-        'bbb_session_id',
+        
     ];
 }

@@ -15,15 +15,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'MainController@index')->name('home');
 
-Route::get('/irma_auth/start/{meetingType}', 'IrmaAuthController@start')->name('irma_auth.start')->middleware('irma_auth');
+Route::get('/irma_auth/start/{disclosureType}', 'IrmaAuthController@start')->name('irma_auth.start')->middleware('irma_auth');
 
-Route::get('/irma_session/authenticate/{url}', 'IrmaAuthController@authenticate')->name('irma_session.authenticate');
+Route::get('/irma_session/authenticate/{disclosureType}/{url}', 'IrmaAuthController@authenticate')->name('irma_session.authenticate');
 
 Route::get('/irma_session/create/{meetingType}', 'IrmaSessionController@create')->name('irma_session.create')->middleware('irma_auth');
 
 Route::post('/irma_session/store', 'IrmaSessionController@store')->name('irma_session.store');
 
-Route::get('/irma_session/join/{irmaSessionId}', 'IrmaSessionController@join')->name('irma_session.join')->middleware('irma_auth');
+Route::get('/irma_session/join/{irmaSessionId}', 'IrmaSessionController@join')->name('irma_session.join');
+
+Route::get('/irma_session/join_host/{irmaSessionId}', 'IrmaSessionController@join_host')->name('irma_session.join')->middleware('irma_auth');
+
+Route::get('/irma_session/join_participant/{irmaSessionId}', 'IrmaSessionController@join_participant')->name('irma_session.join')->middleware('irma_auth');
 
 Route::get('lang/{locale}', 'LocalizationController@index');
 
