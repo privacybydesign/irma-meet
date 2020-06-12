@@ -36,12 +36,7 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.pbdf.linkedin.familyname']
-                    ],
-                    [
-                        ['pbdf.gemeente.personalData.fullname'],
-                        ['pbdf.pbdf.big.profession'],
-                        ['pbdf.pbdf.big.specialism']
+                        ['pbdf.gemeente.personalData.fullname', 'pbdf.pbdf.big.profession', 'pbdf.pbdf.big.specialism']
                     ]
                 ]
             ],
