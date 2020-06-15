@@ -36,13 +36,12 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.gemeente.personalData.fullname', 'pbdf.pbdf.big.profession', 'pbdf.pbdf.big.specialism']
+                        ['pbdf.gemeente.personalData.familyname', 'pbdf.nuts']
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.gemeente.personalData.fullname','pbdf.pbdf.email.email'],
-                ['pbdf.pbdf.linkedin.firstname', 'pbdf.pbdf.linkedin.familyname', 'pbdf.pbdf.email.email']
+                ['pbdf.nuts', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
             ],
         ]
 
