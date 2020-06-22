@@ -36,12 +36,12 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.gemeente.personalData.familyname', 'pbdf.nuts']
+                        ['pbdf.gemeente.personalData.familyname', 'pbdf.nuts.agb']
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.nuts', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
+                ['pbdf.nuts.agb', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
             ],
         ],
         'patient' => [
@@ -68,12 +68,12 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.pbdf.surfnet.institute', 'pbdf.pbdf.surfnet.type', 'pbdf.pbdf.surfnet.familyname', 'pbdf.pbdf.surfnet.email']
+                        ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email']
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.pbdf.surfnet.institute', 'pbdf.pbdf.surfnet.type', 'pbdf.pbdf.surfnet.familyname', 'pbdf.pbdf.surfnet.email'],
+                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email'],
             ],
         ],
         'student' => [
@@ -84,12 +84,12 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.pbdf.surfnet.institute', 'pbdf.pbdf.surfnet.type', 'pbdf.pbdf.surfnet.familyname', 'pbdf.pbdf.surfnet.email', 'pbdf.pbdf.surfnet.id']
+                        ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email', 'pbdf.pbdf.surfnet-2.id']
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.pbdf.surfnet.institute', 'pbdf.pbdf.surfnet.type', 'pbdf.pbdf.surfnet.familyname', 'pbdf.pbdf.surfnet.email', 'pbdf.pbdf.surfnet.id'],
+                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email', 'pbdf.pbdf.surfnet-2.id'],
             ],
         ]
 
