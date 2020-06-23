@@ -29,7 +29,12 @@ return [
                 'pbdf.pbdf.linkedin.firstname' => '<LinkedIn> ',
                 'pbdf.pbdf.linkedin.familyname' => ' ',
                 'pbdf.pbdf.big.profession' => ' ',
-                'pbdf.pbdf.big.specialism' => ' '
+                'pbdf.pbdf.big.specialism' => ' ',
+                'pbdf.gemeente.personalData.familyname' => ' ',
+                'pbdf.gemeente.personalData.initials' => ' ',
+                'pbdf.gemeente.personalData.gender' => ' ',
+                'pbdf.gemeente.personalData.dateofbirth' => ' ',
+                'pbdf.gemeente.personalData.bsn' => ' '
             ],
             'number_of_participants' => 1
 
@@ -43,7 +48,11 @@ return [
                 'pbdf.pbdf.linkedin.firstname' => '<LinkedIn> ',
                 'pbdf.pbdf.linkedin.familyname' => ' ',
                 'pbdf.pbdf.big.profession' => ' ',
-                'pbdf.pbdf.big.specialism' => ' '
+                'pbdf.pbdf.big.specialism' => ' ',
+                'pbdf.pbdf.surfnet-2.institute' => ' ',
+                'pbdf.pbdf.surfnet-2.type' => ' ',
+                'pbdf.pbdf.surfnet-2.familyname' => ' ',
+                'pbdf.pbdf.surfnet-2.id' => ' '
             ],
             'number_of_participants' => 1
 
