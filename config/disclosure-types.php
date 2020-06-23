@@ -36,12 +36,12 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.gemeente.personalData.familyname', 'pbdf.nuts.agb']
+                        ['pbdf.gemeente.personalData.familyname', 'pbdf.nuts.agb.agbcode']
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.nuts.agb', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
+                ['pbdf.nuts.agb.agbcode', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
             ],
         ],
         'patient' => [
