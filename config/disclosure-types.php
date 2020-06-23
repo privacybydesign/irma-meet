@@ -68,12 +68,12 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email']
+                        ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email']
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email'],
+                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email'],
             ],
         ],
         'student' => [
@@ -84,12 +84,12 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email', 'pbdf.pbdf.surfnet-2.id']
+                        ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email', 'pbdf.pbdf.surfnet-2.id']
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email', 'pbdf.pbdf.surfnet-2.id'],
+                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email', 'pbdf.pbdf.surfnet-2.id'],
             ],
         ]
 
