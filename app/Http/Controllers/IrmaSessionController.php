@@ -31,10 +31,10 @@ class IrmaSessionController extends Controller
     public function create($meetingType)
     {
         $validated_email = Session::get('pbdf.pbdf.email.email', '');
-        $validated_name = Session::get(
-            'pbdf.gemeente.personalData.fullname',
-            Session::get('pbdf.pbdf.linkedin.firstname', '') . ' ' . Session::get('pbdf.pbdf.linkedin.familyname', '')
-        );
+        $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
+        $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
+        $authentications = Config::get('disclosure-types.' . $disclosureTypeHost . '.valid_authentication');
+        $validated_name = $this->_validate($meetingType, $authentications);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
             'validated_email' => $validated_email,
             'validated_name' => $validated_name
@@ -189,6 +189,27 @@ class IrmaSessionController extends Controller
     }
 
 
+    private function _validate($meetingType, $authentications)
+    {
+        $visibleName = '';
+        foreach ($authentications as $authentication) {
+            $validAttr = true;
+            $visibleName = '';
+            foreach ($authentication as $attribute) {
+                $value = Session::get($attribute, '');
+                if ($value == '') {
+                    $validAttr = false;
+                } else {
+                    $visibleName .= sprintf("%s%s", Config::get('meeting-types.' . $meetingType . '.attribute_abbreviation')[$attribute], $value);
+                }
+            }
+            if ($validAttr) {
+                break;
+            };
+        }
+        return $visibleName;
+    }
+
     private function _join($irmaSessionId)
     {
         $irmaSession = \App\IrmaMeetSessions::where('irma_session_id', $irmaSessionId)->first();
@@ -204,24 +225,9 @@ class IrmaSessionController extends Controller
         }
 
         $bbb = new BigBlueButton();
-        //validation  TODO:move this to a seperate function
         $authentications = Config::get('disclosure-types.' . $disclosureType . '.valid_authentication');
-        $visibleName = '';
-        foreach ($authentications as $authentication) {
-            $validAttr = true;
-            $visibleName = '';
-            foreach ($authentication as $attribute) {
-                $value = Session::get($attribute, '');
-                if ($value == '') {
-                    $validAttr = false;
-                } else {
-                    $visibleName .= sprintf("%s%s", Config::get('meeting-types.free.attribute_abbreviation')[$attribute], $value);
-                }
-            }
-            if ($validAttr) {
-                break;
-            };
-        }
+        $visibleName = $this->_validate($meetingType, $authentications);
+
         if (($email !== '') && ($visibleName !== '') && ($irmaSessionId !== '')) {
             if ($email === $hosterEmailAddress) {
                 $password = hash('sha256', 'hoster' . $bbbSessionId);
