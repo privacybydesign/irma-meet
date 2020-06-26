@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "553567d7e454de35f60112f21aafcf54",
+    "content-hash": "57886482f8facaa22a4faa9bfc02b880",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3770,6 +3770,45 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2019-10-24T08:53:34+00:00"
+        },
+        {
+            "name": "tremby/laravel-git-version",
+            "version": "v1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tremby/laravel-git-version.git",
+                "reference": "52e423040f3615d5ccd21a45afcbaf4f52661be2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tremby/laravel-git-version/zipball/52e423040f3615d5ccd21a45afcbaf4f52661be2",
+                "reference": "52e423040f3615d5ccd21a45afcbaf4f52661be2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=4"
+            },
+            "suggest": {
+                "symfony/process": "Used rather than `shell_exec` if available (>=3.3)."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tremby\\LaravelGitVersion\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bart Nagel",
+                    "email": "bart@tremby.net"
+                }
+            ],
+            "description": "A helper to get the current git version of the application",
+            "time": "2020-04-09T13:16:02+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

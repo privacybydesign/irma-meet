@@ -113,7 +113,7 @@ class IrmaSessionController extends Controller
                     'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
                     'invitation_link' => $invitationLink,
                 ]));
-            if (false && count($participantsEmails)) {
+            if (count($participantsEmails)) {
                 //Send mail with links to participants
                 //TODO: create different invitation for participants
                 Mail::from($validatedData['hoster_email_address'])
