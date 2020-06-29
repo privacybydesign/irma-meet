@@ -74,16 +74,18 @@ return [
             'irma_disclosure' => [
                 '@context' => 'https://irma.app/ld/request/disclosure/v2',
                 'disclose' => [
-                    # [
-                    #     ['pbdf.pbdf.email.email'],
-                    # ],
                     [
-                        ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email']
+                        [
+			  ['type' => 'pbdf.pbdf.surfnet-2.institute', 'value' => null],
+			  ['type' => 'pbdf.pbdf.surfnet-2.type', 'value' => 'employee'],
+			  ['type' => 'pbdf.pbdf.surfnet-2.familyname', 'value' => null],
+			  ['type' => 'pbdf.pbdf.surfnet-2.email', 'value' => null]
+			]
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.familyname'],
+                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email'],
             ],
             'name' => [['pbdf.pbdf.surfnet-2.familyname']]
         ],
@@ -92,16 +94,27 @@ return [
                 '@context' => 'https://irma.app/ld/request/disclosure/v2',
                 'disclose' => [
                     [
-                        ['pbdf.pbdf.email.email'],
-                    ],
-                    [
-                        ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email', 'pbdf.pbdf.surfnet-2.id']
+                        [
+			  ['type' => 'pbdf.pbdf.surfnet-2.institute', 'value' => null],
+			  ['type' => 'pbdf.pbdf.surfnet-2.type', 'value' => 'employee'],
+			  ['type' => 'pbdf.pbdf.surfnet-2.familyname', 'value' => null],
+			  ['type' => 'pbdf.pbdf.surfnet-2.email', 'value' => null]
+			]
                     ]
+                    # [
+                    #     ['pbdf.pbdf.email.email'],
+                    # ],
+                    # [
+                    #     ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email', 'pbdf.pbdf.surfnet-2.id']
+                    # ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email', 'pbdf.pbdf.surfnet-2.id'],
+                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email'],
             ],
+            # 'valid_authentication' => [
+            #     ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email', 'pbdf.pbdf.surfnet-2.id'],
+            # ],
             'name' => [['pbdf.pbdf.surfnet-2.familyname']]
         ]
 
