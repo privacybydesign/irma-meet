@@ -85,7 +85,7 @@ return [
             'valid_authentication' => [
                 ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email'],
             ],
-            'name' => ['pbdf.pbdf.surfnet-2.familyname']
+            'name' => [['pbdf.pbdf.surfnet-2.familyname']]
         ],
         'student' => [
             'irma_disclosure' => [
@@ -102,7 +102,7 @@ return [
             'valid_authentication' => [
                 ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email', 'pbdf.pbdf.surfnet-2.id'],
             ],
-            'name' => ['pbdf.pbdf.surfnet-2.familyname']
+            'name' => [['pbdf.pbdf.surfnet-2.familyname']]
         ]
 
 
