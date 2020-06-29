@@ -33,8 +33,8 @@ class IrmaSessionController extends Controller
         $validated_email = Session::get('pbdf.pbdf.email.email', '');
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        $authentications = Config::get('disclosure-types.' . $disclosureTypeHost . '.valid_authentication');
-        $validated_name = $this->_validate($meetingType, $authentications);
+        $names = Config::get('disclosure-types.' . $disclosureTypeHost . '.name');
+        $validated_name = $this->_validate($meetingType, $names, false);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
             'validated_email' => $validated_email,
             'validated_name' => $validated_name
@@ -189,7 +189,7 @@ class IrmaSessionController extends Controller
     }
 
 
-    private function _validate($meetingType, $authentications)
+    private function _validate($meetingType, $authentications, $useAbbreviation = true)
     {
         $visibleName = '';
         foreach ($authentications as $authentication) {
@@ -200,7 +200,11 @@ class IrmaSessionController extends Controller
                 if ($value == '') {
                     $validAttr = false;
                 } else {
-                    $visibleName .= sprintf("%s%s", Config::get('meeting-types.' . $meetingType . '.attribute_abbreviation')[$attribute], $value);
+                    if ($useAbbreviation) {
+                        $visibleName .= sprintf("%s%s", Config::get('meeting-types.' . $meetingType . '.attribute_abbreviation')[$attribute], $value);
+                    } else {
+                        $visibleName .= sprintf("%s ", $value);
+                    }
                 }
             }
             if ($validAttr) {
