@@ -32,15 +32,15 @@ class IrmaSessionController extends Controller
      */
     public function create($meetingType)
     {
-	if ( $meetingType == "exam" ) {
-	   $validated_email = strtolower(Session::get('pbdf.pbdf.surfnet-2.email', ''));
-	} else {
-   	   $validated_email = strtolower(Session::get('pbdf.pbdf.email.email', ''));
-	};
+ 	if ( $meetingType == "exam" ) {
+ 	   $validated_email = Session::get('pbdf.pbdf.surfnet-2.email', '');
+ 	} else {
+ 	   $validated_email = Session::get('pbdf.pbdf.email.email', '');
+ 	};
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        $names = Config::get('disclosure-types.' . $disclosureTypeHost . '.name');
-        $validated_name = $this->_validate($meetingType, $names, false);
+	$names = Config::get('disclosure-types.' . $disclosureTypeHost . '.name');
+	$validated_name = $this->_validate($meetingType, $names, false);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
             'validated_email' => $validated_email,
             'validated_name' => $validated_name
@@ -52,7 +52,8 @@ class IrmaSessionController extends Controller
             'buttons' => ''
         ]
         );
-    }
+    }    
+
 
     /**
      * Store a session.
