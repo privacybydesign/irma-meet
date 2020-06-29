@@ -74,16 +74,16 @@ return [
             'irma_disclosure' => [
                 '@context' => 'https://irma.app/ld/request/disclosure/v2',
                 'disclose' => [
+                    # [
+                    #     ['pbdf.pbdf.email.email'],
+                    # ],
                     [
-                        ['pbdf.pbdf.email.email'],
-                    ],
-                    [
-                        ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname']
+                        ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email']
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email'],
+                ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.familyname'],
             ],
             'name' => [['pbdf.pbdf.surfnet-2.familyname']]
         ],
