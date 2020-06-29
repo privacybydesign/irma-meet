@@ -40,12 +40,16 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.gemeente.personalData.familyname', 'pbdf.nuts.agb.agbcode']
+                        [
+			  'pbdf.gemeente.personalData.familyname',
+#			  'pbdf.nuts.agb.agbcode',
+			  'pbdf.gemeente.personalData.bsn'
+			]
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.nuts.agb.agbcode', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
+                ['pbdf.nuts.agb.agbcode', 'pbdf.gemeente.personalData.familyname', 'pbdf.pbdf.email.email'],
             ],
             'name' => [
                 ['pbdf.gemeente.personalData.familyname'],
@@ -59,7 +63,13 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.gemeente.personalData.familyname', 'pbdf.gemeente.personalData.initials', 'pbdf.gemeente.personalData.gender', 'pbdf.gemeente.personalData.dateofbirth', 'pbdf.gemeente.personalData.bsn']
+                        [
+			  'pbdf.gemeente.personalData.familyname',
+			  'pbdf.gemeente.personalData.initials',
+			  'pbdf.gemeente.personalData.gender',
+			  'pbdf.gemeente.personalData.dateofbirth',
+			  'pbdf.gemeente.personalData.bsn'
+			]
                     ]
                 ]
             ],
@@ -101,20 +111,11 @@ return [
 			  ['type' => 'pbdf.pbdf.surfnet-2.email', 'value' => null]
 			]
                     ]
-                    # [
-                    #     ['pbdf.pbdf.email.email'],
-                    # ],
-                    # [
-                    #     ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email', 'pbdf.pbdf.surfnet-2.id']
-                    # ]
                 ]
             ],
             'valid_authentication' => [
                 ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email'],
             ],
-            # 'valid_authentication' => [
-            #     ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.email.email', 'pbdf.pbdf.surfnet-2.id'],
-            # ],
             'name' => [['pbdf.pbdf.surfnet-2.familyname']]
         ]
 
