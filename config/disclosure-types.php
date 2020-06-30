@@ -50,7 +50,8 @@ return [
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.nuts.agb.agbcode', 'pbdf.gemeente.personalData.familyname', 'pbdf.pbdf.email.email'],
+                #['pbdf.nuts.agb.agbcode', 'pbdf.gemeente.personalData.familyname', 'pbdf.pbdf.email.email'],
+                ['pbdf.gemeente.personalData.familyname', 'pbdf.pbdf.email.email'],
             ],
             'name' => [
                 ['pbdf.gemeente.personalData.familyname'],
