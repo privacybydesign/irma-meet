@@ -30,7 +30,8 @@ return [
             'name' => [
                 ['pbdf.gemeente.personalData.fullname'],
                 ['pbdf.pbdf.linkedin.firstname', 'pbdf.pbdf.linkedin.familyname']
-            ]
+            ],
+            'email' => 'pbdf.pbdf.email.email'
         ],
         'medical' => [
             'irma_disclosure' => [
@@ -41,10 +42,10 @@ return [
                     ],
                     [
                         [
-			  'pbdf.gemeente.personalData.familyname',
-#			  'pbdf.nuts.agb.agbcode',
-			  'pbdf.gemeente.personalData.bsn'
-			]
+                          'pbdf.gemeente.personalData.familyname',
+            #             'pbdf.nuts.agb.agbcode',
+                          'pbdf.gemeente.personalData.bsn'
+                        ]
                     ]
                 ]
             ],
@@ -53,7 +54,8 @@ return [
             ],
             'name' => [
                 ['pbdf.gemeente.personalData.familyname'],
-            ]
+            ],
+            'email' => 'pbdf.pbdf.email.email'
         ],
         'patient' => [
             'irma_disclosure' => [
@@ -64,12 +66,12 @@ return [
                     ],
                     [
                         [
-			  'pbdf.gemeente.personalData.familyname',
-			  'pbdf.gemeente.personalData.initials',
-			  'pbdf.gemeente.personalData.gender',
-			  'pbdf.gemeente.personalData.dateofbirth',
-			  'pbdf.gemeente.personalData.bsn'
-			]
+              'pbdf.gemeente.personalData.familyname',
+              'pbdf.gemeente.personalData.initials',
+              'pbdf.gemeente.personalData.gender',
+              'pbdf.gemeente.personalData.dateofbirth',
+              'pbdf.gemeente.personalData.bsn'
+            ]
                     ]
                 ]
             ],
@@ -78,7 +80,8 @@ return [
             ],
             'name' => [
                 ['pbdf.gemeente.personalData.initials', 'pbdf.gemeente.personalData.familyname'],
-            ]
+            ],
+            'email' => 'pbdf.pbdf.email.email'
         ],
         'teacher' => [
             'irma_disclosure' => [
@@ -86,18 +89,19 @@ return [
                 'disclose' => [
                     [
                         [
-			  ['type' => 'pbdf.pbdf.surfnet-2.institute', 'value' => null],
-			  ['type' => 'pbdf.pbdf.surfnet-2.type', 'value' => 'employee'],
-			  ['type' => 'pbdf.pbdf.surfnet-2.familyname', 'value' => null],
-			  ['type' => 'pbdf.pbdf.surfnet-2.email', 'value' => null]
-			]
+              ['type' => 'pbdf.pbdf.surfnet-2.institute', 'value' => null],
+              ['type' => 'pbdf.pbdf.surfnet-2.type', 'value' => 'employee'],
+              ['type' => 'pbdf.pbdf.surfnet-2.familyname', 'value' => null],
+              ['type' => 'pbdf.pbdf.surfnet-2.email', 'value' => null]
+            ]
                     ]
                 ]
             ],
             'valid_authentication' => [
                 ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email'],
             ],
-            'name' => [['pbdf.pbdf.surfnet-2.familyname']]
+            'name' => [['pbdf.pbdf.surfnet-2.familyname']],
+            'email' => 'pbdf.pbdf.surfnet-2.email'
         ],
         'student' => [
             'irma_disclosure' => [
@@ -105,18 +109,19 @@ return [
                 'disclose' => [
                     [
                         [
-			  ['type' => 'pbdf.pbdf.surfnet-2.institute', 'value' => null],
-			  ['type' => 'pbdf.pbdf.surfnet-2.type', 'value' => 'employee'],
-			  ['type' => 'pbdf.pbdf.surfnet-2.familyname', 'value' => null],
-			  ['type' => 'pbdf.pbdf.surfnet-2.email', 'value' => null]
-			]
+              ['type' => 'pbdf.pbdf.surfnet-2.institute', 'value' => null],
+              ['type' => 'pbdf.pbdf.surfnet-2.type', 'value' => 'employee'],
+              ['type' => 'pbdf.pbdf.surfnet-2.familyname', 'value' => null],
+              ['type' => 'pbdf.pbdf.surfnet-2.email', 'value' => null]
+            ]
                     ]
                 ]
             ],
             'valid_authentication' => [
                 ['pbdf.pbdf.surfnet-2.institute', 'pbdf.pbdf.surfnet-2.type', 'pbdf.pbdf.surfnet-2.familyname', 'pbdf.pbdf.surfnet-2.email'],
             ],
-            'name' => [['pbdf.pbdf.surfnet-2.familyname']]
+            'name' => [['pbdf.pbdf.surfnet-2.familyname']],
+            'email' => 'pbdf.pbdf.surfnet-2.email'
         ]
 
 

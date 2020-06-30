@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Mail;
 use Session;
 use Config;
 
-
-
 class IrmaSessionController extends Controller
 {
     /**
@@ -32,15 +30,12 @@ class IrmaSessionController extends Controller
      */
     public function create($meetingType)
     {
- 	if ( $meetingType == "exam" ) {
- 	   $validated_email = Session::get('pbdf.pbdf.surfnet-2.email', '');
- 	} else {
- 	   $validated_email = Session::get('pbdf.pbdf.email.email', '');
- 	};
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-	$names = Config::get('disclosure-types.' . $disclosureTypeHost . '.name');
-	$validated_name = $this->_validate($meetingType, $names, false);
+        $test = Config::get('disclosure-types.' . $disclosureTypeHost . '.email');
+        $validated_email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), '');
+        $names = Config::get('disclosure-types.' . $disclosureTypeHost . '.name');
+        $validated_name = $this->_validate($meetingType, $names, false);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
             'validated_email' => $validated_email,
             'validated_name' => $validated_name
@@ -52,7 +47,7 @@ class IrmaSessionController extends Controller
             'buttons' => ''
         ]
         );
-    }    
+    }
 
 
     /**
@@ -62,7 +57,10 @@ class IrmaSessionController extends Controller
      */
     public function store(Request $request)
     {
-        $validated_email = Session::get('pbdf.pbdf.email.email', '');
+        $meetingType = $request->post('meeting_type');
+        $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
+        $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
+        $validated_email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), '');
         $validatedData = $request->validate([
             'meeting_name' => 'required|max:255',
             'hoster_name' => 'required',
@@ -165,7 +163,7 @@ class IrmaSessionController extends Controller
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        $email = Session::get('pbdf.pbdf.email.email', '');
+        $email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email'));
         if (($email !== '') && ($email === $hosterEmailAddress)) {
             //hoster is already logged in
             //TODO validate attributes
@@ -229,8 +227,9 @@ class IrmaSessionController extends Controller
         $bbbSessionId = $irmaSession->bbb_session_id;
         $meetingType = $irmaSession->meeting_type;
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
+        $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        $email = Session::get('pbdf.pbdf.email.email', '');
+        $email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email'));
         if ($email === $hosterEmailAddress) {
             $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         }
