@@ -41,25 +41,12 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-<<<<<<< HEAD
                         ['pbdf.gemeente.personalData.familyname', 'pbdf.gemeente.personalData.bsn']
-=======
-                        [
-                          'pbdf.gemeente.personalData.familyname',
-            #             'pbdf.nuts.agb.agbcode',
-                          'pbdf.gemeente.personalData.bsn'
-                        ]
->>>>>>> 9589be199603dee02ad8d9395df64c7d215c20f2
                     ]
                 ]
             ],
             'valid_authentication' => [
-<<<<<<< HEAD
                 ['pbdf.gemeente.personalData.bsn', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
-=======
-                #['pbdf.nuts.agb.agbcode', 'pbdf.gemeente.personalData.familyname', 'pbdf.pbdf.email.email'],
-                ['pbdf.gemeente.personalData.familyname', 'pbdf.pbdf.email.email'],
->>>>>>> 9589be199603dee02ad8d9395df64c7d215c20f2
             ],
             'name' => [
                 ['pbdf.gemeente.personalData.familyname'],
