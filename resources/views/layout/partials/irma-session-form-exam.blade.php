@@ -2,7 +2,7 @@
 
 		<form method="post" class="" action="{{ route('irma_session.store') }}">
 			{{ csrf_field() }}
-			<input id="meeting_type" name="meeting_type"  value="medical_consult" type="hidden">
+			<input id="meeting_type" name="meeting_type"  value="exam" type="hidden">
 		<div class="form-group">
 			<label class="control-label"  for="meeting_name">{{ __('Meeting name') }}</label>
 				<input id="meeting_name" name="meeting_name"  value="{{ old('meeting_name') }}" type="text" class="form-control @error('meeting_name') is-invalid @enderror">

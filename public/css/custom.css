@@ -177,6 +177,46 @@ p, li {
 	padding-bottom: 3rem;
 }
 
+.speech-bubble {
+	position: relative;
+	background: #1B4D8C;
+	border-radius: .4em;
+	padding: 1em;
+	color: white;
+}
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 21px solid transparent;
+	border-right-color: #1B4D8C;
+	border-left: 0;
+	margin-top: -21px;
+	margin-left: -21px;
+}
+
+.team {
+	max-height: 100%;
+	max-width: 100%;
+	width: auto;
+	height: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	padding: 3rem;
+	padding-top: 3rem;
+}
+
+#more {display: none;}
+
+
 @media (min-width: 767.98px) {
 	.card {
 		margin-left: -33.333333%;
@@ -226,6 +266,9 @@ p, li {
 		-webkit-column-count: 1;
 		-moz-column-count: 1;
 		column-count: 1;
+	}
+	.info, .footer {
+		padding: 2.5rem 1.5rem 2.5rem 1.5rem;
 	}
 }
 

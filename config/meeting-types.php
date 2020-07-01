@@ -21,7 +21,7 @@ return [
 
         ],
         'medical_consult' => [
-            'irma_disclosure' => 'default',
+            'irma_disclosure' => 'patient',
             'irma_disclosure_host' => 'medical',
             'attribute_abbreviation' => [
                 'pbdf.pbdf.email.email' => '<📧>',

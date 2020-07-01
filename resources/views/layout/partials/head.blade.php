@@ -31,3 +31,5 @@
 <!-- Custom styles for this template -->
 
 <link href="{{ url('/') }}/css/custom.css" rel="stylesheet">
+<script type="text/javascript" charset="utf-8" src="{{ url('/') }}/js/custom.js"></script>
+

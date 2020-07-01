@@ -41,10 +41,10 @@ class IrmaSessionController extends Controller
         ])->render();
         return view('layout/mainlayout')->with(
             [
-            'message' => $form,
-            'title' => '',
-            'buttons' => ''
-        ]
+                'message' => $form,
+                'title' => '',
+                'buttons' => ''
+            ]
         );
     }
 
@@ -76,7 +76,7 @@ class IrmaSessionController extends Controller
         $validatedData = array_merge($validatedData, ['irma_session_id' => $uniqueId, 'start_time' => now(), 'bbb_session_id' => $bbbSessionId]);
         $irma_session = \App\IrmaMeetSessions::create($validatedData);
 
-        //for all participants store data
+        // for all participants store data
         $participantsEmails = [];
         for ($i = 1; $i < 7; $i++) {
             if (in_array('participant_email_address' . $i, $validatedData)) {
@@ -113,27 +113,29 @@ class IrmaSessionController extends Controller
                     'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
                     'invitation_link' => $invitationLink,
                 ]));
-            if (count($participantsEmails)) {
-                //Send mail with links to participants
-                //TODO: create different invitation for participants
-                Mail::from($validatedData['hoster_email_address'])
-                ->bcc($participantsEmails)
-                ->send(new Invitation([
-                    'meeting_name' => $validatedData['meeting_name'],
-                    'hoster_name' => $validatedData['hoster_name'],
-                    'invitation_note' => $validatedData['invitation_note'],
-                    'invitation_link' => $invitationLink,
-                ]));
+
+            // Send mail to participants
+            if (!empty($validatedData['participant_email_address1'])) {
+                Mail::to($validatedData['participant_email_address1'])
+                    ->bcc($validatedData['hoster_email_address'])
+                    ->send(new Invitation([
+                        'meeting_name' => $validatedData['meeting_name'],
+                        'hoster_name' => $validatedData['hoster_name'],
+                        // 'invitation_note' => $validatedData['invitation_note'],
+                        'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
+                        'invitation_link' => $invitationLink,
+                    ]));
             }
+
             $mainContent = '<p>' . __('Meeting is successfully validated and data has been saved.') . '</p>';
             $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
             $mainContent .= '<a href="' . $invitationLink . '">' . $invitationLink . '</a>';
             return view('layout/mainlayout')->with(
                 [
-                'message' => $mainContent,
-                'title' => 'Success',
-                'buttons' => ''
-            ]
+                    'message' => $mainContent,
+                    'title' => 'Success',
+                    'buttons' => ''
+                ]
             );
             return view(
                 'layout/irma_session_success',
@@ -165,10 +167,10 @@ class IrmaSessionController extends Controller
             return $this->_join($irmaSessionId);
         }
         $mainContent = view('layout.partials.irma-session-join')->with([
-                'irmaSessionId' => $irmaSessionId,
-                'disclosureTypeHost' => $disclosureTypeHost,
-                'disclosureTypeParticipant' => $disclosureType
-            ])->render();
+            'irmaSessionId' => $irmaSessionId,
+            'disclosureTypeHost' => $disclosureTypeHost,
+            'disclosureTypeParticipant' => $disclosureType
+        ])->render();
         return view('layout/mainlayout')->with(
             [
                 'message' => $mainContent,
@@ -177,7 +179,7 @@ class IrmaSessionController extends Controller
             ]
         );
     }
-            
+
     public function join_host($irmaSessionId)
     {
         return $this->_join($irmaSessionId);
@@ -250,10 +252,10 @@ class IrmaSessionController extends Controller
             $mainContent = __('Your attributes could not be verified by IRMA.');
             return view('layout/mainlayout')->with(
                 [
-                'message' => $mainContent,
-                'title' => 'Error',
-                'buttons' => ''
-            ]
+                    'message' => $mainContent,
+                    'title' => 'Error',
+                    'buttons' => ''
+                ]
             );
         }
     }

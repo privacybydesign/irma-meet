@@ -40,12 +40,12 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.gemeente.personalData.familyname', 'pbdf.nuts.agb.agbcode']
+                        ['pbdf.gemeente.personalData.familyname', 'pbdf.gemeente.personalData.bsn']
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.nuts.agb.agbcode', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
+                ['pbdf.gemeente.personalData.bsn', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
             ],
             'name' => [
                 ['pbdf.gemeente.personalData.familyname'],
