@@ -131,7 +131,7 @@
             </main>
         </div>
 
-∏
+
         <!-- <div class="row-full bg-grey">
             <div class="info" style="padding-bottom: 1rem;">
                 <h2>{{ __('Know who you are talking to: three free options') }}</h2>
