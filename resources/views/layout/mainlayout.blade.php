@@ -132,60 +132,68 @@
         </div>
 
 
-        <div class="row-full bg-grey">
+        <!-- <div class="row-full bg-grey">
             <div class="info" style="padding-bottom: 1rem;">
                 <h2>{{ __('Know who you are talking to: three free options') }}</h2>
             </div>
             <div class="row img-warp tight">
                 <main class="col col-lg-3">
-                    <div><h5 style="text-align: center;">{{ __('Video meeting') }}</h5><img class="team" src="{{ url('/') }}/img/team.svg" /></div>
                     <div>
-                        
+                        <h5 style="text-align: center;">{{ __('Video meeting') }}</h5><img class="team" src="{{ url('/') }}/img/team.svg" />
+                    </div>
+                    <div>
+
                     </div>
                 </main>
                 <main class="col col-lg-9">
                     <div class="info">
-                        <div class="speech-bubble"><p><b>For whom?</b> Video meetings with up to six participants can be hosted by everyone, globally.
-                        <span id="dots">...</span><span id="more"> How does it work? The host proves who they are with the IRMA app, sets up the meeting and sends the meeting link to all participants. To enter the meeting, both host and participants must make themselves known by disclosing their email address and name, via the IRMA app.
-                            What do you need? For video meetings, both the host and the participants need their name and email-address in their IRMA apps. Users who live in the Netherlands can use their official name, from the national civil registry. International users use their name from LinkedIn. The latter is not really reliable because it is self-chosen and can be changed at any moment. The email address does offer more certainty, since it is verified. </div>
-</span></p>    
-<button onclick="toggleMoreOrLessInfo()" id="myBtn">Read more</button>
+                        <div class="speech-bubble">
+                            <p><b>For whom?</b> Video meetings with up to six participants can be hosted by everyone, globally.
+                                <span id="dots">...</span><span id="more"> How does it work? The host proves who they are with the IRMA app, sets up the meeting and sends the meeting link to all participants. To enter the meeting, both host and participants must make themselves known by disclosing their email address and name, via the IRMA app.
+                                    What do you need? For video meetings, both the host and the participants need their name and email-address in their IRMA apps. Users who live in the Netherlands can use their official name, from the national civil registry. International users use their name from LinkedIn. The latter is not really reliable because it is self-chosen and can be changed at any moment. The email address does offer more certainty, since it is verified.
+                        </div>
+                        </span></p>
+                        <button onclick="toggleMoreOrLessInfo()" id="myBtn">Read more</button>
 
-                                           </div>
+                    </div>
                 </main>
             </div>
             <div class="row img-warp tight">
                 <main class="col col-lg-3">
-                    <div><h5 style="text-align: center;">{{ __('Video exam') }}</h5><img class="team" src="{{ url('/') }}/img/exam.svg" /></div>
                     <div>
-                        
+                        <h5 style="text-align: center;">{{ __('Video exam') }}</h5><img class="team" src="{{ url('/') }}/img/exam.svg" />
+                    </div>
+                    <div>
+
                     </div>
                 </main>
                 <main class="col col-lg-9">
                     <div class="info">
                         <div class="speech-bubble"><b>For whom?</b> Academics in the Netherlands can use IRMA-meet for one-on-one oral exams via video, with verified identity of the student.
-How does it work? The teacher proves that they are a teacher with the IRMA app, sets up the meeting and sends the meeting link to the student. The student has to prove who (s)he is with the IRMA app before entering the video exam. The teacher then knows for sure that the right student is taking the exam.
-What do you need? For video exams, both the teacher and the student need the academic personal data from SURFconext in their IRMA app. </div>
+                            How does it work? The teacher proves that they are a teacher with the IRMA app, sets up the meeting and sends the meeting link to the student. The student has to prove who (s)he is with the IRMA app before entering the video exam. The teacher then knows for sure that the right student is taking the exam.
+                            What do you need? For video exams, both the teacher and the student need the academic personal data from SURFconext in their IRMA app. </div>
                     </div>
                 </main>
             </div>
             <div class="row img-warp tight">
                 <main class="col col-lg-3">
-                    <div><h5 style="text-align: center;">{{ __('Video medical consult') }}</h5><img class="team" src="{{ url('/') }}/img/medical.svg" /></div>
                     <div>
-                        
+                        <h5 style="text-align: center;">{{ __('Video medical consult') }}</h5><img class="team" src="{{ url('/') }}/img/medical.svg" />
+                    </div>
+                    <div>
+
                     </div>
                 </main>
                 <main class="col col-lg-9">
                     <div class="info">
                         <div class="speech-bubble"><b>For whom?</b> Doctors and other medical professionals in the Netherlands can use IRMA-meet for confidential medical video consults with patients.
-How does it work? The medical professional proves that they are a registered medical professional with the IRMA app, sets up the meeting and sends the meeting link to the
-patient. The patient has to prove who (s)he is with the IRMA app before entering the medical consult. The medical professional then knows for sure who the patient is.
-What do you need? To set up a medical consult, the medical professional needs his/her medical registration number (AGB) in their IRMA app. Patients need their name, date of birth and national registration number (BSN) from the civil registry BRP in their IRMA app. </div>
+                            How does it work? The medical professional proves that they are a registered medical professional with the IRMA app, sets up the meeting and sends the meeting link to the
+                            patient. The patient has to prove who (s)he is with the IRMA app before entering the medical consult. The medical professional then knows for sure who the patient is.
+                            What do you need? To set up a medical consult, the medical professional needs his/her medical registration number (AGB) in their IRMA app. Patients need their name, date of birth and national registration number (BSN) from the civil registry BRP in their IRMA app. </div>
                     </div>
                 </main>
             </div>
-        </div>
+        </div> -->
 
 
 
