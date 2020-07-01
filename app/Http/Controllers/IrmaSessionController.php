@@ -124,7 +124,7 @@ class IrmaSessionController extends Controller
                         // 'invitation_note' => $validatedData['invitation_note'],
                         'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
                         'invitation_link' => $invitationLink,
-                    ]));
+                     ]));
             }
 
             $mainContent = '<p>' . __('Meeting is successfully validated and data has been saved.') . '</p>';

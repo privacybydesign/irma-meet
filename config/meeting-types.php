@@ -43,7 +43,8 @@ return [
             'irma_disclosure' => 'student',
             'irma_disclosure_host' => 'teacher',
             'attribute_abbreviation' => [
-                'pbdf.pbdf.email.email' => '<📧>',
+#                'pbdf.pbdf.email.email' => '<📧>',
+                'pbdf.pbdf.email.email' => '<Email >',
                 'pbdf.gemeente.personalData.fullname' => '<BRP> ',
                 'pbdf.pbdf.linkedin.firstname' => '<LinkedIn> ',
                 'pbdf.pbdf.linkedin.familyname' => ' ',
@@ -52,7 +53,9 @@ return [
                 'pbdf.pbdf.surfnet-2.institute' => ' ',
                 'pbdf.pbdf.surfnet-2.type' => ' ',
                 'pbdf.pbdf.surfnet-2.familyname' => ' ',
-                'pbdf.pbdf.surfnet-2.id' => ' '
+                'pbdf.pbdf.surfnet-2.id' => ' ',
+#                'pbdf.pbdf.surnet-2.email' => '<📧>'
+                'pbdf.pbdf.surnet-2.email' => '<Email >'
             ],
             'number_of_participants' => 1
 

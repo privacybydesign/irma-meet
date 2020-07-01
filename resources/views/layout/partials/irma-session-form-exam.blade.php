@@ -19,12 +19,12 @@
 		</div>
 
 		<div>
-			<label for="invitation_note">{{ __('Invitation note') }}</label>
+			<label for="invitation_note">{{ __('Toelichting') }}</label>
 			<textarea id="invitation_note" name="invitation_note" class="@error('invitation_note') is-invalid @enderror">{{ old('invitation_note') }}</textarea>
 		</div>
 
 		<div>
-			<label for="participant_email_address1">{{ __('Student email address') }}</label>
+			<label for="participant_email_address1">{{ __('E-mailadres van student') }}</label>
 			<input id="participant_email_address1"  value="{{ old('participant_email_address1') }}" name="participant_email_address1" type="text" class="@error('participant_email_address1') is-invalid @enderror">
 		</div>
 		    <div class="form-group">        
