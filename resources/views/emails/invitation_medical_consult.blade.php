@@ -5,7 +5,7 @@
 <br>
 
 <div>
-  {{ $hoster_name }} has made a reservation for an IRMA-meet medical
+Medical professional {{ $hoster_name }} has made a reservation for an IRMA-meet medical
   video consult with you as a patient. This meeting has the link:
 </div>
 
@@ -27,6 +27,8 @@
   In case you do not have the IRMA app on your phone yet, you need to get the IRMA app first. You need to fill it with at least
   your name and your BSN (both from the Dutch civil registry BRP). You can find out more at the website <a href="https://irma.app">https://irma.app</a>.</li>
 </div>
+
+<br>
 
 <div>
   Enjoy your authenticated meeting!

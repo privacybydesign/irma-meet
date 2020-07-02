@@ -6,7 +6,7 @@ Dear Mr / Ms {{ $hoster_name }},
 
 <div>
 This mail confirms that you have made a reservation for a IRMA-meet
-video call with yourself as host. This meeting has the link:
+video exam with yourself as examiner. This meeting has the link:
 </div>
 
 <br>
@@ -21,21 +21,20 @@ video call with yourself as host. This meeting has the link:
 This link remains valid for 24 hours after this moment. Anytime
 during those 24 hours you can start the meeting by following this
 link. You will then have to (again) login at irma-meet.nl, with your
-name and email address from your IRMA app, before the video meeting
-actually starts. Your name and email address will then be visible to
-everyone else in the meeting.  
+academic personal data from SURFconext from your IRMA app, before the video meeting
+actually starts. Your name and role at the academic instutition will then be visible to
+the student.  
 </div>
 
 <br>
 
 <div>
-It is up to you to distribute the above meeting link to people that
-you wish to invite to the video meeting --- together with its start
-time, agenda, etc. You can pass on this link for instance via email or
-messaging. When the receiver follows the link that you include, (s)he
-will have to disclose their name and email address too, via IRMA. The
-disclosed name and email address of each participant are visible for
-everyone in the meeting.
+It is up to you to distribute the above meeting link to the student that
+you wish to invite to the video exam --- together with its start
+time and exam details, etc. You can pass on this link for instance via email or
+messaging. When the student follows the link that you include, (s)he
+will have to disclose his/her academic personal data from SURFconext too, via IRMA. The
+disclosed student number and name of the student are visible during the meeting.
 </div>
 
 <br>
@@ -47,10 +46,9 @@ Please note:
   finished, the host link expires. You can then create a new meeting,
   but you can not have two links/meeting reservations that are active
   at the same time.</li>
-<li>It is advised to inform the people that you invite that they need to
-  get the IRMA app first, and that they need to fill it with at least
-  their email address and name (from LinkedIn or from the Dutch civil
-  registry BRP). You can refer them to the website <a href="https://irma.app">https://irma.app</a> for
+<li>It is advised to inform the student that they need to
+  get the IRMA app first, and that they need to fill it with their academic personal data from SURFconext. 
+  You can refer them to the website <a href="https://irma.app">https://irma.app</a> for
   more information.</li>
 </div>
 

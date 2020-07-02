@@ -28,6 +28,8 @@
   your email address and name (from LinkedIn or from the Dutch civil registry BRP). You can find out more at the website <a href="https://irma.app">https://irma.app</a>.</li>
 </div>
 
+<br>
+
 <div>
   Enjoy your authenticated meeting!
 </div>

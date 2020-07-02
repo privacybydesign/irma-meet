@@ -20,22 +20,22 @@ medical video consult with yourself as the medical practicioner. This meeting ha
 <div> 
 This link remains valid for 24 hours after this moment. Anytime
 during those 24 hours you can start the meeting by following this
-link. You will then have to (again) login at irma-meet.nl, with your
-name and email address from your IRMA app, before the video meeting
-actually starts. Your name and email address will then be visible to
-everyone else in the meeting.  
+link. You will then have to (again) login at irma-meet.nl, with your 
+medical registration number (AGB) from your IRMA app, before the video meeting
+actually starts. Your name and AGB code will be visible to
+everyone in the meeting.  
 </div>
 
 <br>
 
 <div>
-It is up to you to distribute the above meeting link to people that
+It is up to you to distribute the above meeting link to the patient that
 you wish to invite to the video meeting --- together with its start
-time, agenda, etc. You can pass on this link for instance via email or
-messaging. When the receiver follows the link that you include, (s)he
-will have to disclose their name and email address too, via IRMA. The
-disclosed name and email address of each participant are visible for
-everyone in the meeting.
+time, etc. You can pass on this link for instance via email or
+messaging. When the patient follows the link that you include, (s)he
+will have to disclose his/her name, date of birth and national registration 
+number (BSN) from the civil registry BRP, via IRMA. This information will be 
+visible to everyone in the meeting.
 </div>
 
 <br>
@@ -48,11 +48,13 @@ Please note:
   but you can not have two links/meeting reservations that are active
   at the same time.</li>
 <li>It is advised to inform the people that you invite that they need to
-  get the IRMA app first, and that they need to fill it with at least
-  their email address and name (from LinkedIn or from the Dutch civil
-  registry BRP). You can refer them to the website <a href="https://irma.app">https://irma.app</a> for
+  get the IRMA app first, and that they need to fill it with at least their
+  personal data from the Dutch civil registry BRP). 
+  You can refer them to the website <a href="https://irma.app">https://irma.app</a> for
   more information.</li>
 </div>
+
+<br>
 
 <div>
 Enjoy your authenticated meeting!
