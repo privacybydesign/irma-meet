@@ -35,6 +35,7 @@ class Invitation extends Mailable
     public function build()
     {
         return $this->from($this->mailinfo['from'])->
+            replyTo($this->mailinfo['reply_to'])->
             view($this->mailinfo['content'])->
             subject("IRMA-meet link for " . $this->mailinfo['meeting_name'])->
             with([

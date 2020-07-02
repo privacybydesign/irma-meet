@@ -125,6 +125,7 @@ class IrmaSessionController extends Controller
             //Send mail with links to hoster
             Mail::to($validatedData['hoster_email_address'])
                 ->send(new Invitation([
+                    'reply_to' => env('MAIL_FROM_ADDRESS'),
                     'from' => env('MAIL_FROM_ADDRESS'),
                     'content' => 'emails.confirmation_' . $validatedData['meeting_type'],
                     'meeting_name' => $validatedData['meeting_name'],
@@ -133,19 +134,22 @@ class IrmaSessionController extends Controller
                     'invitation_link' => $invitationLink,
                 ]));
 
-            // Send mail to participants
-            if (!empty($participantsEmails)) {
-                Mail::to($validatedData['hoster_email_address'])
-                    ->bcc($participantsEmails)
+            // Send individual mails to all participants
+            for ($i = 1; $i < 7; $i++) {
+                if (!empty($validatedData['participant_email_address'. $i])) {
+                    Mail::to($validatedData['participant_email_address'. $i])
                     ->send(new Invitation([
-                        'from' => $validatedData['hoster_email_address'],
+                        'from' => env('MAIL_FROM_ADDRESS'),
+                        'reply_to' => $validatedData['hoster_email_address'],
                         'content' => 'emails.invitation_' . $validatedData['meeting_type'],
                         'meeting_name' => $validatedData['meeting_name'],
                         'hoster_name' => $validatedData['hoster_name'],
                         'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
                         'invitation_link' => $invitationLink,
                      ]));
+                }
             }
+   
 
             $mainContent = '<p>' . __('Meeting is successfully validated and data has been saved.') . '</p>';
             $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
