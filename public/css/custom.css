@@ -42,15 +42,13 @@ p, li {
 	background-color: #FFF;
 	border-color: #1B4D8C;
 	border-width: 2px;
-	color:#1B4D8C;
+	color: #1B4D8C;
 }
 
 .btn-secondary:hover {
 	background-color: #1B4D8C;
 	border-color: #FFF;
-
 }
-
 
 .bg-blue {
 	background-color: #1B4D8C;
@@ -214,6 +212,11 @@ p, li {
 	margin-left: -21px;
 }
 
+.light {
+	color: #FFF !important;
+	text-decoration: underline;
+}
+
 .type {
 	position: absolute;
 	width: 100%;
@@ -225,7 +228,7 @@ p, li {
 
 .typeH {
 	text-align: center;
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: bold;
 	font-family: 'Karla', sans-serif;
 	position: relative;
@@ -246,12 +249,16 @@ p, li {
 	cursor: pointer;
 }
 
+.toggle:hover {
+	font-weight: bold;
+}
+
 #more {
 	display: none;
 }
 
 @media (max-width: 575.98px) {
-	.type{
+	.type {
 		top: 5em;
 	}
 	.speech-bubble:after {

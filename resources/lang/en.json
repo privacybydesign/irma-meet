@@ -92,5 +92,21 @@
     "Meet online, without surprises": "",
     "Visit the <a\n                                href=\"https:\/\/github.com\/privacybydesign\/irma-meet\">GitHub repository<\/a>": "",
     "welcome": "",
-    "Not sure which meeting type is right for you? Find out more <a href=\"#threemeetings\">below<\/a>!":""
+    "Not sure which meeting type is right for you? Find out more <a href=\"#threemeetings\">below<\/a>!": "",
+    "Choose among three free options": "",
+    "Video meeting": "",
+    "Video exam": "",
+    "Video medical consult": "",
+    "For whom?": "",
+    "Video meetings with up to six participants can be hosted by everyone, globally.": "",
+    "How does it work?": "",
+    "The host proves who they are with the IRMA app, sets up the meeting and sends the meeting link to all participants. To enter the meeting, both host and participants must make themselves known by disclosing their email address and name, via the IRMA app.": "",
+    "What do you need?" : "",
+    "For video meetings, both the host and the participants need their <a href=\"https://privacybydesign.foundation/uitgifte/email/\" class=\"light\">email</a> and name in their IRMA app. Users who live in the Netherlands can use their official name, from the <a href=\"https://services.nijmegen.nl/irma/gemeente/start\" class=\"light\" >national civil registry</a>. International users use their name from or <a href=\"https://privacybydesign.foundation/uitgifte/social/linkedin/\" class=\"light\">LinkedIn</a>. The latter is not really reliable because it is self-chosen and can be changed at any moment. The email address does offer more certainty, since it is verified." : "",
+    "Academics in the Netherlands can use IRMA-meet for one-on-one oral exams via video, with verified identity of the student.": "",
+    "The teacher proves that they are a teacher with the IRMA app, sets up the meeting and sends the meeting link to the student. The student has to prove who (s)he is with the IRMA app before entering the video exam. The teacher then knows for sure that the right student is taking the exam." : "",
+    "For video exams, both the teacher and the student need the academic personal data from <a href=\"https://privacybydesign.foundation/uitgifte/surfnet/surfnet/\" class=\"light\">SURFconext</a> in their IRMA app.": "",
+    "Doctors and other medical professionals in the Netherlands can use IRMA-meet for confidential medical video consults with patients.": "",
+    "The medical professional proves that they are a registered medical professional with the IRMA app, sets up the meeting and sends the meeting link to the patient. The patient has to prove who (s)he is with the IRMA app before entering the medical consult. The medical professional then knows for sure who the patient is.":"",
+    "To set up a medical consult, the medical professional needs his/her <a href=\"https://irma-agb.nuts.nl/\" class=\"light\" >medical registration number (AGB-code)</a> in their IRMA app. Patients need their name, date of birth and national registration number (BSN) from the <a href=\"https://services.nijmegen.nl/irma/gemeente/start\" class=\"light\" >national civil registry (BRP)</a> in their IRMA app.": ""
 }
