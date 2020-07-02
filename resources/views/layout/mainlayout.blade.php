@@ -71,7 +71,7 @@
                     </div>
                     <div>
                     <div>
-                        {!! $more !!}
+                    {!! __('Not sure which meeting type is right for you? Find out more <a href="#threemeetings">below</a>!') !!}
                     </div>
                     <div id="errorbox" class="alert alert-danger alert-dismissible fade">
                         <span id="errorboxtext"></span>
