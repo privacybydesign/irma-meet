@@ -136,7 +136,7 @@
             <div class="info tight" style="padding-bottom: 1rem;">
                 <h2>{{ __('Choose among three free options') }}</h2>
             </div>
-            <div class="row img-warp tight">
+            <div class="row img-warp tight no-gutters">
                 <main class="col-sm-3">
                     <div class="type">
                         <p class="typeH" >{{ __('Video meeting') }}</p><img class="circles" src="{{ url('/') }}/img/team.svg" />
@@ -165,7 +165,7 @@
                     </div>
                 </main>
             </div>
-            <div class="row img-warp tight">
+            <div class="row img-warp tight no-gutters">
                 <main class="col-sm-3">
                     <div class="type">
                         <h5 class="typeH" >{{ __('Video exam') }}</h5><img class="circles" src="{{ url('/') }}/img/exam.svg" />
@@ -194,7 +194,7 @@
                     </div>
                 </main>
             </div>
-            <div class="row img-warp tight">
+            <div class="row img-warp tight no-gutters">
                 <main class="col-sm-3">
                     <div class="type">
                         <h5 class="typeH" >{{ __('Video medical consult') }}</h5><img class="circles" src="{{ url('/') }}/img/medical.svg" />
