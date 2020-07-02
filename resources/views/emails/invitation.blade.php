@@ -1,5 +1,5 @@
 <div>
-Dear\ Mr / Ms {{ $hoster_name }},
+Dear Mr / Ms {{ $hoster_name }},
 </div>
 
 <br>
