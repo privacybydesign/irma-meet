@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Mail;
 use Session;
 use Config;
 
+
+
+
 class IrmaSessionController extends Controller
 {
     /**
@@ -23,6 +26,7 @@ class IrmaSessionController extends Controller
         //
     }
 
+   
     /**
      * Show the create session screen.
      *
@@ -76,11 +80,15 @@ class IrmaSessionController extends Controller
         $validatedData = array_merge($validatedData, ['irma_session_id' => $uniqueId, 'start_time' => now(), 'bbb_session_id' => $bbbSessionId]);
         $irma_session = \App\IrmaMeetSessions::create($validatedData);
 
+        
+        
+
         // for all participants store data
         $participantsEmails = [];
         for ($i = 1; $i < 7; $i++) {
-            if (in_array('participant_email_address' . $i, $validatedData)) {
-                $irmaParticipant = [
+            // if (in_array('participant_email_address' . 1, $validatedData)) {
+            if (!empty($validatedData['participant_email_address'. $i])) {
+                    $irmaParticipant = [
                     'irma_session_id' => $irma_session['irma_session_id'],
                     'email_address' => $validatedData['participant_email_address' . $i],
                     'authentication' => 1,
@@ -88,7 +96,12 @@ class IrmaSessionController extends Controller
                 $irma_participants = \App\IrmaMeetParticipants::create($irmaParticipant);
                 array_push($participantsEmails, $irma_participants->email_address);
             }
+            
+              
         }
+
+       
+        
 
         $invitationLink = url('/') . "/irma_session/join/" . $uniqueId;
 
@@ -115,14 +128,13 @@ class IrmaSessionController extends Controller
                 ]));
 
             // Send mail to participants
-            if (!empty($validatedData['participant_email_address1'])) {
-                Mail::to($validatedData['participant_email_address1'])
+            if (!empty($participantsEmails)) {
+                Mail::to($participantsEmails)
                     ->bcc($validatedData['hoster_email_address'])
                     ->send(new Invitation([
                         'meeting_name' => $validatedData['meeting_name'],
                         'hoster_name' => $validatedData['hoster_name'],
-                        // 'invitation_note' => $validatedData['invitation_note'],
-                        'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
+                        'invitation_note' => $validatedData['invitation_note'],
                         'invitation_link' => $invitationLink,
                      ]));
             }
