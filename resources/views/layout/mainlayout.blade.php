@@ -69,6 +69,10 @@
                     <div class="">
                         {!! $buttons !!}
                     </div>
+                    <div>
+                    <div>
+                        {!! $more !!}
+                    </div>
                     <div id="errorbox" class="alert alert-danger alert-dismissible fade">
                         <span id="errorboxtext"></span>
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -132,7 +136,7 @@
         </div>
 
 
-        <div class="row-full bg-grey">
+        <div class="row-full bg-grey" id="threemeetings">
             <div class="info tight" style="padding-bottom: 1rem;">
                 <h2>{{ __('Choose among three free options') }}</h2>
             </div>

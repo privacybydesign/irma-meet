@@ -92,5 +92,6 @@
     "click here to request another": "",
     "Visit the <a\n                                href=\"https:\/\/github.com\/privacybydesign\/irma-meet\">GitHub repository<\/a>": "",
     "Send invite": "Stuur uitnodiging",
-    "welcome": "welkom"
+    "welcome": "welkom",
+    "more":"Not sure which meeting type is right for you? Find out more <a href=\"#threemeetings\">below<\/a>!"
 }

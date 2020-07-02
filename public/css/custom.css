@@ -38,6 +38,20 @@ p, li {
 	border-width: 2px;
 }
 
+.btn-secondary {
+	background-color: #FFF;
+	border-color: #1B4D8C;
+	border-width: 2px;
+	color:#1B4D8C;
+}
+
+.btn-secondary:hover {
+	background-color: #1B4D8C;
+	border-color: #FFF;
+
+}
+
+
 .bg-blue {
 	background-color: #1B4D8C;
 	color: #FFF;
