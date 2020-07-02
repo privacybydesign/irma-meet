@@ -34,7 +34,7 @@ class Invitation extends Mailable
      */
     public function build()
     {
-        return $this->from(env('MAIL_FROM_ADDRESS'))->
+        return $this->from($this->mailinfo['from'])->
             view('emails.invitation')->
             subject("IRMA-meet link for " . $this->mailinfo['meeting_name'])->
             with([
