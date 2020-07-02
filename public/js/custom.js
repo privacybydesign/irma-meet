@@ -15,18 +15,15 @@ function startInvitation(authUrl, redirectUrl) {
         });
 }
 
-function toggleMoreOrLessInfo() {
-    var dots = document.getElementById("dots");
-    var moreText = document.getElementById("more");
-    var btnText = document.getElementById("myBtn");
+function toggleMoreInfo(meetingType) {
+    var moreText = document.getElementById(meetingType);
+    var toggleText = document.getElementById(meetingType+"Btn");
   
-    if (dots.style.display === "none") {
-      dots.style.display = "inline";
-      btnText.innerHTML = "Read more"; 
+    if (toggleText.innerHTML == "Show less") {
+      toggleText.innerHTML = "Show more"; 
       moreText.style.display = "none";
     } else {
-      dots.style.display = "none";
-      btnText.innerHTML = "Read less"; 
+      toggleText.innerHTML = "Show less"; 
       moreText.style.display = "inline";
     }
   }
