@@ -92,7 +92,7 @@
     "Meet online, without surprises": "",
     "Visit the <a\n                                href=\"https:\/\/github.com\/privacybydesign\/irma-meet\">GitHub repository<\/a>": "",
     "welcome": "",
-    "Not sure which meeting type is right for you? Find out more <a href=\"#threemeetings\">below<\/a>!": "",
+    "Not sure which meeting type is right for you? <br> Find out more <a href=\"#threemeetings\">below<\/a>!": "",
     "Choose among three free options": "",
     "Video meeting": "",
     "Video exam": "",
@@ -108,5 +108,9 @@
     "For video exams, both the teacher and the student need the academic personal data from <a href=\"https://privacybydesign.foundation/uitgifte/surfnet/surfnet/\" class=\"light\">SURFconext</a> in their IRMA app.": "",
     "Doctors and other medical professionals in the Netherlands can use IRMA-meet for confidential medical video consults with patients.": "",
     "The medical professional proves that they are a registered medical professional with the IRMA app, sets up the meeting and sends the meeting link to the patient. The patient has to prove who (s)he is with the IRMA app before entering the medical consult. The medical professional then knows for sure who the patient is.":"",
-    "To set up a medical consult, the medical professional needs his/her <a href=\"https://irma-agb.nuts.nl/\" class=\"light\" >medical registration number (AGB-code)</a> in their IRMA app. Patients need their name, date of birth and national registration number (BSN) from the <a href=\"https://services.nijmegen.nl/irma/gemeente/start\" class=\"light\" >national civil registry (BRP)</a> in their IRMA app.": ""
+    "To set up a medical consult, the medical professional needs his/her <a href=\"https://irma-agb.nuts.nl/\" class=\"light\" >medical registration number (AGB-code)</a> in their IRMA app. Patients need their name, date of birth and national registration number (BSN) from the <a href=\"https://services.nijmegen.nl/irma/gemeente/start\" class=\"light\" >national civil registry (BRP)</a> in their IRMA app.": "",
+    "Create video meeting": "",
+    "Start medical video consult": "",
+    "Start video exam": "",
+    "<p style=\"font-size: 14px; color:#1B4D8C;\"><br>For use in the Netherlands:</p>": ""
 }

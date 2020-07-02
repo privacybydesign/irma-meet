@@ -63,15 +63,17 @@
             </main>
             <main class="col-md-4 bg-warmwhite">
                 <div class="content">
-                    <p class="cl-grey slogan">{{ __('AUTHENTICATED VIDEO CALLS') }}</p>
+                                      <p class="cl-grey slogan">{{ __('AUTHENTICATED VIDEO CALLS') }}</p>
                     <h1>{{ __('Meet online, without surprises') }}</h1>
                     <p>{{ __('Only people who prove who they are can participate in IRMA-meet video. Chat with certainty, without being fooled, in your business meeting, (medical) consult, or online oral exam.') }}</p>
+                    <br>
                     <div class="">
                         {!! $buttons !!}
                     </div>
                     <div>
                     <div>
-                    {!! __('Not sure which meeting type is right for you? Find out more <a href="#threemeetings">below</a>!') !!}
+                        <br>
+                    {!! __('Not sure which meeting type is right for you? <br> Find out more <a href="#threemeetings">below</a>!') !!}
                     </div>
                     <div id="errorbox" class="alert alert-danger alert-dismissible fade">
                         <span id="errorboxtext"></span>
