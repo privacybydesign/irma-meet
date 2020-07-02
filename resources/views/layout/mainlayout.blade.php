@@ -166,7 +166,7 @@
                 </main>
             </div>
             <div class="row img-warp tight">
-                <main class="col col-sm-3">
+                <main class="col-sm-3">
                     <div class="type">
                         <h5 class="typeH" >{{ __('Video exam') }}</h5><img class="circles" src="{{ url('/') }}/img/exam.svg" />
                     </div>
@@ -174,7 +174,7 @@
 
                     </div>
                 </main>
-                <main class="col col-sm-9">
+                <main class="col-sm-9">
                     <div class="info">
                         <div class="speech-bubble">
                             <p>
@@ -195,7 +195,7 @@
                 </main>
             </div>
             <div class="row img-warp tight">
-                <main class="col col-sm-3">
+                <main class="col-sm-3">
                     <div class="type">
                         <h5 class="typeH" >{{ __('Video medical consult') }}</h5><img class="circles" src="{{ url('/') }}/img/medical.svg" />
                     </div>
@@ -203,7 +203,7 @@
 
                     </div>
                 </main>
-                <main class="col col-sm-9">
+                <main class="col-sm-9">
                     <div class="info">
                         <div class="speech-bubble">
                             <p>
