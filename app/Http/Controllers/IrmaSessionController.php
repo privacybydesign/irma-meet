@@ -115,6 +115,10 @@ class IrmaSessionController extends Controller
         //$createParams->setModeratorPassword('hoster');
         $response = $bbb->createMeeting($createParams);
 
+        // echo '<script>';
+        // echo 'console.log('. json_encode('emails.invitation_' . $validatedData['meeting_type'] ) .')';
+        // echo '</script>';
+
         if ($response->getReturnCode() == 'FAILED') {
             return __('Can\'t create room! please contact our administrator.');
         } else {
@@ -122,7 +126,7 @@ class IrmaSessionController extends Controller
             Mail::to($validatedData['hoster_email_address'])
                 ->send(new Invitation([
                     'from' => env('MAIL_FROM_ADDRESS'),
-                    'content' => 'emails.confirmation',
+                    'content' => 'emails.confirmation_' . $validatedData['meeting_type'],
                     'meeting_name' => $validatedData['meeting_name'],
                     'hoster_name' => $validatedData['hoster_name'],
                     'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
@@ -131,14 +135,14 @@ class IrmaSessionController extends Controller
 
             // Send mail to participants
             if (!empty($participantsEmails)) {
-                Mail::to($participantsEmails)
-                    ->bcc($validatedData['hoster_email_address'])
+                Mail::to($validatedData['hoster_email_address'])
+                    ->bcc($participantsEmails)
                     ->send(new Invitation([
                         'from' => $validatedData['hoster_email_address'],
-                        'content' => 'emails.invitation',
+                        'content' => 'emails.invitation_' . $validatedData['meeting_type'],
                         'meeting_name' => $validatedData['meeting_name'],
                         'hoster_name' => $validatedData['hoster_name'],
-                        'invitation_note' => $validatedData['invitation_note'],
+                        'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
                         'invitation_link' => $invitationLink,
                      ]));
             }
