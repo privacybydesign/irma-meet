@@ -134,7 +134,7 @@
 
         <div class="row-full bg-grey">
             <div class="info tight" style="padding-bottom: 1rem;">
-                <h2 style="text-align: center;">{{ __('Choose among three free options') }}</h2>
+                <h2>{{ __('Choose among three free options') }}</h2>
             </div>
             <div class="row img-warp tight">
                 <main class="col col-lg-3">

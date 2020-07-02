@@ -229,6 +229,7 @@ p, li {
 	font-size: 0.9em;
 	text-decoration: underline;
 	text-transform: uppercase;
+	cursor: pointer;
 }
 
 #more {
