@@ -41,12 +41,12 @@ return [
                         ['pbdf.pbdf.email.email'],
                     ],
                     [
-                        ['pbdf.gemeente.personalData.familyname', 'pbdf.gemeente.personalData.bsn']
+                        ['pbdf.gemeente.personalData.familyname', 'pbdf.pbdf.mobilenumber.mobilenumber']
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.gemeente.personalData.bsn', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
+                ['pbdf.pbdf.mobilenumber.mobilenumber', 'pbdf.gemeente.personalData.familyname','pbdf.pbdf.email.email'],
             ],
             'name' => [
                 ['pbdf.gemeente.personalData.familyname'],
@@ -66,13 +66,13 @@ return [
               'pbdf.gemeente.personalData.initials',
               'pbdf.gemeente.personalData.gender',
               'pbdf.gemeente.personalData.dateofbirth',
-              'pbdf.gemeente.personalData.bsn'
+              'pbdf.pbdf.mobilenumber.mobilenumber'
             ]
                     ]
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.gemeente.personalData.familyname', 'pbdf.gemeente.personalData.initials', 'pbdf.gemeente.personalData.gender', 'pbdf.gemeente.personalData.dateofbirth', 'pbdf.gemeente.personalData.bsn'],
+                ['pbdf.gemeente.personalData.familyname', 'pbdf.gemeente.personalData.initials', 'pbdf.gemeente.personalData.gender', 'pbdf.gemeente.personalData.dateofbirth', 'pbdf.pbdf.mobilenumber.mobilenumber'],
             ],
             'name' => [
                 ['pbdf.gemeente.personalData.initials', 'pbdf.gemeente.personalData.familyname'],

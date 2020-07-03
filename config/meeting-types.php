@@ -34,7 +34,7 @@ return [
                 'pbdf.gemeente.personalData.initials' => ' ',
                 'pbdf.gemeente.personalData.gender' => ' ',
                 'pbdf.gemeente.personalData.dateofbirth' => ' ',
-                'pbdf.gemeente.personalData.bsn' => ' '
+                'pbdf.pbdf.mobilenumber.mobilenumber' => ' '
             ],
             'number_of_participants' => 1
 
