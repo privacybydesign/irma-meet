@@ -123,7 +123,7 @@ class IrmaSessionController extends Controller
             return __('Can\'t create room! please contact our administrator.');
         } else {
 
-            // Send emails in the language that the site is viewed
+            // Send emails in the language in which the site is viewed
             $locale ="en";
 
             if (session()->has('locale')) {
