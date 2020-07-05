@@ -362,7 +362,7 @@
                     <h5>{{ __('Contact') }}</h5>
                     <p>{!! __('Visit the <a href="https://www.procolix.com">ProcoliX website</a> for more information about the hosting company.') !!}</p>
 
-                    <p>{!! __('Visit the <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> for background information and the <a href="https://www.irma.app">IRMA website</a> to learn more about the IRMA app.') !!}</p>
+                    <p>{!! __('Visit the <a href="https://www.irma.app">irma.app</a> website to learn more about the IRMA app and go to <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> for background information.') !!}</p>
 
                     <p> <i class="fa fa-twitter"></i>
                         {{ __('Follow us on twitter:') }}</p>
