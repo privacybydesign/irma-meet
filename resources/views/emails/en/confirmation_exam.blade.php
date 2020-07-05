@@ -17,25 +17,30 @@ video exam with yourself as examiner. This meeting has the link:
 
 <br>
 
-<div> 
-This link remains valid for 24 hours after this moment. Anytime
-during those 24 hours you can start the meeting by following this
-link. You will then have to (again) login at irma-meet.nl, with your
-academic personal data from SURFconext from your IRMA app, before the video meeting
-actually starts. Your name and role at the academic instutition will then be visible to
-the student.  
+<div>
+
+This link remains valid for 24 hours after this moment. Anytime during
+those 24 hours you can start the meeting by following this link. You
+will then have to (again) login as teacher at irma-meet.nl, with your
+academic card from SURFconext from your IRMA app, before the video
+meeting actually starts. Your name and email address will then be
+visible to the student.
+
 </div>
 
 <br>
 
 <div>
-It is up to you to distribute the above meeting link to the student that
-you wish to invite to the video exam --- together with its start
-time and exam details, etc. You can pass on this link for instance via email or
-messaging. When the student follows the link that you include, (s)he
-will have to disclose his/her academic personal data from SURFconext too, via IRMA. The
-disclosed student number and name of the student are visible during the meeting.
-</div>
+
+It is up to you to make sture the student also gets the above link for
+the exam. You may already have ensured this by filling in the
+student's email address when you created this meeting reservation.
+You can (re)send the above meeting link to the student, together with
+its start time and exam details, etc. When the student follows the
+link, he/she will have to make him/herself known, via IRMA, with:
+name, email adress, student number. These personal data will be
+visible during the meeting, so that you can be sure about the
+student's identity.
 
 <br>
 
@@ -46,10 +51,15 @@ Please note:
   finished, the host link expires. You can then create a new meeting,
   but you can not have two links/meeting reservations that are active
   at the same time.</li>
-<li>It is advised to inform the student that they need to
-  get the IRMA app first, and that they need to fill it with their academic personal data from SURFconext. 
-  You can refer them to the website <a href="https://irma.app">https://irma.app</a> for
-  more information.</li>
+
+<li>It is advised to inform your students in advance that they need
+  the IRMA app for these oral exams. Thus, students need to install the
+  app first, register, and then load the academic card from
+  SURFconext.  You can refer them to the websites <a
+  href="https://irma.app">https://irma.app</a> and <a
+  href="https://privacybydesign.foundation/issuance/surfnet/surfnet/">academic
+  card</a> for more information.
+</li>
 </div>
 
 <div>

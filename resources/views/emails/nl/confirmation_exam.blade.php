@@ -1,12 +1,15 @@
 <div>
-Beste Mr / Ms {{ $hoster_name }},
+Beste heer, mevrouw {{ $hoster_name }},
 </div>
 
 <br>
 
 <div>
-This mail confirms that you have made a reservation for a IRMA-meet
-video exam with yourself as examiner. This meeting has the link:
+
+Je hebt een reservering gemaakt voor een IRMA-meet video tentamen met
+jezelf in de rol van docent (tentaminator). De link voor dit tentamen
+is:
+
 </div>
 
 <br>
@@ -17,43 +20,56 @@ video exam with yourself as examiner. This meeting has the link:
 
 <br>
 
-<div> 
-This link remains valid for 24 hours after this moment. Anytime
-during those 24 hours you can start the meeting by following this
-link. You will then have to (again) login at irma-meet.nl, with your
-academic personal data from SURFconext from your IRMA app, before the video meeting
-actually starts. Your name and role at the academic instutition will then be visible to
-the student.  
+<div>
+
+Deze link blijft 24 uur geldig, vanaf nu. Op ieder moment tijdens deze
+24 uur kun je het tentamen starten via deze link.  Je moet dan
+(opnieuw) als docent inloggen op irma-meet.nl, met je academische
+kaartje (van SURFcontext) in je IRMA app, voordat het tentamen van
+start kan gaan. Je naam en e-mail zullen dan zichtbaar zijn voor de
+student die tentamen doet.
+
 </div>
 
 <br>
 
 <div>
-It is up to you to distribute the above meeting link to the student that
-you wish to invite to the video exam --- together with its start
-time and exam details, etc. You can pass on this link for instance via email or
-messaging. When the student follows the link that you include, (s)he
-will have to disclose his/her academic personal data from SURFconext too, via IRMA. The
-disclosed student number and name of the student are visible during the meeting.
+
+Het is aan jou om te zorgen dat de student ook de link van het
+tentamen krijgt, om deel te kunnen nemen. Mogelijk heb je dat al
+geregeld door het e-mailadres van de student in te vullen in het
+formulier bij het aanmaken van het tentamen. Je kunt ook bovenstaande
+link nog een keer doorsturen aan de student, samen met het tijdstip
+van het tentamen en met eventuele andere relevante details. Wanneer de
+student op de link klikt moet hij/zij zichzelf bekendmaken, via IRMA,
+met: naam, e-mailadres en studentnummer. Deze gegevens zijn tijdens
+het tentamen zichtbaar.  Je kunt ze gebruiken om zeker te zijn van de
+identiteit van de student.
+
 </div>
 
 <br>
 
 <div>
-Please note:
+Merk op:
 <ul>
-<li>When the meeting is
-  finished, the host link expires. You can then create a new meeting,
-  but you can not have two links/meeting reservations that are active
-  at the same time.</li>
-<li>It is advised to inform the student that they need to
-  get the IRMA app first, and that they need to fill it with their academic personal data from SURFconext. 
-  You can refer them to the website <a href="https://irma.app">https://irma.app</a> for
-  more information.</li>
+<li> Wanneer de video bijeenkomst afgesloten wordt kun je een nieuw
+tentamen plannen, maar je kunt geen twee actieve links/bijeenkomsten
+tegelijkertijd hebben.
+</li>
+
+<li> Het is verstandig je studenten van te voren in te lichten dat ze de
+IRMA app nodig hebben voor deze mondelinge tentamens. Studenten moeten
+de app dus eerst installeren, zich registreren, en vullen met het
+academische kaartje van SURFconext. Je kunt ze verwijzen naar de
+websites <a href="https://irma.app">https://irma.app</a> en <a
+href="https://privacybydesign.foundation/uitgifte/surfnet/surfnet/">academisch
+kaartje</a> voor meer informatie.
+</li>
 </div>
 
 <div>
-Enjoy your authenticated meeting!
+Veel succes met dit videobellen met zekerheid.
 </div>
 
 <div>

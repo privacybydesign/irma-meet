@@ -5,8 +5,9 @@ Dear Mr / Ms {{ $hoster_name }},
 <br>
 
 <div>
-This mail confirms that you have made a reservation for a IRMA-meet
-medical video consult with yourself as the medical practicioner. This meeting has the link:
+This mail confirms that you have made a reservation for a
+IRMA-meet medical video consult with yourself as the medical
+practicioner. This meeting has the link:
 </div>
 
 <br>
@@ -18,24 +19,31 @@ medical video consult with yourself as the medical practicioner. This meeting ha
 <br>
 
 <div> 
-This link remains valid for 24 hours after this moment. Anytime
-during those 24 hours you can start the meeting by following this
-link. You will then have to (again) login at irma-meet.nl, with your 
-medical registration number (AGB) from your IRMA app, before the video meeting
-actually starts. Your name and AGB code will be visible to
-everyone in the meeting.  
+
+This link remains valid for 24 hours after this moment. Anytime during
+those 24 hours you can start the meeting by following this link. You
+will then have to (again) login as medical professional at
+irma-meet.nl, with your medical registration number (AGB), name and
+email address, from your IRMA app, before the video consult actually
+starts. Your name, email and AGB-code can be seen by the patient
+in the video meeting.
+
 </div>
 
 <br>
 
 <div>
-It is up to you to distribute the above meeting link to the patient that
-you wish to invite to the video meeting --- together with its start
-time, etc. You can pass on this link for instance via email or
-messaging. When the patient follows the link that you include, (s)he
-will have to disclose his/her name, date of birth and national registration 
-number (BSN) from the civil registry BRP, via IRMA. This information will be 
-visible to everyone in the meeting.
+
+It is up to you to make sture your patient also gets the above link
+for the video consult. You may already have ensured this by filling in
+the patient's email address when you created this meeting reservation.
+You can (re)send the above meeting link to the patient, together with
+its start time and consult details, etc. When the patient follows the
+link, he/she will have to make him/herself known, via IRMA, with:
+name, date of birth, gender and citizen registration number
+(BSN). These personal data will be visible during the meeting, so that
+you can be sure about the patient's identity.
+
 </div>
 
 <br>
@@ -46,12 +54,17 @@ Please note:
 <li>When the meeting is
   finished, the host link expires. You can then create a new meeting,
   but you can not have two links/meeting reservations that are active
-  at the same time.</li>
-<li>It is advised to inform the people that you invite that they need to
-  get the IRMA app first, and that they need to fill it with at least their
-  personal data from the Dutch civil registry BRP). 
-  You can refer them to the website <a href="https://irma.app">https://irma.app</a> for
-  more information.</li>
+  at the same time.
+  </li>
+
+<li>It is advised to inform your patients in advance that they need
+  the IRMA app for these medical video consults. Thus, patients need
+  to install the app first, register, and then load the citizen card
+  (BRP).  You can refer them to the websites <a
+  href="https://irma.app">https://irma.app</a> and <a
+  href="https://services.nijmegen.nl/irma/gemeente/start">citizen
+  card</a> for more information.
+</li>
 </div>
 
 <br>
