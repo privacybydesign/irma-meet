@@ -31,9 +31,11 @@ class IrmaSessionController extends Controller
      */
     public function create($meetingType)
     {
-        $validated_email = session()->get('pbdf.pbdf.email.email', '');
+  
+
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
+        $validated_email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), '');
         $names = Config::get('disclosure-types.' . $disclosureTypeHost . '.name');
         $validated_name = $this->_validate($meetingType, $names, false);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
@@ -134,7 +136,7 @@ class IrmaSessionController extends Controller
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        $email = session()->get('pbdf.pbdf.email.email', '');
+        $email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email'));
         if (($email !== '') && ($email === $hosterEmailAddress)) {
             //hoster is already logged in
             //TODO validate attributes again?
@@ -232,7 +234,9 @@ class IrmaSessionController extends Controller
         $meetingType = $irmaSession->meeting_type;
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
 
-        $email = session()->get('pbdf.pbdf.email.email', '');
+        $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
+
+        $email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email'));
         if ($email === $hosterEmailAddress) {
             $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         }
