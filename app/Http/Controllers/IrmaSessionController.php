@@ -218,7 +218,7 @@ class IrmaSessionController extends Controller
                         'content' => 'emails.' . $locale . '.invitation_' . $validatedData['meeting_type'],
                         'meeting_name' => $validatedData['meeting_name'],
                         'hoster_name' => $validatedData['hoster_name'],
-                        'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
+                        'invitation_note' => !empty($validatedData['invitation_note']) ? __('This mail mostly contains general information, but specifically for this meeting the host has added the following personal message: ') . $validatedData['invitation_note'] : '',
                         'invitation_link' => $invitationLink,
                      ]));
             }

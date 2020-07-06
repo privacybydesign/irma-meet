@@ -16,6 +16,10 @@ Medical professional {{ $hoster_name }} has made a reservation for an IRMA-meet 
 </div>
 
 <br>
+<div>
+  {{ $invitation_note }}
+</div>
+<br>
 
 <div>
   You can join the meeting by following this link. You will then have to login at irma-meet.nl, with your name and BSN from your IRMA app to join the meeting. Your name and BSN address will then be visible to the doctor in the meeting.

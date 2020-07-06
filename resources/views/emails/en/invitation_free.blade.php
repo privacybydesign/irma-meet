@@ -16,6 +16,10 @@
 </div>
 
 <br>
+<div>
+  {{ $invitation_note }}
+</div>
+<br>
 
 <div>
   You can join the meeting by following this link. You will then have to login at irma-meet.nl, with your name and email address from your IRMA app to join the meeting. Your name and email address will then be visible to everyone else in the meeting.

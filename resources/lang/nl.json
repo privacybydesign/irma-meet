@@ -118,5 +118,6 @@
     "Create video meeting": "Maak een video vergadering aan",
     "Start medical video consult": "Start medisch video consult",
     "Start oral video exam": "Start mondeling video tentamen",
-    "<p style=\"font-size: 14px; color:#1B4D8C;\"><br>For Dutch usage:</p>": "<p style=\"font-size: 14px; color:#1B4D8C;\"><br>Voor Nederlands gebruik:</p>"
+    "<p style=\"font-size: 14px; color:#1B4D8C;\"><br>For Dutch usage:</p>": "<p style=\"font-size: 14px; color:#1B4D8C;\"><br>Voor Nederlands gebruik:</p>",
+    "This mail mostly contains general information, but specifically for this meeting the host has added the following personal message: ": "Deze mail bevat vooral algemene informatie, maar specifiek voor deze bijeenkomst heeft de host de volgende persoonlijke boodschap toegevoegd: "
 }
