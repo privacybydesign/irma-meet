@@ -41,7 +41,7 @@ class IrmaAuthController extends Controller
      */
     public function authenticate($disclosureType, $url)
     {
-        $token = Session::get('irma_session_token', '');
+        $token = session()->get('irma_session_token', '');
         if ($token === '') {
             $mainContent = view('layout.partials.irma-authenticate')->with([
                 'url' => urldecode(urldecode($url)),

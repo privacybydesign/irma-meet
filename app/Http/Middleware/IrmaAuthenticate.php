@@ -17,7 +17,7 @@ class IrmaAuthenticate
      */
     public function handle($request, Closure $next)
     {
-        $token = Session::get('irma_session_token', '');
+        $token = session()->get('irma_session_token', '');
         if ($request->route()->getName() === 'irma_auth.start') {
             //start session
             $disclosureType = $request->route('disclosureType');
@@ -25,12 +25,12 @@ class IrmaAuthenticate
             if ($response) {
                 return response($this->start($disclosureType));
             } else {
-                return redirect()->route('irma_session.authenticate', Session::get('disclosure_type', 'default'), urlencode(urlencode(\URL::to('/').'/'.$request->path())));
+                return redirect()->route('irma_session.authenticate', session()->get('disclosure_type', 'default'), urlencode(urlencode(\URL::to('/').'/'.$request->path())));
             }
         } elseif ($token === '') {
             //echo \URL::to('/').'/'.$request->path();
             //return \URL::to('/').'/'.$request->path();
-            return redirect()->route('irma_session.authenticate', Session::get('disclosure_type', 'default'), urlencode(urlencode(\URL::to('/').'/'.$request->path())));
+            return redirect()->route('irma_session.authenticate', session()->get('disclosure_type', 'default'), urlencode(urlencode(\URL::to('/').'/'.$request->path())));
         } else {
             //verify
             $result = $this->irma_get_session_result($token);

@@ -31,7 +31,7 @@ class IrmaSessionController extends Controller
      */
     public function create($meetingType)
     {
-        $validated_email = Session::get('pbdf.pbdf.email.email', '');
+        $validated_email = session()->get('pbdf.pbdf.email.email', '');
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         $names = Config::get('disclosure-types.' . $disclosureTypeHost . '.name');
@@ -56,7 +56,8 @@ class IrmaSessionController extends Controller
      */
     public function store(Request $request)
     {
-        $validated_email = Session::get('pbdf.pbdf.email.email', '');
+        $validated_email = session()->get('pbdf.pbdf.email.email', '');
+        //TODO: find a way to have infinite participan_email_addresses in validation
         $validatedData = $request->validate([
             'meeting_name' => 'required|max:255',
             'hoster_name' => 'required',
@@ -77,9 +78,6 @@ class IrmaSessionController extends Controller
         $validatedData = array_merge($validatedData, ['irma_session_id' => $uniqueId, 'start_time' => now(), 'bbb_session_id' => $bbbSessionId]);
         $irma_session = \App\IrmaMeetSessions::create($validatedData);
 
-        
-        
-
         // for all participants store data
         $participantsEmails = [];
         for ($i = 1; $i < 7; $i++) {
@@ -95,9 +93,6 @@ class IrmaSessionController extends Controller
             }
         }
 
-       
-        
-
         $invitationLink = url('/') . "/irma_session/join/" . $uniqueId;
 
         //Create session in BBB
@@ -105,55 +100,14 @@ class IrmaSessionController extends Controller
         $createParams = new CreateMeetingParameters($bbbSessionId, $validatedData['meeting_name']);
         //we use an md5 hash from the bbb session id. The bbb session id is not exposed, so md5 should be enough protection
         $createParams->setAttendeePassword(hash('sha256', 'participant' . $bbbSessionId));
-        //$createParams->setAttendeePassword('participant');
         $createParams->setModeratorPassword(hash('sha256', 'hoster' . $bbbSessionId));
-        //$createParams->setModeratorPassword('hoster');
         $response = $bbb->createMeeting($createParams);
-
-        // echo '<script>';
-        // echo 'console.log('. json_encode('emails.invitation_' . $validatedData['meeting_type'] ) .')';
-        // echo '</script>';
 
         if ($response->getReturnCode() == 'FAILED') {
             return __('Can\'t create room! please contact our administrator.');
         } else {
-
-            // Send emails in the language in which the site is viewed
-            $locale ="en";
-
-            if (session()->has('locale')) {
-                $locale = session()->get('locale');  
-            }
-    
-            //Send mail with links to hoster
-            Mail::to($validatedData['hoster_email_address'])
-                ->send(new Invitation([
-                    'reply_to' => env('MAIL_FROM_ADDRESS'),
-                    'from' => env('MAIL_FROM_ADDRESS'),
-                    'content' => 'emails.' . $locale . '.confirmation_' . $validatedData['meeting_type'],
-                    'meeting_name' => $validatedData['meeting_name'],
-                    'hoster_name' => $validatedData['hoster_name'],
-                    'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
-                    'invitation_link' => $invitationLink,
-                ]));
-
-            // Send individual mails to all participants
-            for ($i = 1; $i < 7; $i++) {
-                if (!empty($validatedData['participant_email_address'. $i])) {
-                    Mail::to($validatedData['participant_email_address'. $i])
-                    ->send(new Invitation([
-                        'from' => env('MAIL_FROM_ADDRESS'),
-                        'reply_to' => $validatedData['hoster_email_address'],
-                        'content' => 'emails.' . $locale . '.invitation_' . $validatedData['meeting_type'],
-                        'meeting_name' => $validatedData['meeting_name'],
-                        'hoster_name' => $validatedData['hoster_name'],
-                        'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
-                        'invitation_link' => $invitationLink,
-                     ]));
-                }
-            }
-   
-
+            //send emails to hosteer and participants
+            $this->_send_mail($validatedData, $invitationLink);
             $mainContent = '<p>' . __('Meeting is successfully validated and data has been saved.') . '</p>';
             $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
             $mainContent .= '<a href="' . $invitationLink . '">' . $invitationLink . '</a>';
@@ -162,13 +116,6 @@ class IrmaSessionController extends Controller
                     'message' => $mainContent,
                     'title' => 'Success',
                     'buttons' => ''
-                ]
-            );
-            return view(
-                'layout/irma_session_success',
-                [
-                    'mainContent' => $mainContent,
-                    'invitationLink' => $invitationLink
                 ]
             );
         }
@@ -187,10 +134,10 @@ class IrmaSessionController extends Controller
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        $email = Session::get('pbdf.pbdf.email.email', '');
+        $email = session()->get('pbdf.pbdf.email.email', '');
         if (($email !== '') && ($email === $hosterEmailAddress)) {
             //hoster is already logged in
-            //TODO validate attributes
+            //TODO validate attributes again?
             return $this->_join($irmaSessionId);
         }
         $mainContent = view('layout.partials.irma-session-join')->with([
@@ -225,7 +172,7 @@ class IrmaSessionController extends Controller
             $validAttr = true;
             $visibleName = '';
             foreach ($authentication as $attribute) {
-                $value = Session::get($attribute, '');
+                $value = session()->get($attribute, '');
                 if ($value == '') {
                     $validAttr = false;
                 } else {
@@ -243,6 +190,39 @@ class IrmaSessionController extends Controller
         return $visibleName;
     }
 
+    private function _send_mail($validatedData, $invitationLink)
+    {
+        // Send emails in the language in which the site is viewed
+        $locale = session()->get('locale', 'en');
+    
+        //Send mail with links to hoster
+        Mail::to($validatedData['hoster_email_address'])
+                ->send(new Invitation([
+                    'reply_to' => env('MAIL_FROM_ADDRESS'),
+                    'from' => env('MAIL_FROM_ADDRESS'),
+                    'content' => 'emails.' . $locale . '.confirmation_' . $validatedData['meeting_type'],
+                    'meeting_name' => $validatedData['meeting_name'],
+                    'hoster_name' => $validatedData['hoster_name'],
+                    'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
+                    'invitation_link' => $invitationLink,
+                ]));
+
+        // Send individual mails to all participants
+        for ($i = 1; $i < 7; $i++) {
+            if (!empty($validatedData['participant_email_address'. $i])) {
+                Mail::to($validatedData['participant_email_address'. $i])->send(new Invitation([
+                        'from' => env('MAIL_FROM_ADDRESS'),
+                        'reply_to' => $validatedData['hoster_email_address'],
+                        'content' => 'emails.' . $locale . '.invitation_' . $validatedData['meeting_type'],
+                        'meeting_name' => $validatedData['meeting_name'],
+                        'hoster_name' => $validatedData['hoster_name'],
+                        'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
+                        'invitation_link' => $invitationLink,
+                     ]));
+            }
+        }
+    }
+
     private function _join($irmaSessionId)
     {
         $irmaSession = \App\IrmaMeetSessions::where('irma_session_id', $irmaSessionId)->first();
@@ -252,7 +232,7 @@ class IrmaSessionController extends Controller
         $meetingType = $irmaSession->meeting_type;
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
 
-        $email = Session::get('pbdf.pbdf.email.email', '');
+        $email = session()->get('pbdf.pbdf.email.email', '');
         if ($email === $hosterEmailAddress) {
             $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         }

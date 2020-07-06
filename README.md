@@ -20,3 +20,8 @@ Generate unique key:
 ```
 php artisan key:generate
 ```
+
+## Translation
+The application is localized. The translations are in 
+- /resources/views/emails/
+- /resources/lang/
