@@ -14,16 +14,3 @@ function startInvitation(authUrl, redirectUrl) {
             document.getElementById('errorbox').style.opacity = "1";
         });
 }
-
-function toggleMoreInfo(meetingType) {
-    var moreText = document.getElementById(meetingType);
-    var toggleText = document.getElementById(meetingType+"Btn");
-  
-    if (toggleText.innerHTML == "Show less") {
-      toggleText.innerHTML = "Show more"; 
-      moreText.style.display = "none";
-    } else {
-      toggleText.innerHTML = "Show less"; 
-      moreText.style.display = "inline";
-    }
-  }
