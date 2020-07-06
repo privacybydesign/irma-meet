@@ -71,6 +71,8 @@
     "Meeting name": "Naam bijeenkomst",
     "Host name": "Naam van host",
     "Host email address": "E-mail van host",
+    "Participant email address": "E-mail van deelnemer",
+    "Invitation note": "Uitnodigingsbericht",
     "Send me the meeting link": "Stuur me de link van de bijeenkomst",
     "Meeting has been set up successfully": "De bijeenkomst is aangemaakt",
     "Use the link below to share with your participants:": "Gebruik de link hieronder om aan de deelnemers te sturen.",

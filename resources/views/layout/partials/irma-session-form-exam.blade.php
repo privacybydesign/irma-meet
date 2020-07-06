@@ -9,12 +9,12 @@
 		</div>
 
 		<div class="form-group">
-			<label class="control-label"  for="hoster_name">{{ __('Hoster name') }}</label>
+			<label class="control-label"  for="hoster_name">{{ __('Host name') }}</label>
 				<input id="hoster_name" name="hoster_name"  value="{{ $validated_name }}" type="text" class="form-control @error('hoster_name') is-invalid @enderror" readonly>
 		</div>
 
 		<div class="form-group">
-			<label class="control-label"  for="hoster_email_address">{{ __('Hoster email address') }}</label>
+			<label class="control-label"  for="hoster_email_address">{{ __('Host email address') }}</label>
 				<input id="hoster_email_address"  value="{{ $validated_email }}" name="hoster_email_address" type="text" class="form-control @error('hoster_email_address') is-invalid @enderror" readonly>
 		</div>
 
