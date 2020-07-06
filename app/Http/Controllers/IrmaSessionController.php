@@ -108,7 +108,7 @@ class IrmaSessionController extends Controller
         if ($response->getReturnCode() == 'FAILED') {
             return __('Can\'t create room! please contact our administrator.');
         } else {
-            //send emails to hosteer and participants
+            //send emails to hoster and participants
             $this->_send_mail($validatedData, $invitationLink);
             $mainContent = '<p>' . __('Meeting is successfully validated and data has been saved.') . '</p>';
             $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
@@ -205,7 +205,7 @@ class IrmaSessionController extends Controller
                     'content' => 'emails.' . $locale . '.confirmation_' . $validatedData['meeting_type'],
                     'meeting_name' => $validatedData['meeting_name'],
                     'hoster_name' => $validatedData['hoster_name'],
-                    'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
+                    'invitation_note' => !empty($validatedData['invitation_note']) ? __('The meeting link has also been sent to the participant, together with the following personal message: ') . $validatedData['invitation_note'] :  __('The meeting link has also been sent to the participant.'),
                     'invitation_link' => $invitationLink,
                 ]));
 

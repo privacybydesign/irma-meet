@@ -29,18 +29,14 @@ visible to the student.
 </div>
 
 <br>
+<div>
+  {{ $invitation_note }}
+</div>
+<br>
 
 <div>
 
-It is up to you to make sture the student also gets the above link for
-the exam. You may already have ensured this by filling in the
-student's email address when you created this meeting reservation.
-You can (re)send the above meeting link to the student, together with
-its start time and exam details, etc. When the student follows the
-link, he/she will have to make him/herself known, via IRMA, with:
-name, email adress, student number. These personal data will be
-visible during the meeting, so that you can be sure about the
-student's identity.
+It is up to you to inform the student about the start time and exam details, etc. When the student follows the link, he/she will have to make him/herself known, via IRMA, with: name, email adress, student number. These personal data will be visible during the meeting, so that you can be sure about the student's identity.
 
 <br>
 
