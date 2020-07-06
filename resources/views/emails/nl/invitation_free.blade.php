@@ -22,7 +22,7 @@ Beste Mr / Ms,
 <br>
 
 <div>
-  You can join the meeting by following this link. You will then have to login at irma-meet.nl, with your name and email address from your IRMA app to join the meeting. Your name and email address will then be visible to everyone else in the meeting.
+  You can join the meeting by following the above link. You will then have to login at irma-meet.nl, with your name and email address from your IRMA app to join the meeting. Your name and email address will then be visible to everyone else in the meeting.
 </div>
 
 <br>

@@ -31,8 +31,6 @@ class IrmaSessionController extends Controller
      */
     public function create($meetingType)
     {
-  
-
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         $validated_email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), '');
@@ -46,8 +44,8 @@ class IrmaSessionController extends Controller
             [
                 'message' => $form,
                 'title' => __('Create video meeting'),
-                'buttons' => ''
-            ]
+                'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                ]
         );
     }
 
@@ -117,8 +115,8 @@ class IrmaSessionController extends Controller
                 [
                     'message' => $mainContent,
                     'title' =>  __('Success'),
-                    'buttons' => ''
-                ]
+                    'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                    ]
             );
         }
     }
@@ -151,8 +149,8 @@ class IrmaSessionController extends Controller
             [
                 'message' => $mainContent,
                 'title' => __('Choose your role'),
-                'buttons' => ''
-            ]
+                'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                ]
         );
     }
 
@@ -265,8 +263,8 @@ class IrmaSessionController extends Controller
                 [
                     'message' => $mainContent,
                     'title' => 'Error',
-                    'buttons' => ''
-                ]
+                    'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                    ]
             );
         }
     }
