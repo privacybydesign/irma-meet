@@ -34,3 +34,8 @@ Route::get('lang/{locale}', 'LocalizationController@index');
 Auth::routes();
 
 Route::get('/admin', 'AdminController@index')->name('admin');
+
+
+Route::group(['prefix' => 'voyager'], function () {
+    Voyager::routes();
+});

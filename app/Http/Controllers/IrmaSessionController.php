@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Mail;
 use Session;
 use Config;
 
-
-
-
 class IrmaSessionController extends Controller
 {
     /**
@@ -88,7 +85,7 @@ class IrmaSessionController extends Controller
         for ($i = 1; $i < 7; $i++) {
             // if (in_array('participant_email_address' . 1, $validatedData)) {
             if (!empty($validatedData['participant_email_address'. $i])) {
-                    $irmaParticipant = [
+                $irmaParticipant = [
                     'irma_session_id' => $irma_session['irma_session_id'],
                     'email_address' => $validatedData['participant_email_address' . $i],
                     'authentication' => 1,
@@ -96,8 +93,6 @@ class IrmaSessionController extends Controller
                 $irma_participants = \App\IrmaMeetParticipants::create($irmaParticipant);
                 array_push($participantsEmails, $irma_participants->email_address);
             }
-            
-              
         }
 
        
