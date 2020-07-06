@@ -45,7 +45,7 @@ class IrmaSessionController extends Controller
         return view('layout/mainlayout')->with(
             [
                 'message' => $form,
-                'title' => '',
+                'title' => __('Create video meeting'),
                 'buttons' => ''
             ]
         );
@@ -116,7 +116,7 @@ class IrmaSessionController extends Controller
             return view('layout/mainlayout')->with(
                 [
                     'message' => $mainContent,
-                    'title' => 'Success',
+                    'title' =>  __('Success'),
                     'buttons' => ''
                 ]
             );
