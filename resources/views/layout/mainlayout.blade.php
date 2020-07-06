@@ -174,7 +174,7 @@
             <div class="row img-warp tight no-gutters">
                 <main class="col-sm-3">
                     <div class="type">
-                        <p class="typeH" >{{ __('Video exam') }}</p><img class="circles" src="{{ url('/') }}/img/exam.svg" />
+                        <p class="typeH" >{{ __('Oral video exam') }}</p><img class="circles" src="{{ url('/') }}/img/exam.svg" />
                     </div>
                     <div>
 
@@ -184,7 +184,7 @@
                     <div class="info">
                         <div class="speech-bubble">
                             <p>
-                                <b>{{ __('For whom?') }}</b> Academics in the Netherlands can use IRMA-meet for one-on-one oral exams via video, with verified identity of the student.
+                                <b>{{ __('For whom?') }}</b> {{ __('Academics in the Netherlands can use IRMA-meet for one-on-one oral exams via video, with verified identity of the student.') }}
                             </p>
                             <span id="exam" style="display: none;">
                                 <p>
@@ -213,7 +213,7 @@
                     <div class="info">
                         <div class="speech-bubble">
                             <p>
-                                <b>{{ __('For whom?') }}</b> Doctors and other medical professionals in the Netherlands can use IRMA-meet for confidential medical video consults with patients.
+                                <b>{{ __('For whom?') }}</b> {{ __('Doctors and other medical professionals in the Netherlands can use IRMA-meet for confidential medical video consults with patients.') }}
                             </p>
                             <span id="medical" style="display: none;">
                                 <p>
