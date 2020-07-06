@@ -117,12 +117,20 @@ class IrmaSessionController extends Controller
         if ($response->getReturnCode() == 'FAILED') {
             return __('Can\'t create room! please contact our administrator.');
         } else {
+
+            // Send emails in the language in which the site is viewed
+            $locale ="en";
+
+            if (session()->has('locale')) {
+                $locale = session()->get('locale');  
+            }
+    
             //Send mail with links to hoster
             Mail::to($validatedData['hoster_email_address'])
                 ->send(new Invitation([
                     'reply_to' => env('MAIL_FROM_ADDRESS'),
                     'from' => env('MAIL_FROM_ADDRESS'),
-                    'content' => 'emails.confirmation_' . $validatedData['meeting_type'],
+                    'content' => 'emails.' . $locale . '.confirmation_' . $validatedData['meeting_type'],
                     'meeting_name' => $validatedData['meeting_name'],
                     'hoster_name' => $validatedData['hoster_name'],
                     'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
@@ -136,7 +144,7 @@ class IrmaSessionController extends Controller
                     ->send(new Invitation([
                         'from' => env('MAIL_FROM_ADDRESS'),
                         'reply_to' => $validatedData['hoster_email_address'],
-                        'content' => 'emails.invitation_' . $validatedData['meeting_type'],
+                        'content' => 'emails.' . $locale . '.invitation_' . $validatedData['meeting_type'],
                         'meeting_name' => $validatedData['meeting_name'],
                         'hoster_name' => $validatedData['hoster_name'],
                         'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
