@@ -35,7 +35,7 @@ class IrmaSessionController extends Controller
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         $validated_email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), '');
         $names = Config::get('disclosure-types.' . $disclosureTypeHost . '.name');
-        $validated_name = $this->_validate($meetingType, $names, false);
+        $validated_name = $this->_validate($names, false);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
             'validated_email' => $validated_email,
             'validated_name' => $validated_name
@@ -44,6 +44,7 @@ class IrmaSessionController extends Controller
             [
                 'message' => $form,
                 'title' => __('Create video meeting'),
+                //TODO:: make template for buttons
                 'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
                 ]
         );
@@ -56,7 +57,10 @@ class IrmaSessionController extends Controller
      */
     public function store(Request $request)
     {
-        $validated_email = session()->get('pbdf.pbdf.email.email', '');
+        $meetingType = $request->get('meeting_type');
+        $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
+        $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
+        $validated_email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), '');
         //TODO: find a way to have infinite participan_email_addresses in validation
         $validatedData = $request->validate([
             'meeting_name' => 'required|max:255',
@@ -165,7 +169,7 @@ class IrmaSessionController extends Controller
     }
 
 
-    private function _validate($meetingType, $authentications, $useAbbreviation = true)
+    private function _validate($authentications, $jsonString = false)
     {
         $visibleName = '';
         foreach ($authentications as $authentication) {
@@ -176,8 +180,8 @@ class IrmaSessionController extends Controller
                 if ($value == '') {
                     $validAttr = false;
                 } else {
-                    if ($useAbbreviation) {
-                        $visibleName .= sprintf("%s%s", Config::get('meeting-types.' . $meetingType . '.attribute_abbreviation')[$attribute], $value);
+                    if ($jsonString) {
+                        $visibleName .= sprintf('"%s": "%s",', $attribute, $value);
                     } else {
                         $visibleName .= sprintf("%s ", $value);
                     }
@@ -187,7 +191,11 @@ class IrmaSessionController extends Controller
                 break;
             };
         }
-        return $visibleName;
+        if ($jsonString) {
+            return '{' . substr($visibleName, 0, -1) . '}';
+        } else {
+            return $visibleName;
+        }
     }
 
     private function _send_mail($validatedData, $invitationLink)
@@ -241,7 +249,7 @@ class IrmaSessionController extends Controller
 
         $bbb = new BigBlueButton();
         $authentications = Config::get('disclosure-types.' . $disclosureType . '.valid_authentication');
-        $visibleName = $this->_validate($meetingType, $authentications);
+        $visibleName = $this->_validate($authentications, true);
 
         if (($email !== '') && ($visibleName !== '') && ($irmaSessionId !== '')) {
             if ($email === $hosterEmailAddress) {
@@ -255,7 +263,6 @@ class IrmaSessionController extends Controller
             $joinParams->setRedirect(true);
             // Join the meeting by redirecting the user to the generated URL
             $url = $bbb->getJoinMeetingURL($joinParams);
-            print_r($url);
             return \Redirect::to($url);
         } else {
             $mainContent = __('Your attributes could not be verified by IRMA.');
