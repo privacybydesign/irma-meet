@@ -31,18 +31,15 @@ in the video meeting.
 </div>
 
 <br>
+<div>
+  {{ $invitation_note }}
+</div>
+<br>
 
 <div>
 
-It is up to you to make sture your patient also gets the above link
-for the video consult. You may already have ensured this by filling in
-the patient's email address when you created this meeting reservation.
-You can (re)send the above meeting link to the patient, together with
-its start time and consult details, etc. When the patient follows the
-link, he/she will have to make him/herself known, via IRMA, with:
-name, date of birth, gender and citizen registration number
-(BSN). These personal data will be visible during the meeting, so that
-you can be sure about the patient's identity.
+It is up to you to inform your patient about the start time and consult details, etc. When the patient follows the link, he/she will have to make him/herself known, via IRMA, with:
+name, date of birth, gender and citizen registration number (BSN). These personal data will be visible during the meeting, so that you can be sure about the patient's identity.
 
 </div>
 

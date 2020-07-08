@@ -10,7 +10,6 @@
 
 <body>
 
-
     <div class="container-fluid h-100 d-flex flex-column">
 
         <div class="row">
@@ -63,7 +62,7 @@
             </main>
             <main class="col-md-4 bg-warmwhite">
                 <div class="content">
-                                      <p class="cl-grey slogan">{{ __('AUTHENTICATED VIDEO CALLS') }}</p>
+                    <p class="cl-grey slogan">{{ __('AUTHENTICATED VIDEO CALLS') }}</p>
                     <h1>{{ __('Meet online, without surprises') }}</h1>
                     <p>{{ __('Only people who prove who they are can participate in IRMA-meet video. Chat with certainty, without being fooled, in your business meeting, (medical) consult, or online oral exam.') }}</p>
                     <br>
@@ -71,15 +70,15 @@
                         {!! $buttons !!}
                     </div>
                     <div>
-                    <div>
-                        <br>
-                    {!! __('Not sure which meeting type is right for you? <br> Find out more <a href="#threemeetings">below</a>!') !!}
+                        <div>
+                            <br>
+                            {!! __('Not sure which meeting type is right for you? <br> Find out more <a href="#threemeetings">below</a>!') !!}
+                        </div>
+                        <div id="errorbox" class="alert alert-danger alert-dismissible fade">
+                            <span id="errorboxtext"></span>
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        </div>
                     </div>
-                    <div id="errorbox" class="alert alert-danger alert-dismissible fade">
-                        <span id="errorboxtext"></span>
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    </div>
-                </div>
             </main>
         </div>
 
@@ -145,7 +144,7 @@
             <div class="row img-warp tight no-gutters">
                 <main class="col-sm-3">
                     <div class="type">
-                        <p class="typeH" >{{ __('Video meeting') }}</p><img class="circles" src="{{ url('/') }}/img/team.svg" />
+                        <p class="typeH">{{ __('Video meeting') }}</p><img class="circles" src="{{ url('/') }}/img/team.svg" />
                     </div>
                     <div>
 
@@ -162,10 +161,10 @@
                                     <b>{{ __('How does it work?') }}</b> {{ __('The host proves who they are with the IRMA app, sets up the meeting and sends the meeting link to all participants. To enter the meeting, both host and participants must make themselves known by disclosing their email address and name, via the IRMA app.') }}
                                 </p>
                                 <p>
-                                    <b>{{ __('What do you need?') }}</b> {!! __('For video meetings, both the host and the participants need their <a href="https://privacybydesign.foundation/uitgifte/email/" class="light">email</a> and name in their IRMA app. Users who live in the Netherlands can use their official name, from the <a href="https://services.nijmegen.nl/irma/gemeente/start" class="light" >national civil registry</a>. International users use their name from <a href="https://privacybydesign.foundation/uitgifte/social/linkedin/" class="light">LinkedIn</a>. The latter is not really reliable because it is self-chosen and can be changed at any moment. The email address does offer more certainty, since it is verified.') !!}
+                                    <b>{{ __('What do you need?') }}</b> {!! __('For video meetings, both the host and the participants need their <a href="https://privacybydesign.foundation/uitgifte/email/" class="light">email</a> and name in their IRMA app. Users who live in the Netherlands can use their official name, from the <a href="https://services.nijmegen.nl/irma/gemeente/start" class="light">national civil registry</a>. International users use their name from <a href="https://privacybydesign.foundation/uitgifte/social/linkedin/" class="light">LinkedIn</a>. The latter is not really reliable because it is self-chosen and can be changed at any moment. The email address does offer more certainty, since it is verified.') !!}
                                 </p>
                             </span>
-                            <p class="toggle" onclick="toggleMoreInfo('free')" id="freeBtn">Show more</p>
+                            <p class="toggle" onclick="toggleMoreInfo('free')" id="freeBtn">{{ __('Show more') }}</p>
                         </div>
                         </p>
                     </div>
@@ -174,7 +173,7 @@
             <div class="row img-warp tight no-gutters">
                 <main class="col-sm-3">
                     <div class="type">
-                        <p class="typeH" >{{ __('Video exam') }}</p><img class="circles" src="{{ url('/') }}/img/exam.svg" />
+                        <p class="typeH">{{ __('Oral video exam') }}</p><img class="circles" src="{{ url('/') }}/img/exam.svg" />
                     </div>
                     <div>
 
@@ -184,7 +183,7 @@
                     <div class="info">
                         <div class="speech-bubble">
                             <p>
-                                <b>{{ __('For whom?') }}</b> Academics in the Netherlands can use IRMA-meet for one-on-one oral exams via video, with verified identity of the student.
+                                <b>{{ __('For whom?') }}</b> {{ __('Academics in the Netherlands can use IRMA-meet for one-on-one oral exams via video, with verified identity of the student.') }}
                             </p>
                             <span id="exam" style="display: none;">
                                 <p>
@@ -194,7 +193,7 @@
                                     <b>{{ __('What do you need?') }}</b> {!! __('For video exams, both the teacher and the student need the academic personal data from <a href="https://privacybydesign.foundation/uitgifte/surfnet/surfnet/" class="light">SURFconext</a> in their IRMA app.') !!}
                                 </p>
                             </span>
-                            <p class="toggle" onclick="toggleMoreInfo('exam')" id="examBtn">Show more</p>
+                            <p class="toggle" onclick="toggleMoreInfo('exam')" id="examBtn">{{ __('Show more') }}</p>
                         </div>
                         </p>
                     </div>
@@ -203,7 +202,7 @@
             <div class="row img-warp tight no-gutters">
                 <main class="col-sm-3">
                     <div class="type">
-                        <p class="typeH" >{{ __('Video medical consult') }}</p><img class="circles" src="{{ url('/') }}/img/medical.svg" />
+                        <p class="typeH">{{ __('Video medical consult') }}</p><img class="circles" src="{{ url('/') }}/img/medical.svg" />
                     </div>
                     <div>
 
@@ -213,17 +212,17 @@
                     <div class="info">
                         <div class="speech-bubble">
                             <p>
-                                <b>{{ __('For whom?') }}</b> Doctors and other medical professionals in the Netherlands can use IRMA-meet for confidential medical video consults with patients.
+                                <b>{{ __('For whom?') }}</b> {{ __('Doctors and other medical professionals in the Netherlands can use IRMA-meet for confidential medical video consults with patients.') }}
                             </p>
                             <span id="medical" style="display: none;">
                                 <p>
                                     <b>{{ __('How does it work?') }}</b> {{ __('The medical professional proves that they are a registered medical professional with the IRMA app, sets up the meeting and sends the meeting link to the patient. The patient has to prove who (s)he is with the IRMA app before entering the medical consult. The medical professional then knows for sure who the patient is.') }}
                                 </p>
                                 <p>
-                                    <b>{{ __('What do you need?') }}</b> {!! __('To set up a medical consult, the medical professional needs his/her <a href="https://irma-agb.nuts.nl/" class="light" >medical registration number (AGB-code)</a> in their IRMA app. Patients need their name, date of birth and national registration number (BSN) from the <a href="https://services.nijmegen.nl/irma/gemeente/start" class="light" >national civil registry (BRP)</a> in their IRMA app.') !!}
+                                    <b>{{ __('What do you need?') }}</b> {!! __('To set up a medical consult, the medical professional needs his/her <a href="https://irma-agb.nuts.nl/" class="light">medical registration number (AGB-code)</a> in their IRMA app. Patients need their name, date of birth and national registration number (BSN) from the <a href="https://services.nijmegen.nl/irma/gemeente/start" class="light">national civil registry (BRP)</a> in their IRMA app.') !!}
                                 </p>
                             </span>
-                            <p class="toggle" onclick="toggleMoreInfo('medical')" id="medicalBtn">Show more</p>
+                            <p class="toggle" onclick="toggleMoreInfo('medical')" id="medicalBtn">{{ __('Show more') }}</p>
                         </div>
                         </p>
                     </div>
@@ -231,7 +230,20 @@
             </div>
         </div>
 
+        <script>
+            function toggleMoreInfo(meetingType) {
+                var moreText = document.getElementById(meetingType);
+                var toggleText = document.getElementById(meetingType + "Btn");
 
+                if (toggleText.innerHTML == "{{ __('Show less') }}") {
+                    toggleText.innerHTML = "{{ __('Show more') }}";
+                    moreText.style.display = "none";
+                } else {
+                    toggleText.innerHTML = "{{ __('Show less') }}";
+                    moreText.style.display = "inline";
+                }
+            }
+        </script>
 
 
     </div>

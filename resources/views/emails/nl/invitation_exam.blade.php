@@ -15,10 +15,14 @@ Beste Mr / Ms,
   <a href="{{ $invitation_link }}">{{ $invitation_link }}</a>
 </div>
 
-<br>
+<div>
+  <br>
+  {{ $invitation_note }}
+  <br>
+</div>
 
 <div>
-  You can join the meeting by following this link. You will then have to login at irma-meet.nl, with your academic personal data from SURFconext from your IRMA app. Your name and student number will then be visible to everyone else in the meeting.
+  You can join the meeting by following the above link. You will then have to login at irma-meet.nl, with your academic personal data from SURFconext from your IRMA app. Your name and student number will then be visible to everyone else in the meeting.
 </div>
 
 <br>

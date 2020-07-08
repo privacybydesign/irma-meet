@@ -32,20 +32,15 @@ zichtbaar zijn voor de pati&euml;nt in het gesprek.
 </div>
 
 <br>
+<div>
+  {{ $invitation_note }}
+</div>
+<br>
 
 <div>
 
-Het is aan jou om te zorgen dat je pati&euml;nt ook de link van het
-consult krijgt, om deel te kunnen nemen. Mogelijk heb je dat al
-geregeld door het e-mailadres van de pati&euml;nt in te vullen in het
-formulier bij het aanmaken van het video gesprek. Je kunt ook
-bovenstaande link nog een keer doorsturen aan de pati&euml;nt, samen
-met het tijdstip van het video consult en met eventuele andere
-relevante details. Wanneer de pati&euml;nt op de link klikt moet
-hij/zij zichzelf bekendmaken, via IRMA, met: naam, geboortedatum,
-geslacht en BSN. Deze gegevens zijn tijdens het consult zichtbaar.  Je
-kunt ze gebruiken om zeker te zijn van de identiteit van de
-pati&euml;nt.
+Het is aan jou om de pati&euml;nt te informeren over het tijdstip van het video consult en eventuele andere relevante details. Wanneer de pati&euml;nt op de link klikt moet
+hij/zij zichzelf bekendmaken, via IRMA, met: naam, geboortedatum, geslacht en BSN. Deze gegevens zijn tijdens het consult zichtbaar.  Je kunt ze gebruiken om zeker te zijn van de identiteit van de pati&euml;nt.
 
 </div>
 

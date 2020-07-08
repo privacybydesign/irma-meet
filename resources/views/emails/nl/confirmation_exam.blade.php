@@ -32,19 +32,14 @@ student die tentamen doet.
 </div>
 
 <br>
-
+<div>
+  {{ $invitation_note }}
+</div>
+<br>
 <div>
 
-Het is aan jou om te zorgen dat de student ook de link van het
-tentamen krijgt, om deel te kunnen nemen. Mogelijk heb je dat al
-geregeld door het e-mailadres van de student in te vullen in het
-formulier bij het aanmaken van het tentamen. Je kunt ook bovenstaande
-link nog een keer doorsturen aan de student, samen met het tijdstip
-van het tentamen en met eventuele andere relevante details. Wanneer de
-student op de link klikt moet hij/zij zichzelf bekendmaken, via IRMA,
-met: naam, e-mailadres en studentnummer. Deze gegevens zijn tijdens
-het tentamen zichtbaar.  Je kunt ze gebruiken om zeker te zijn van de
-identiteit van de student.
+Het is aan jou om de student te informeren over het tijdstip van het tentamen en eventuele andere relevante details. Wanneer de student op de link klikt moet hij/zij zichzelf bekendmaken, via IRMA,
+met: naam, e-mailadres en studentnummer. Deze gegevens zijn tijdens het tentamen zichtbaar.  Je kunt ze gebruiken om zeker te zijn van de identiteit van de student.
 
 </div>
 

@@ -31,9 +31,9 @@ class IrmaSessionController extends Controller
      */
     public function create($meetingType)
     {
-        $validated_email = session()->get('pbdf.pbdf.email.email', '');
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
+        $validated_email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), '');
         $names = Config::get('disclosure-types.' . $disclosureTypeHost . '.name');
         $validated_name = $this->_validate($meetingType, $names, false);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
@@ -43,9 +43,9 @@ class IrmaSessionController extends Controller
         return view('layout/mainlayout')->with(
             [
                 'message' => $form,
-                'title' => '',
-                'buttons' => ''
-            ]
+                'title' => __('Create video meeting'),
+                'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                ]
         );
     }
 
@@ -106,7 +106,7 @@ class IrmaSessionController extends Controller
         if ($response->getReturnCode() == 'FAILED') {
             return __('Can\'t create room! please contact our administrator.');
         } else {
-            //send emails to hosteer and participants
+            //send emails to hoster and participants
             $this->_send_mail($validatedData, $invitationLink);
             $mainContent = '<p>' . __('Meeting is successfully validated and data has been saved.') . '</p>';
             $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
@@ -114,9 +114,9 @@ class IrmaSessionController extends Controller
             return view('layout/mainlayout')->with(
                 [
                     'message' => $mainContent,
-                    'title' => 'Success',
-                    'buttons' => ''
-                ]
+                    'title' =>  __('Success'),
+                    'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                    ]
             );
         }
     }
@@ -134,7 +134,7 @@ class IrmaSessionController extends Controller
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        $email = session()->get('pbdf.pbdf.email.email', '');
+        $email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email'));
         if (($email !== '') && ($email === $hosterEmailAddress)) {
             //hoster is already logged in
             //TODO validate attributes again?
@@ -149,8 +149,8 @@ class IrmaSessionController extends Controller
             [
                 'message' => $mainContent,
                 'title' => __('Choose your role'),
-                'buttons' => ''
-            ]
+                'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                ]
         );
     }
 
@@ -203,7 +203,7 @@ class IrmaSessionController extends Controller
                     'content' => 'emails.' . $locale . '.confirmation_' . $validatedData['meeting_type'],
                     'meeting_name' => $validatedData['meeting_name'],
                     'hoster_name' => $validatedData['hoster_name'],
-                    'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
+                    'invitation_note' => !empty($validatedData['invitation_note']) ? __('The meeting link has also been sent to the participant, together with the following personal message: ') . $validatedData['invitation_note'] :  __('The meeting link has also been sent to the participant.'),
                     'invitation_link' => $invitationLink,
                 ]));
 
@@ -216,7 +216,7 @@ class IrmaSessionController extends Controller
                         'content' => 'emails.' . $locale . '.invitation_' . $validatedData['meeting_type'],
                         'meeting_name' => $validatedData['meeting_name'],
                         'hoster_name' => $validatedData['hoster_name'],
-                        'invitation_note' => in_array('invitation_note', $validatedData) ? $validatedData['invitation_note'] : '',
+                        'invitation_note' => !empty($validatedData['invitation_note']) ? __('This mail mostly contains general information, but specifically for this meeting the host has added the following personal message: ') . $validatedData['invitation_note'] : '',
                         'invitation_link' => $invitationLink,
                      ]));
             }
@@ -232,7 +232,9 @@ class IrmaSessionController extends Controller
         $meetingType = $irmaSession->meeting_type;
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
 
-        $email = session()->get('pbdf.pbdf.email.email', '');
+        $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
+
+        $email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email'));
         if ($email === $hosterEmailAddress) {
             $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         }
@@ -261,8 +263,8 @@ class IrmaSessionController extends Controller
                 [
                     'message' => $mainContent,
                     'title' => 'Error',
-                    'buttons' => ''
-                ]
+                    'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                    ]
             );
         }
     }
