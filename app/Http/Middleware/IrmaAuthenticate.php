@@ -28,8 +28,6 @@ class IrmaAuthenticate
                 return redirect()->route('irma_session.authenticate', session()->get('disclosure_type', 'default'), urlencode(urlencode(\URL::to('/').'/'.$request->path())));
             }
         } elseif ($token === '') {
-            //echo \URL::to('/').'/'.$request->path();
-            //return \URL::to('/').'/'.$request->path();
             return redirect()->route('irma_session.authenticate', session()->get('disclosure_type', 'default'), urlencode(urlencode(\URL::to('/').'/'.$request->path())));
         } else {
             //verify
