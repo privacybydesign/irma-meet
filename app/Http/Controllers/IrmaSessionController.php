@@ -33,7 +33,7 @@ class IrmaSessionController extends Controller
     {
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        $validated_email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), '');
+        $validated_email = strtolower(Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), ''));
         $names = Config::get('disclosure-types.' . $disclosureTypeHost . '.name');
         $validated_name = $this->_validate($names, false);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
@@ -60,7 +60,7 @@ class IrmaSessionController extends Controller
         $meetingType = $request->get('meeting_type');
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        $validated_email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), '');
+        $validated_email = strtolower(Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), ''));
         //TODO: find a way to have infinite participan_email_addresses in validation
         $validatedData = $request->validate([
             'meeting_name' => 'required|max:255',
@@ -93,7 +93,7 @@ class IrmaSessionController extends Controller
                     'authentication' => 1,
                 ];
                 $irma_participants = \App\IrmaMeetParticipants::create($irmaParticipant);
-                array_push($participantsEmails, $irma_participants->email_address);
+                array_push($participantsEmails, strtolower($irma_participants->email_address));
             }
         }
 
@@ -138,7 +138,7 @@ class IrmaSessionController extends Controller
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        $email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email'));
+        $email = strtolower(Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email')));
         if (($email !== '') && ($email === $hosterEmailAddress)) {
             //hoster is already logged in
             //TODO validate attributes again?
@@ -242,7 +242,7 @@ class IrmaSessionController extends Controller
 
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        $email = Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email'));
+        $email = strtolower(Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email')));
         if ($email === $hosterEmailAddress) {
             $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         }
