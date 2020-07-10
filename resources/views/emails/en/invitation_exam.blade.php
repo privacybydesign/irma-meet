@@ -12,14 +12,20 @@
 <br>
 
 <div>
-  <a href="{{ $invitation_link }}">{{ $invitation_link }}</a>
+  <a href="{{ $invitation_link }}">{{ $invitation_link }}</a><br />
 </div>
 
-<br>
+@if (!empty($invitation_note))
+<div><br />
+*******************
+</div>
 <div>
   {{ $invitation_note }}
 </div>
-<br>
+<div>
+*******************
+</div>
+@endif
 
 <div>
   You can join the meeting by following the above link. You will then have to login at irma-meet.nl, with your academic personal data from SURFconext from your IRMA app. Your name and student number will then be visible to everyone else in the meeting.

@@ -12,14 +12,20 @@ Beste Mr / Ms,
 <br>
 
 <div>
-  <a href="{{ $invitation_link }}">{{ $invitation_link }}</a>
+  <a href="{{ $invitation_link }}">{{ $invitation_link }}</a><br />
 </div>
 
-<br>
+@if (!empty($invitation_note))
+<div><br />
+*******************
+</div>
 <div>
   {{ $invitation_note }}
 </div>
-<br>
+<div>
+*******************
+</div>
+@endif
 
 <div>
   You can join the meeting by following the above link. You will then have to login at irma-meet.nl, with your name and email address from your IRMA app to join the meeting. Your name and email address will then be visible to everyone else in the meeting.

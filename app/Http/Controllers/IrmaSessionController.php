@@ -212,10 +212,10 @@ class IrmaSessionController extends Controller
     private function _send_mail($validatedData, $invitationLink)
     {
         // Send emails in the language in which the site is viewed
-        $locale = session()->get('locale', 'en');
+        $locale = session()->get('locale', 'nl');
     
         // Send individual mails to all participants
-        var $mailSent = false;
+        $mailSent = false;
         for ($i = 1; $i < 7; $i++) {
             if (!empty($validatedData['participant_email_address'. $i])) {
                 Mail::to($validatedData['participant_email_address'. $i])->send(new Invitation([
@@ -242,7 +242,6 @@ class IrmaSessionController extends Controller
                     'invitation_note' => ($mailSent and !empty($validatedData['invitation_note'])) ? __('The meeting link has also been sent to the participant, together with the following personal message: ') . $validatedData['invitation_note'] :  __('The meeting link has also been sent to the participant.'),
                     'invitation_link' => $invitationLink,
                 ]));
-
     }
 
     private function _join($irmaSessionId)
