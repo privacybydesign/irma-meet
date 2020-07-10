@@ -214,19 +214,8 @@ class IrmaSessionController extends Controller
         // Send emails in the language in which the site is viewed
         $locale = session()->get('locale', 'en');
     
-        //Send mail with links to hoster
-        Mail::to($validatedData['hoster_email_address'])
-                ->send(new Invitation([
-                    'reply_to' => env('MAIL_FROM_ADDRESS'),
-                    'from' => env('MAIL_FROM_ADDRESS'),
-                    'content' => 'emails.' . $locale . '.confirmation_' . $validatedData['meeting_type'],
-                    'meeting_name' => $validatedData['meeting_name'],
-                    'hoster_name' => $validatedData['hoster_name'],
-                    'invitation_note' => !empty($validatedData['invitation_note']) ? __('The meeting link has also been sent to the participant, together with the following personal message: ') . $validatedData['invitation_note'] :  __('The meeting link has also been sent to the participant.'),
-                    'invitation_link' => $invitationLink,
-                ]));
-
         // Send individual mails to all participants
+        var $mailSent = false;
         for ($i = 1; $i < 7; $i++) {
             if (!empty($validatedData['participant_email_address'. $i])) {
                 Mail::to($validatedData['participant_email_address'. $i])->send(new Invitation([
@@ -238,8 +227,22 @@ class IrmaSessionController extends Controller
                         'invitation_note' => !empty($validatedData['invitation_note']) ? __('This mail mostly contains general information, but specifically for this meeting the host has added the following personal message: ') . $validatedData['invitation_note'] : '',
                         'invitation_link' => $invitationLink,
                      ]));
+                $mailSent = true;
             }
         }
+
+        //Send mail with links to hoster
+        Mail::to($validatedData['hoster_email_address'])
+                ->send(new Invitation([
+                    'reply_to' => env('MAIL_FROM_ADDRESS'),
+                    'from' => env('MAIL_FROM_ADDRESS'),
+                    'content' => 'emails.' . $locale . '.confirmation_' . $validatedData['meeting_type'],
+                    'meeting_name' => $validatedData['meeting_name'],
+                    'hoster_name' => $validatedData['hoster_name'],
+                    'invitation_note' => ($mailSent and !empty($validatedData['invitation_note'])) ? __('The meeting link has also been sent to the participant, together with the following personal message: ') . $validatedData['invitation_note'] :  __('The meeting link has also been sent to the participant.'),
+                    'invitation_link' => $invitationLink,
+                ]));
+
     }
 
     private function _join($irmaSessionId)
