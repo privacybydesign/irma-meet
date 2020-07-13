@@ -144,5 +144,6 @@
     "Participants enter meeting": "",
     "Each participant joins the meeting automatically. The verified identity of everyone in the meeting is visible.": "Elke deelnemer neemt automatisch deel aan de vergadering, De geverifieerde attributen van iedereen in de vergadering zijn zichtbaar.",
     "Join as host": "Neem deel als host",
-    "Join as participant": "Neem deel als deelnemer"
+    "Join as participant": "Neem deel als deelnemer",
+    "Please send the above meeting link to people that you wish to invite to the video meeting." : "Stuur de bovenstaande vergaderlink naar de mensen die je wilt uitnodigen voor de videovergadering."
 }

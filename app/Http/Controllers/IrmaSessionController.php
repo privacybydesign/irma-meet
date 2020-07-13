@@ -213,9 +213,11 @@ class IrmaSessionController extends Controller
     {
         // Send emails in the language in which the site is viewed
         $locale = session()->get('locale', 'nl');
-    
-        // Send individual mails to all participants
-        $mailSent = false;
+
+        // If no participant-email is provided, the host needs to invite participants themselves
+        $noteForHost = __('Please send the above meeting link to people that you wish to invite to the video meeting.');
+        
+        // If participant-email is provided, send individual mails to all participants
         for ($i = 1; $i < 7; $i++) {
             if (!empty($validatedData['participant_email_address'. $i])) {
                 Mail::to($validatedData['participant_email_address'. $i])->send(new Invitation([
@@ -227,9 +229,16 @@ class IrmaSessionController extends Controller
                         'invitation_note' => !empty($validatedData['invitation_note']) ? __('This mail mostly contains general information, but specifically for this meeting the host has added the following personal message: ') . $validatedData['invitation_note'] : '',
                         'invitation_link' => $invitationLink,
                      ]));
-                $mailSent = true;
+                // The host does not have to send the link to the participant themselves
+                $noteForHost = __('The meeting link has also been sent to the participant.');
+                // if host also provided a note
+                if (!empty($validatedData['invitation_note'])){
+                    $noteForHost = __('The meeting link has also been sent to the participant, together with the following personal message: ') . $validatedData['invitation_note'];
+                } 
             }
         }
+        
+        // TODO consider multiple participants (change words to plural)
 
         //Send mail with links to hoster
         Mail::to($validatedData['hoster_email_address'])
@@ -239,7 +248,7 @@ class IrmaSessionController extends Controller
                     'content' => 'emails.' . $locale . '.confirmation_' . $validatedData['meeting_type'],
                     'meeting_name' => $validatedData['meeting_name'],
                     'hoster_name' => $validatedData['hoster_name'],
-                    'invitation_note' => ($mailSent and !empty($validatedData['invitation_note'])) ? __('The meeting link has also been sent to the participant, together with the following personal message: ') . $validatedData['invitation_note'] :  __('The meeting link has also been sent to the participant.'),
+                    'invitation_note' => $noteForHost,
                     'invitation_link' => $invitationLink,
                 ]));
     }
