@@ -66,7 +66,7 @@ class IrmaSessionController extends Controller
             'hoster_name' => 'required',
             'hoster_email_address' => 'required|in:' . sprintf("%s", $validatedEmail),
             'start_time' => '', //not yet used
-            'invitation_note' => 'nullable|max:255',
+            'invitation_note' => 'required_with:participant_email_address1|max:255',
             'participant_email_address1' => 'nullable|email',
             'participant_email_address2' => 'nullable|email',
             'participant_email_address3' => 'nullable|email',
@@ -238,9 +238,9 @@ class IrmaSessionController extends Controller
                 // The host does not have to send the link to the participant themselves
                 $noteForHost = __('The meeting link has also been sent to the participant.');
                 // if host also provided a note
-                if (!empty($validatedData['invitation_note'])){
+                if (!empty($validatedData['invitation_note'])) {
                     $noteForHost = __('The meeting link has also been sent to the participant, together with the following personal message: ') . $validatedData['invitation_note'];
-                } 
+                }
             }
         }
         
