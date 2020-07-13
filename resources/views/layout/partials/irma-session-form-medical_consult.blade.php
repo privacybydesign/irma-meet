@@ -1,4 +1,11 @@
 <!-- /resources/views/layout/irma-session-form.blade.php -->
+<script>
+	function clearError() {
+		var el = document.getElementById("error");
+  		el.style.display = "none";
+  	}
+</script>
+
 
 		<form method="post" class="" action="{{ route('irma_session.store') }}">
 			{{ csrf_field() }}
@@ -25,7 +32,7 @@
 		
 		<div class="form-group">
 			<label for="participant_email_address1">{{ __('Participant email address') }}</label>
-			<input id="participant_email_address1"  value="{{ old('participant_email_address1') }}" name="participant_email_address1" type="text" class="form-control @error('participant_email_address1') is-invalid @enderror">
+			<input id="participant_email_address1"  value="{{ old('participant_email_address1') }}" name="participant_email_address1" type="text" class="form-control @error('participant_email_address1') is-invalid @enderror" onfocus="clearError()">
 		</div>
 		
 		<div class="form-group">        
@@ -37,7 +44,7 @@
 
 
 @if ($errors->any())
-    <div class="alert alert-danger">
+    <div id="error" class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
