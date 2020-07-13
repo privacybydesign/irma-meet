@@ -131,5 +131,6 @@
     "For video meetings, both the host and the participants need their <a href=\"https:\/\/privacybydesign.foundation\/uitgifte\/email\/\" class=\"light\">email<\/a> and name in their IRMA app. Users who live in the Netherlands can use their official name, from the <a href=\"https:\/\/services.nijmegen.nl\/irma\/gemeente\/start\" class=\"light\">national civil registry<\/a>. International users use their name from <a href=\"https:\/\/privacybydesign.foundation\/uitgifte\/social\/linkedin\/\" class=\"light\">LinkedIn<\/a>. The latter is not really reliable because it is self-chosen and can be changed at any moment. The email address does offer more certainty, since it is verified.": "",
     "To set up a medical consult, the medical professional needs his\/her <a href=\"https:\/\/irma-agb.nuts.nl\/\" class=\"light\">medical registration number (AGB-code)<\/a> in their IRMA app. Patients need their name, date of birth and national registration number (BSN) from the <a href=\"https:\/\/services.nijmegen.nl\/irma\/gemeente\/start\" class=\"light\">national civil registry (BRP)<\/a> in their IRMA app.": "",
     "Join as host": "",
-    "Join as participant": ""
+    "Join as participant": "",
+    "Please send the above meeting link to people that you wish to invite to the video meeting." : ""
 }
