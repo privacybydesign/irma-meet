@@ -39,12 +39,13 @@ class IrmaSessionController extends Controller
             'validated_email' => $validatedEmail,
             'validated_name' => $validatedName
         ])->render();
+        $buttons = view('layout.partials.buttons')->render();
         return view('layout/mainlayout')->with(
             [
                 'message' => $form,
                 'title' => __('Create video meeting'),
                 //TODO:: make template for buttons
-                'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                'buttons' => $buttons
                 ]
         );
     }
@@ -114,11 +115,12 @@ class IrmaSessionController extends Controller
             $mainContent = '<p>' . __('Meeting is successfully validated and data has been saved.') . '</p>';
             $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
             $mainContent .= '<a href="' . $invitationLink . '">' . $invitationLink . '</a>';
+            $buttons = view('layout.partials.buttons')->render();
             return view('layout/mainlayout')->with(
                 [
                     'message' => $mainContent,
                     'title' =>  __('Success'),
-                    'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                    'buttons' => $buttons
                     ]
             );
         }
@@ -148,11 +150,12 @@ class IrmaSessionController extends Controller
             'disclosureTypeHost' => $disclosureTypeHost,
             'disclosureTypeParticipant' => $disclosureType
         ])->render();
+        $buttons = view('layout.partials.buttons')->render();
         return view('layout/mainlayout')->with(
             [
                 'message' => $mainContent,
                 'title' => __('Choose your role'),
-                'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                'buttons' => $buttons
                 ]
         );
     }
@@ -288,11 +291,12 @@ class IrmaSessionController extends Controller
             return \Redirect::to($url);
         } else {
             $mainContent = __('Your attributes could not be verified by IRMA.');
+            $buttons = view('layout.partials.buttons')->render();
             return view('layout/mainlayout')->with(
                 [
                     'message' => $mainContent,
                     'title' => 'Error',
-                    'buttons' => '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/default\', \'./irma_session/create/free\');">'. '<img class="img-fluid" src="'.url('/') .'/img/team-icon.svg">' . __('Create video meeting') . '</button>' . '<br>' .  __('<p style="font-size: 14px; color:#1B4D8C;"><br>For use in the Netherlands:</p>') . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/teacher\', \'./irma_session/create/exam\');">' . '<img class="img-fluid" src="'.url('/') .'/img/exam-icon.svg">' . __('Start oral video exam') . '</button>' .  '<br><br>' . '<button type="button" class="btn btn-secondary btn-lg btn-blue" onclick="startInvitation(\'./irma_auth/start/medical\', \'./irma_session/create/medical_consult\');">' . '<img class="img-fluid" src="'.url('/') .'/img/medical_icon.svg">' . __('Start medical video consult') . '</button>',
+                    'buttons' => $buttons
                     ]
             );
         }
