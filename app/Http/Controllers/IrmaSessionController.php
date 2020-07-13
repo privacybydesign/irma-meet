@@ -44,7 +44,6 @@ class IrmaSessionController extends Controller
             [
                 'message' => $form,
                 'title' => __('Create video meeting'),
-                //TODO:: make template for buttons
                 'buttons' => $buttons
                 ]
         );
@@ -99,31 +98,19 @@ class IrmaSessionController extends Controller
 
         $invitationLink = url('/') . "/irma_session/join/" . $uniqueId;
 
-        //Create session in BBB
-        $bbb = new BigBlueButton();
-        $createParams = new CreateMeetingParameters($bbbSessionId, $validatedData['meeting_name']);
-        //we use an md5 hash from the bbb session id. The bbb session id is not exposed, so md5 should be enough protection
-        $createParams->setAttendeePassword(hash('sha256', 'participant' . $bbbSessionId));
-        $createParams->setModeratorPassword(hash('sha256', 'hoster' . $bbbSessionId));
-        $response = $bbb->createMeeting($createParams);
-
-        if ($response->getReturnCode() == 'FAILED') {
-            return __('Can\'t create room! please contact our administrator.');
-        } else {
-            //send emails to hoster and participants
-            $this->_send_mail($validatedData, $invitationLink);
-            $mainContent = '<p>' . __('Meeting is successfully validated and data has been saved.') . '</p>';
-            $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
-            $mainContent .= '<a href="' . $invitationLink . '">' . $invitationLink . '</a>';
-            $buttons = view('layout.partials.buttons')->render();
-            return view('layout/mainlayout')->with(
-                [
+        //send emails to hoster and participants
+        $this->_send_mail($validatedData, $invitationLink);
+        $mainContent = '<p>' . __('Meeting is successfully validated and data has been saved.') . '</p>';
+        $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
+        $mainContent .= '<a href="' . $invitationLink . '">' . $invitationLink . '</a>';
+        $buttons = view('layout.partials.buttons')->render();
+        return view('layout/mainlayout')->with(
+            [
                     'message' => $mainContent,
                     'title' =>  __('Success'),
                     'buttons' => $buttons
                     ]
-            );
-        }
+        );
     }
 
     /**
@@ -138,7 +125,23 @@ class IrmaSessionController extends Controller
         $hosterEmailAddress = $irmaSession->hoster_email_address;
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-
+        
+        //Create session in BBB
+        $bbbSessionId = $irmaSession->bbb_session_id;
+        $meeting_name = $irmaSession->meeting_name;
+        $bbb = new BigBlueButton();
+        $createParams = new CreateMeetingParameters($bbbSessionId, $meeting_name);
+        //we use an md5 hash from the bbb session id. The bbb session id is not exposed, so md5 should be enough protection
+        $createParams->setAttendeePassword(hash('sha256', 'participant' . $bbbSessionId));
+        $createParams->setModeratorPassword(hash('sha256', 'hoster' . $bbbSessionId));
+        $isMeetingRunning = $bbb->isMeetingRunning($createParams);
+        if (! $isMeetingRunning->isRunning()) {
+            $response = $bbb->createMeeting($createParams);
+            if ($response->getReturnCode() == 'FAILED') {
+                return __('Can\'t create room! please contact our administrator.');
+            }
+        }
+    
         $email = strtolower(Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email')));
         if (($email !== '') && ($email === $hosterEmailAddress)) {
             //hoster is already logged in
