@@ -191,7 +191,8 @@ class IrmaSessionController extends Controller
                 break;
             };
         }
-        return '{ "name": "' . $visibleName . '",' . substr($json, 0, -1) . '}';
+        return $visibleName;
+//        return '{ "name": "' . $visibleName . '",' . substr($json, 0, -1) . '}';
     }
 
     private function _get_name($disclosureType)
