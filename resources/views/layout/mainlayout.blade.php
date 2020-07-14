@@ -27,11 +27,11 @@
                     <li class="nav-item dropdown text-right">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             @switch($locale)
-                            @case('nl')
-                            <img src="{{asset('img/flags/nld.svg')}}" width="30px" height="20x"> Nederlands
+                            @case('en')
+                            <img src="{{asset('img/flags/gbr.svg')}}" width="30px" height="20x"> English
                             @break
                             @default
-                            <img src="{{asset('img/flags/gbr.svg')}}" width="30px" height="20x"> English
+                            <img src="{{asset('img/flags/nld.svg')}}" width="30px" height="20x"> Nederlands
                             @endswitch
                             <span class="caret"></span>
                         </a>

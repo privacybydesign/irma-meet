@@ -184,15 +184,14 @@ class IrmaSessionController extends Controller
                 if ($value == '') {
                     $validAttr = false;
                 } else {
-                    $json .= sprintf('"%s": "%s",', $attribute, $value);
+                    $json .= sprintf("'%s'&#58; '%s',", $attribute, $value);
                 }
             }
             if ($validAttr) {
                 break;
             };
         }
-        return $visibleName;
-//        return '{ "name": "' . $visibleName . '",' . substr($json, 0, -1) . '}';
+        return "{ 'name'&#58; '" . $visibleName . "'," . substr($json, 0, -1) . "}";
     }
 
     private function _get_name($disclosureType)
@@ -279,16 +278,21 @@ class IrmaSessionController extends Controller
         $bbb = new BigBlueButton();
         $authentications = Config::get('disclosure-types.' . $disclosureType . '.valid_authentication');
         $validatedName = $this->_get_name($disclosureTypeHost);
-        $attributes = $this->_validate($authentications, $validatedName);
+        $nameFormat = getenv('IRMA_MEET_NAME_FORMAT');
+        if ($nameFormat === 'json') {
+            $bbbName = $this->_validate($authentications, $validatedName);
+        } else {
+            $bbbName = $validatedName;
+        }
 
-        if (($email !== '') && ($attributes !== '') && ($irmaSessionId !== '')) {
+        if (($email !== '') && ($bbbName !== '') && ($irmaSessionId !== '')) {
             if ($email === $hosterEmailAddress) {
                 $password = hash('sha256', 'hoster' . $bbbSessionId);
             } else {
                 $password = hash('sha256', 'participant' . $bbbSessionId);
             }
             //redirect to bbb
-            $joinParams = new JoinMeetingParameters($bbbSessionId, $attributes, $password);
+            $joinParams = new JoinMeetingParameters($bbbSessionId, $bbbName, $password);
             $joinParams->setRedirect(true);
             // Join the meeting by redirecting the user to the generated URL
             $url = $bbb->getJoinMeetingURL($joinParams);
