@@ -4,7 +4,7 @@ function startInvitation(authUrl, redirectUrl) {
             return response.json();
         })
         .then((qr) => {
-            return irma.handleSession(qr, { language: 'nl' });
+            return irma.handleSession(qr, { language: LANGUAGE });
         })
         .then(() => {
             window.location.replace(redirectUrl);
