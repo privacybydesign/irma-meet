@@ -32,7 +32,7 @@
 
 <link href="{{ url('/') }}/css/custom.css" rel="stylesheet">
 <script type="text/javascript">
-  const LANGUAGE='{{ session()->get('locale') }}';
+  const LANGUAGE='{{ session()->get('locale', 'nl') }}';
 </script>
 <script type="text/javascript" charset="utf-8" src="{{ url('/') }}/js/custom.js"></script>
 
