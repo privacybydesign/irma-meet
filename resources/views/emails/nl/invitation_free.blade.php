@@ -36,7 +36,7 @@ Beste meneer, mevrouw,
 
 <div>
   Staat de IRMA-app nog niet op je mobiel? Installeer die app dan eerst en laad je e-mailadres en naam (uit de Basisregistratie
-  Gegevens BRP of uit LinkedIn). Voor meer informatie, zie de website: <a href="https://irma.app">https://irma.app</a>.</li>
+  Personen BRP of uit LinkedIn). Voor meer informatie, zie de website: <a href="https://irma.app">https://irma.app</a>.</li>
 </div>
 
 <br>
