@@ -106,7 +106,7 @@ return [
                     [
                         [
               ['type' => 'pbdf.pbdf.surfnet-2.institute', 'value' => null],
-              ['type' => 'pbdf.pbdf.surfnet-2.type', 'value' => 'employee'],
+              ['type' => 'pbdf.pbdf.surfnet-2.type', 'value' => 'student'],
               ['type' => 'pbdf.pbdf.surfnet-2.familyname', 'value' => null],
               ['type' => 'pbdf.pbdf.surfnet-2.email', 'value' => null]
             ]
