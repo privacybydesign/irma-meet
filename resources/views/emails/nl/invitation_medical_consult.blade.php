@@ -1,12 +1,18 @@
 <div>
-Beste Mr / Ms,
+Beste mevrouw, meneer,
 </div>
 
 <br>
 
 <div>
-Medical professional {{ $hoster_name }} has made a reservation for an IRMA-meet medical
-  video consult with you as a patient. This meeting has the link:
+Beste student,
+</div>
+
+<br>
+
+<div>
+  Zorgverlener {{ $hoster_name }} heeft een reservering gemaakt voor een IRMA-meet medisch videogesprek
+  met jou als patiënt. Dit gesprek heeft de link:
 </div>
 
 <br>
@@ -28,20 +34,21 @@ Medical professional {{ $hoster_name }} has made a reservation for an IRMA-meet 
 @endif
 
 <div>
-  You can join the meeting by following the above link. You will then have to login at irma-meet.nl, with your name and BSN from your IRMA app to join the meeting. Your name and BSN address will then be visible to the doctor in the meeting.
+  Je kunt deelnemen aan het videogesprek via bovenstaande link. Je zult dan moeten inloggen op irma-meet.nl, 
+  met je persoonsgegevens uit je IRMA app. Je naam, geboortedatum, BSN en e-mail zijn zichtbaar voor iedereen in het gesprek.
 </div>
 
 <br>
 
 <div>
-  In case you do not have the IRMA app on your phone yet, you need to get the IRMA app first. You need to fill it with at least
-  your name and your BSN (both from the Dutch civil registry BRP). You can find out more at the website <a href="https://irma.app">https://irma.app</a>.</li>
+  Staat de IRMA-app nog niet op je mobiel? Installeer die app dan eerst en laad je persoonsgegevens via de Basisregistratie Personen BRP. 
+  Voor meer informatie, zie de website: <a href="https://irma.app">https://irma.app</a>.</li>
 </div>
 
 <br>
 
 <div>
-  Enjoy your authenticated meeting!
+  Een goed geprek gewenst.
 </div>
 
 <div>
