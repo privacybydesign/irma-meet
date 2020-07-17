@@ -294,6 +294,7 @@ class IrmaSessionController extends Controller
             //redirect to bbb
             $joinParams = new JoinMeetingParameters($bbbSessionId, $bbbName, $password);
             $joinParams->setRedirect(true);
+            $joinParams->setJoinViaHtml5(true);
             // Join the meeting by redirecting the user to the generated URL
             $url = $bbb->getJoinMeetingURL($joinParams);
             return \Redirect::to($url);
