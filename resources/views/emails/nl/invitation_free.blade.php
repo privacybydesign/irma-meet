@@ -1,12 +1,12 @@
 <div>
-Beste Mr / Ms,
+Beste meneer, mevrouw,
 </div>
 
 <br>
 
 <div>
-  {{ $hoster_name }} has made a reservation for an IRMA-meet
-  video call with you as a participant. This meeting has the link:
+  {{ $hoster_name }} heeft een reservering gemaakt voor een IRMA-meet videogesprek
+  met jou als deelnemer. Dit gesprek heeft de link:
 </div>
 
 <br>
@@ -28,20 +28,21 @@ Beste Mr / Ms,
 @endif
 
 <div>
-  You can join the meeting by following the above link. You will then have to login at irma-meet.nl, with your name and email address from your IRMA app to join the meeting. Your name and email address will then be visible to everyone else in the meeting.
+  Je kunt deelnemen aan het videogesprek via bovenstaande link. Je zult dan moeten inloggen op irma-meet.nl, 
+  met je naam en e-mailadres uit je IRMA app. Je naam en e-mail zijn zichtbaar voor iedereen in het gesprek.
 </div>
 
 <br>
 
 <div>
-  In case you do not have the IRMA app on your phone yet, you need to get the IRMA app first. You need to fill it with at least
-  your email address and name (from LinkedIn or from the Dutch civil registry BRP). You can find out more at the website <a href="https://irma.app">https://irma.app</a>.</li>
+  Staat de IRMA-app nog niet op je mobiel? Installeer die app dan eerst en laad je e-mailadres en naam (uit de Basisregistratie
+  Personen BRP of uit LinkedIn). Voor meer informatie, zie de website: <a href="https://irma.app">https://irma.app</a>.</li>
 </div>
 
 <br>
 
 <div>
-  Enjoy your authenticated meeting!
+  Veel plezier met je videogesprek met zekerheid!
 </div>
 
 <div>

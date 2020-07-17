@@ -1,12 +1,12 @@
 <div>
-Beste Mr / Ms,
+Beste student,
 </div>
 
 <br>
 
 <div>
-  {{ $hoster_name }} has made a reservation for an IRMA-meet
-  video exam with you as a student. This meeting has the link:
+  {{ $hoster_name }} heeft een reservering gemaakt voor een IRMA-meet mondeling videotentamen
+  met jou als student. Dit gesprek heeft de link:
 </div>
 
 <br>
@@ -28,21 +28,22 @@ Beste Mr / Ms,
 @endif
 
 <div>
-  You can join the meeting by following the above link. You will then have to login at irma-meet.nl, with your academic personal data from SURFconext from your IRMA app. Your name and student number will then be visible to everyone else in the meeting.
+  Je kunt deelnemen aan het videotentamen via bovenstaande link. Je zult dan moeten inloggen op irma-meet.nl, 
+  met je studentgegevens uit je IRMA app. Je naam, studentnummer en e-mail zijn zichtbaar voor iedereen in het gesprek.
 </div>
 
 <br>
 
 <div>
-  In case you do not have the IRMA app on your phone yet, you need to get the IRMA app first. You need to fill it with at least
-  your academic personal data from SURFconext . You can find out more at the website <a href="https://irma.app">https://irma.app</a>.</li>
+  Staat de IRMA-app nog niet op je mobiel? Installeer die app dan eerst en laad je studentgegevens via SURFconext. 
+  Voor meer informatie, zie de website: <a href="https://irma.app">https://irma.app</a>.</li>
 </div>
 
 <br>
 
 <div>
-  Enjoy your authenticated meeting!
-</div>
+  Veel succes met het tentamen!
+</div><div>
 
 <div>
   IRMA-meet team.
