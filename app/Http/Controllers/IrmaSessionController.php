@@ -184,14 +184,14 @@ class IrmaSessionController extends Controller
                 if ($value == '') {
                     $validAttr = false;
                 } else {
-                    $json .= sprintf("'%s'&#58; '%s',", $attribute, $value);
+                    $json .= sprintf('"%s"&#58; "%s",', $attribute, $value);
                 }
             }
             if ($validAttr) {
                 break;
             };
         }
-        return "{ 'name'&#58; '" . $visibleName . "'," . substr($json, 0, -1) . "}";
+        return '{ "name"&#58; "' . $visibleName . '",' . substr($json, 0, -1) . '}';
     }
 
     private function _get_name($disclosureType)
