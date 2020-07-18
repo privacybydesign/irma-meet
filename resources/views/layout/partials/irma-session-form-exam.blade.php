@@ -29,7 +29,7 @@
         </div>
             <div class="form-group">
                 <input type="checkbox" name="agreed" id="agreed" value="{{old('agreed')}}" class="@error('agreed') is-invalid @enderror">
-                <label for="agreed"><span>{{ __("I agree") }}</span></label>
+                <label for="agreed"><span>{{ __("I hereby explicitly request ProcoliX to process the personal data of the student that I invite, solely for the purpose of the video meeting that I'm now setting up, and to remove these data immediately afterwards.") }}</span></label>
             </div>
         
         <div class="form-group">        
