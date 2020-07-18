@@ -74,8 +74,9 @@ class IrmaSessionController extends Controller
             'participant_email_address5' => 'nullable|email',
             'participant_email_address6' => 'nullable|email',
             'meeting_type' => 'required',
-            'agreed' => 'accepted'
-        ]);
+            'agreed' => 'accepted',
+
+        ], ['agreed.accepted' => __('Please check the box to allow processing.')]);
         $uniqueId = bin2hex(openssl_random_pseudo_bytes(4));
         //we use another session id for bbb so the bbb session id is not exposed in the url
         $bbbSessionId = bin2hex(openssl_random_pseudo_bytes(12));

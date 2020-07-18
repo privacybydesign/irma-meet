@@ -28,7 +28,7 @@
             <input id="participant_email_address1"  value="{{ old('participant_email_address1') }}" name="participant_email_address1" type="text" class="form-control @error('participant_email_address1') is-invalid @enderror">
         </div>
             <div class="form-group">
-                <input type="checkbox" name="agreed" id="agreed" value="{{old('agreed')}}" class="@error('agreed') is-invalid @enderror">
+                <input type="checkbox" name="agreed" id="agreed" value="true" class="@error('agreed') is-invalid @enderror">
                 <label for="agreed"><span>{{ __("I hereby explicitly request ProcoliX to securely process the personal data of the student that I invite, with certainty about his/her identity in the video meeting that I'm now setting up as goal, and to remove these data immediately afterwards.") }}</span></label>
             </div>
         
