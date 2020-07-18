@@ -73,7 +73,8 @@ class IrmaSessionController extends Controller
             'participant_email_address4' => 'nullable|email',
             'participant_email_address5' => 'nullable|email',
             'participant_email_address6' => 'nullable|email',
-            'meeting_type' => 'required'
+            'meeting_type' => 'required',
+            'agreed' => 'accepted'
         ]);
         $uniqueId = bin2hex(openssl_random_pseudo_bytes(4));
         //we use another session id for bbb so the bbb session id is not exposed in the url
@@ -294,7 +295,6 @@ class IrmaSessionController extends Controller
             //redirect to bbb
             $joinParams = new JoinMeetingParameters($bbbSessionId, $bbbName, $password);
             $joinParams->setRedirect(true);
-            $joinParams->setJoinViaHtml5(true);
             // Join the meeting by redirecting the user to the generated URL
             $url = $bbb->getJoinMeetingURL($joinParams);
             return \Redirect::to($url);

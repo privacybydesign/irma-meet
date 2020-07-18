@@ -62,7 +62,6 @@ return [
                     ],
                     [
                         [
-              'pbdf.gemeente.personalData.familyname',
               'pbdf.gemeente.personalData.initials',
               'pbdf.gemeente.personalData.gender',
               'pbdf.gemeente.personalData.dateofbirth',
@@ -72,7 +71,7 @@ return [
                 ]
             ],
             'valid_authentication' => [
-                ['pbdf.gemeente.personalData.familyname', 'pbdf.gemeente.personalData.initials', 'pbdf.gemeente.personalData.gender', 'pbdf.gemeente.personalData.dateofbirth', 'pbdf.gemeente.personalData.familyname'],
+                ['pbdf.gemeente.personalData.familyname', 'pbdf.gemeente.personalData.initials', 'pbdf.gemeente.personalData.gender', 'pbdf.gemeente.personalData.dateofbirth'],
             ],
             'name' => [
                 ['pbdf.gemeente.personalData.initials', 'pbdf.gemeente.personalData.familyname'],
