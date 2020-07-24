@@ -35,7 +35,7 @@
 
 <div>
   In case you do not have the IRMA app on your phone yet, you need to get the IRMA app first. You need to fill it with at least
-  your academic personal data from SURFconext . You can find out more at the website <a href="https://irma.app">https://irma.app</a>.</li>
+  your academic personal data from <a href="https://privacybydesign.foundation/issuance/surfnet/surfnet/">SURFconext</a> . You can find out more at the website <a href="https://irma.app">https://irma.app</a>.</li>
 </div>
 
 <br>

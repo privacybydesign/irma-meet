@@ -49,8 +49,10 @@ Please note:
   at the same time.</li>
 <li>It is advised to inform the people that you invite that they need to
   get the IRMA app first, and that they need to fill it with at least
-  their email address and name (from LinkedIn or from the Dutch civil
-  registry BRP). You can refer them to the website <a href="https://irma.app">https://irma.app</a> for
+  their email address and name (from <a
+  href="https://privacybydesign.foundation/issuance/social/linkedin/">LinkedIn</a> or from <a
+  href="https://services.nijmegen.nl/irma/gemeente/start">the Dutch civil
+  registry BRP</a>). You can refer them to the website <a href="https://irma.app">https://irma.app</a> for
   more information.</li>
 </div>
 
