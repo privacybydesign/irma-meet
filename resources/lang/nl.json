@@ -148,5 +148,9 @@
     "Join as host": "Neem deel als host",
     "Join as participant": "Neem deel als deelnemer",
     "Please send the above meeting link to people that you wish to invite to the video meeting.": "Stuur de bovenstaande vergaderlink naar de mensen die je wilt uitnodigen voor de videovergadering.",
-    "Please check the box to allow processing.": "Akkoord is nodig voor de verwerking."
+    "Please check the box to allow processing.": "Akkoord is nodig voor de verwerking.",
+    "Join as doctor": "Neem deel als dokter",
+    "Join as patient": "Neem deel als patient",
+    "Join as student": "Neem deel als student",
+    "Join as teacher": "Neem deel als docent"
 }

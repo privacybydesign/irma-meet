@@ -67,7 +67,7 @@ class IrmaSessionController extends Controller
             'hoster_email_address' => 'required|in:' . sprintf("%s", $validatedEmail),
             'start_time' => '', //not yet used
             'invitation_note' => 'required_with:participant_email_address1|max:255',
-            'participant_email_address1' => 'nullable|email',
+            'participant_email_address1' => 'required_with:invitation_note|nullable|email',
             'participant_email_address2' => 'nullable|email',
             'participant_email_address3' => 'nullable|email',
             'participant_email_address4' => 'nullable|email',
@@ -150,10 +150,14 @@ class IrmaSessionController extends Controller
             //TODO validate attributes again?
             return $this->_join($irmaSessionId);
         }
+        $hosterMessage = __(Config::get('disclosure-types.' . $disclosureTypeHost . '.hoster_message'));
+        $clientMessage = __(Config::get('disclosure-types.' . $disclosureType . '.client_message'));
         $mainContent = view('layout.partials.irma-session-join')->with([
             'irmaSessionId' => $irmaSessionId,
             'disclosureTypeHost' => $disclosureTypeHost,
-            'disclosureTypeParticipant' => $disclosureType
+            'disclosureTypeParticipant' => $disclosureType,
+            'hosterMessage' => $hosterMessage,
+            'clientMessage' => $clientMessage
         ])->render();
         $buttons = view('layout.partials.buttons')->render();
         return view('layout/mainlayout')->with(
