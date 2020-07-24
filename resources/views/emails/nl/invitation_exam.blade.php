@@ -35,7 +35,7 @@ Beste student,
 <br>
 
 <div>
-  Staat de IRMA-app nog niet op je mobiel? Installeer die app dan eerst en laad je studentgegevens via SURFconext. 
+  Staat de IRMA-app nog niet op je mobiel? Installeer die app dan eerst en laad je studentgegevens via <a href="https://privacybydesign.foundation/uitgifte/surfnet/surfnet/">SURFconext</a>. 
   Voor meer informatie, zie de website: <a href="https://irma.app">https://irma.app</a>.</li>
 </div>
 

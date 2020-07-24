@@ -34,15 +34,13 @@ Beste student,
 @endif
 
 <div>
-  Je kunt deelnemen aan het videogesprek via bovenstaande link. Je zult dan moeten inloggen op irma-meet.nl, 
-  met je persoonsgegevens uit je IRMA app. Je naam, geboortedatum, BSN en e-mail zijn zichtbaar voor iedereen in het gesprek.
+  Je kunt deelnemen aan het videogesprek via bovenstaande link. Je zult dan moeten inloggen op irma-meet.nl, met je persoonsgegevens uit je IRMA app. Je naam, geboortedatum, BSN en e-mail zijn zichtbaar voor iedereen in het gesprek.
 </div>
 
 <br>
 
 <div>
-  Staat de IRMA-app nog niet op je mobiel? Installeer die app dan eerst en laad je persoonsgegevens via de Basisregistratie Personen BRP. 
-  Voor meer informatie, zie de website: <a href="https://irma.app">https://irma.app</a>.</li>
+  Staat de IRMA-app nog niet op je mobiel? Installeer die app dan eerst en laad je persoonsgegevens via de <a href="https://services.nijmegen.nl/irma/gemeente/start">Basisregistratie Personen BRP</a>. Voor meer informatie, zie de website: <a href="https://irma.app">https://irma.app</a>.</li>
 </div>
 
 <br>
