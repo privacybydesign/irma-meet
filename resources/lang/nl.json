@@ -128,7 +128,7 @@
     "Show less": "Toon minder",
     "<p style=\"font-size: 14px; color:#1B4D8C;\"><br>For use in the Netherlands:<\/p>": "<p style=\"font-size: 14px; color:#1B4D8C;\"><br>Alleen voor gebruik in Nederland:<\/p>",
     "Can\\'t create room! please contact our administrator.": "We kunnen de vergadering niet aanmaken. Neem contact op met onze helpdesk.",
-    "Meeting is successfully validated and data has been saved.": "De vergadering is succesvol aangemaakt en de data is bewaard.",
+    "Meeting has been set-up successfully.": "De vergadering is succesvol aangemaakt.",
     "Your attributes could not be verified by IRMA.": "Je attributen konden niet geverifieerd worden met IRMA.",
     "more": "meer",
     "Toggle navigation": "Wissel navigatie",
