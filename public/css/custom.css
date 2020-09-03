@@ -131,6 +131,29 @@ p, li {
 	background: rgba(0, 0, 0, .15)
 }
 
+.card-body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.card-body .irma-web-form {
+	width: 100%;
+	background: transparent;
+	border-color: transparent;
+	height: auto;
+	min-height: 325px;
+}
+
+.card-body .irma-web-header {
+	padding: 0 0 2em 0 !important;
+}
+
+.card-body .irma-web-form p, .card-body .irma-web-form a {
+	color: #111 !important;
+	font-family: inherit !important;
+}
+
 .img-warp {
 	position: relative;
 	min-height: 100%;
