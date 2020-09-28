@@ -19,12 +19,12 @@ return [
                     ],
                     [
                         [
-            'pbdf.gemeente.personalData.fullname'
-            ],
-                        [
-            'pbdf.pbdf.linkedin.firstname',
-            'pbdf.pbdf.linkedin.familyname'
-            ]
+                        'pbdf.gemeente.personalData.fullname'
+                        ],
+                                    [
+                        'pbdf.pbdf.linkedin.firstname',
+                        'pbdf.pbdf.linkedin.familyname'
+                        ]
                     ]
                 ]
             ],
