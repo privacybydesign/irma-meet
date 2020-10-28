@@ -16,6 +16,7 @@ return [
                 'disclose' => [
                     [
                         ['pbdf.pbdf.email.email'],
+                        ['pbdf.sidn-pbdf.email.email'],
                     ],
                     [
                         [
@@ -37,6 +38,15 @@ return [
                     'pbdf.pbdf.linkedin.firstname',
                     'pbdf.pbdf.linkedin.familyname',
                     'pbdf.pbdf.email.email'
+                ],
+                [
+                    'pbdf.gemeente.personalData.fullname',
+                    'pbdf.sidn-pbdf.email.email'
+                ],
+                [
+                    'pbdf.pbdf.linkedin.firstname',
+                    'pbdf.pbdf.linkedin.familyname',
+                    'pbdf.sidn-pbdf.email.email'
                 ]
             ],
             'name' => [
@@ -48,7 +58,7 @@ return [
                     'pbdf.pbdf.linkedin.familyname'
                 ]
             ],
-            'email' => 'pbdf.pbdf.email.email',
+            'email' => ['pbdf.sidn-pbdf.email.email', 'pbdf.pbdf.email.email'],
             'hoster_message' => 'Join as host',
             'client_message' => 'Join as participant'
         ],
@@ -77,11 +87,17 @@ return [
                     'pbdf.gemeente.personalData.familyname',
                     'pbdf.pbdf.email.email'
                 ],
+                [
+                    'pbdf.nuts.agb.agbcode',
+            //        'pbdf.pbdf.mobilenumber.mobilenumber',
+                    'pbdf.gemeente.personalData.familyname',
+                    'pbdf.sidn-pbdf.email.email'
+                ],
             ],
             'name' => [
                 ['pbdf.gemeente.personalData.familyname'],
             ],
-            'email' => 'pbdf.pbdf.email.email',
+            'email' => ['pbdf.sidn-pbdf.email.email', 'pbdf.pbdf.email.email'],
             'hoster_message' => 'Join as doctor',
             'client_message' => 'Join as doctor'
         ],
@@ -91,6 +107,7 @@ return [
                 'disclose' => [
                     [
                         ['pbdf.pbdf.email.email'],
+                        ['pbdf.sidn-pbdf.email.email']
                     ],
                     [
                         [
@@ -116,7 +133,7 @@ return [
                     'pbdf.gemeente.personalData.familyname'
                 ],
             ],
-            'email' => 'pbdf.pbdf.email.email',
+            'email' => ['pbdf.sidn-pbdf.email.email', 'pbdf.pbdf.email.email'],
             'hoster_message' => 'Join as patient',
             'client_message' => 'Join as patient'
         ],
@@ -141,8 +158,8 @@ return [
                     'pbdf.pbdf.surfnet-2.familyname',
                     'pbdf.pbdf.surfnet-2.email'],
                 ],
-            'name' => [['pbdf.pbdf.surfnet-2.familyname']],
-            'email' => 'pbdf.pbdf.surfnet-2.email',
+            'name' => ['pbdf.pbdf.surfnet-2.familyname'],
+            'email' => ['pbdf.pbdf.surfnet-2.email'],
             'hoster_message' => 'Join as teacher',
             'client_message' => 'Join as teacher'
         ],

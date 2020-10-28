@@ -33,7 +33,7 @@ class IrmaSessionController extends Controller
     {
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        $validatedEmail = strtolower(Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), ''));
+        $validatedEmail = $this->_getEmailAddress($disclosureTypeHost);
         $validatedName = $this->_get_name($disclosureTypeHost);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
             'validated_email' => $validatedEmail,
@@ -59,7 +59,7 @@ class IrmaSessionController extends Controller
         $meetingType = $request->get('meeting_type');
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        $validatedEmail = strtolower(Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), ''));
+        $validatedEmail = $this->_getEmailAddress($disclosureTypeHost);
         //TODO: find a way to have infinite participan_email_addresses in validation
         $validatedData = $request->validate([
             'meeting_name' => 'required|max:255',
@@ -143,8 +143,9 @@ class IrmaSessionController extends Controller
                 return __('Can\'t create room! please contact our administrator.');
             }
         }
-    
-        $email = strtolower(Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email')));
+        $email = $this->_getEmailAddress($disclosureTypeHost) || $this->_getEmailAddress($disclosureType);
+        error_log('validatedEmail'.$email);
+
         if (($email !== '') && ($email === $hosterEmailAddress)) {
             //hoster is already logged in
             //TODO validate attributes again?
@@ -276,7 +277,8 @@ class IrmaSessionController extends Controller
 
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        $email = strtolower(Session::get(Config::get('disclosure-types.' . $disclosureTypeHost . '.email'), Config::get('disclosure-types.' . $disclosureType . '.email')));
+        $email = $this->_getEmailAddress($disclosureTypeHost) || $this->_getEmailAddress($disclosureType);
+
         if ($email === $hosterEmailAddress) {
             $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         }
@@ -314,5 +316,17 @@ class IrmaSessionController extends Controller
                     ]
             );
         }
+    }
+
+    private function _getEmailAddress($disclosureType)
+    {
+        $validatedEmail = null;
+        foreach (Config::get('disclosure-types.' . $disclosureType . '.email') as $emailField) {
+            if (Session::get($emailField, '') != '') {
+                $validatedEmail = Session::get($emailField);
+            };
+        }
+        error_log($validatedEmail);
+        return strtolower($validatedEmail);
     }
 }
