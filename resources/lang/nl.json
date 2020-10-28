@@ -152,5 +152,6 @@
     "Join as doctor": "Neem deel als dokter",
     "Join as patient": "Neem deel als patient",
     "Join as student": "Neem deel als student",
-    "Join as teacher": "Neem deel als docent"
+    "Join as teacher": "Neem deel als docent",
+    "The meeting <b>%s</b> has been created and remains available for 24 hours": "De meeting <b>%s</b> is aangemaakt en zal 24 uur beschikbaar zijn."
 }
