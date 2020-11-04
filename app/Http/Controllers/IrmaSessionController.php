@@ -144,7 +144,7 @@ class IrmaSessionController extends Controller
                 return __('Can\'t create room! please contact our administrator.');
             }
         }
-        $email = $this->_getEmailAddress($disclosureTypeHost) || $this->_getEmailAddress($disclosureType);
+        $email = $this->_getEmailAddress($disclosureTypeHost, $disclosureType);
         error_log('validatedEmail'.$email);
 
         if (($email !== '') && ($email === $hosterEmailAddress)) {
@@ -278,7 +278,7 @@ class IrmaSessionController extends Controller
 
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        $email = $this->_getEmailAddress($disclosureTypeHost) || $this->_getEmailAddress($disclosureType);
+        $email = $this->_getEmailAddress($disclosureTypeHost, $disclosureType);
 
         if ($email === $hosterEmailAddress) {
             $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
@@ -319,13 +319,20 @@ class IrmaSessionController extends Controller
         }
     }
 
-    private function _getEmailAddress($disclosureType)
+    private function _getEmailAddress($disclosureType, $disclosureTypeAlt)
     {
         $validatedEmail = null;
         foreach (Config::get('disclosure-types.' . $disclosureType . '.email') as $emailField) {
             if (Session::get($emailField, '') != '') {
                 $validatedEmail = Session::get($emailField);
             };
+        }
+        if ($validatedEmail == null) {
+            foreach (Config::get('disclosure-types.' . $disclosureType . '.email') as $emailField) {
+                if (Session::get($emailField, '') != '') {
+                    $validatedEmail = Session::get($emailField);
+                };
+            }
         }
         error_log($validatedEmail);
         return strtolower($validatedEmail);
