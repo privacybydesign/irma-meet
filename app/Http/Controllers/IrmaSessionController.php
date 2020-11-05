@@ -33,7 +33,7 @@ class IrmaSessionController extends Controller
     {
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        $validatedEmail = $this->_getEmailAddress($disclosureTypeHost);
+        $validatedEmail = $this->_getEmailAddress($disclosureTypeHost, '');
         $validatedName = $this->_get_name($disclosureTypeHost);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
             'validated_email' => $validatedEmail,
@@ -59,7 +59,7 @@ class IrmaSessionController extends Controller
         $meetingType = $request->get('meeting_type');
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        $validatedEmail = $this->_getEmailAddress($disclosureTypeHost);
+        $validatedEmail = $this->_getEmailAddress($disclosureTypeHost, '');
         //TODO: find a way to have infinite participan_email_addresses in validation
         $validatedData = $request->validate([
             'meeting_name' => 'required|max:255',
