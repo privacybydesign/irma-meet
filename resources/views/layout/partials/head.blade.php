@@ -34,4 +34,3 @@
 <script type="text/javascript">
   const LANGUAGE='{{ session()->get('locale', 'nl') }}';
 </script>
-

@@ -1,7 +1,7 @@
 {
     "Can\\'t create room! please contact our administrator.": "",
     "Meeting is created.": "",
-    "Use the link below to share with your participants:": "",
+    "Use the link below to share with your participants:": "Use the link on the right to share with your participants:",
     "Your email address could not be verified by IRMA.": "",
     "AUTHENTICATED VIDEO CALLS": "",
     "Meet online, without surprises!": "",
@@ -132,5 +132,5 @@
     "To set up a medical consult, the medical professional needs his\/her <a href=\"https:\/\/irma-agb.nuts.nl\/\" class=\"light\">medical registration number (AGB-code)<\/a> in their IRMA app. Patients need their name, date of birth and national registration number (BSN) from the <a href=\"https:\/\/services.nijmegen.nl\/irma\/gemeente\/start\" class=\"light\">national civil registry (BRP)<\/a> in their IRMA app.": "",
     "Join as host": "",
     "Join as participant": "",
-    "Please send the above meeting link to people that you wish to invite to the video meeting." : ""
+    "Please send the above meeting link to people that you wish to invite to the video meeting.": ""
 }

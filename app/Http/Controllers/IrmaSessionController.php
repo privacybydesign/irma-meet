@@ -23,7 +23,7 @@ class IrmaSessionController extends Controller
         //
     }
 
-   
+
     /**
      * Show the create session screen.
      *
@@ -102,10 +102,11 @@ class IrmaSessionController extends Controller
 
         //send emails to hoster and participants
         $this->_send_mail($validatedData, $invitationLink);
-        
+
         $mainContent = '<p>' . sprintf(__('The meeting <b>%s</b> has been created and remains available for 24 hours'), $validatedData['meeting_name']). '</p>';
         $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
         $mainContent .= '<a href="' . $invitationLink . '">' . $invitationLink . '</a>';
+        $mainContent .= '<button class="btm button btn-small" onclick="copy(' + $invitationLink + ');">copy to clipboard</a>';
         $buttons = view('layout.partials.buttons')->render();
         return view('layout/mainlayout')->with(
             [
@@ -128,7 +129,7 @@ class IrmaSessionController extends Controller
         $hosterEmailAddress = $irmaSession->hoster_email_address;
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        
+
         //Create session in BBB
         $bbbSessionId = $irmaSession->bbb_session_id;
         $meeting_name = $irmaSession->meeting_name;
@@ -230,7 +231,7 @@ class IrmaSessionController extends Controller
 
         // If no participant-email is provided, the host needs to invite participants themselves
         $noteForHost = __('Please send the above meeting link to people that you wish to invite to the video meeting.');
-        
+
         // If participant-email is provided, send individual mails to all participants
         for ($i = 1; $i < 7; $i++) {
             if (!empty($validatedData['participant_email_address'. $i])) {
@@ -251,7 +252,7 @@ class IrmaSessionController extends Controller
                 }
             }
         }
-        
+
         // TODO consider multiple participants (change words to plural)
 
         //Send mail with links to hoster
