@@ -105,8 +105,8 @@ class IrmaSessionController extends Controller
 
         $mainContent = '<p>' . sprintf(__('The meeting <b>%s</b> has been created and remains available for 24 hours'), $validatedData['meeting_name']). '</p>';
         $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
-        $mainContent .= '<a href="' . $invitationLink . '">' . $invitationLink . '</a>';
-        $mainContent .= '<button class="btm button btn-small" onclick="copy(' + $invitationLink + ');">copy to clipboard</a>';
+        $mainContent .= '<p><a href="' . $invitationLink . '">' . $invitationLink . '</a></p>';
+        $mainContent .= '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="copy(\'' . $invitationLink . '\');">' . __('copy to clipboard') . '</button>';
         $buttons = view('layout.partials.buttons')->render();
         return view('layout/mainlayout')->with(
             [
