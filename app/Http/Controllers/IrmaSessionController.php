@@ -113,7 +113,7 @@ class IrmaSessionController extends Controller
                     'message' => $mainContent,
                     'title' =>  __('Success'),
                     'buttons' => $buttons
-                    ]
+                    ] 
         );
     }
 
