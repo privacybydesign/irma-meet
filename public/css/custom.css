@@ -132,7 +132,6 @@ p, li {
 }
 
 .card-body {
-	display: flex;
 	align-items: center;
 	justify-content: center;
 }
@@ -143,6 +142,7 @@ p, li {
 	border-color: transparent;
 	height: auto;
 	min-height: 325px;
+    max-width:none;
 }
 
 .card-body .irma-web-header {
