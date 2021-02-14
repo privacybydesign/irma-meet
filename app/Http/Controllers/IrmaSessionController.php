@@ -146,7 +146,6 @@ class IrmaSessionController extends Controller
             }
         }
         $email = $this->_getEmailAddress($disclosureTypeHost, $disclosureType);
-        error_log('validatedEmail'.$email);
 
         if (($email !== '') && ($email === $hosterEmailAddress)) {
             //hoster is already logged in
