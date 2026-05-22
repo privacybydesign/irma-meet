@@ -7,6 +7,7 @@
 <meta name="author" content="">
 
 <title>{{ __('IRMA-meet the secure video chat') }}</title>
+{{-- key above kept for translation lookup; override value set in en/nl.json --}}
 
 <!-- Bootstrap core CSS -->
 

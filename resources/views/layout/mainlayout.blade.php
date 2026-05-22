@@ -10,12 +10,17 @@
 
 <body>
 
+    <div class="text-center py-2" style="background:#f0ad4e; color:#333; font-size:0.9rem;">
+        <strong>{{ __('demo_notice_label') }}</strong>
+        {{ __('demo_notice_text') }}
+    </div>
+
     <div class="container-fluid h-100 d-flex flex-column">
 
         <div class="row">
             <main class="col-md-4 bg-blue">
                 <div class="title">
-                    IRMA-meet.nl
+                    Yivi Meet
                 </div>
             </main>
             <main class="col-md-4 bg-warmwhite">
@@ -337,18 +342,17 @@
         <main class="col-md-12">
             <div class="info" style="padding-bottom: 1rem;">
                 <h2>{{ __('Privacy policy') }}</h2>
-                <p>{!! __('The IRMA-meet service is offered jointly by the company <a href="https://www.procolix.com">ProcoliX</a> and the <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a>. Both <a href="https://www.procolix.com">ProcoliX</a> and the foundation are jointly the data controller, but only <a href="https://www.procolix.com">ProcoliX</a> is the data processor: it hosts the servers (for BigBlueButton video and for IRMA authentication, and for the webpages) that process the relevant (personal) data. The <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> does not process any personal data as part of IRMA-meet.') !!}</p>
+                <p>{!! __('privacy_data_controller') !!}</p>
                 <p>{{ __('IRMA-meet video calls are protected in two ways.') }}</p>
                 <ul>
-                    <li>{!! __('The connections that carry the video and audio (and other) signals between each user and <a href="https://www.procolix.com">ProcoliX</a> are encrypted, using the BigBlueButton software.') !!}</li>
+                    <li>{!! __('privacy_connections_encrypted') !!}</li>
                     <li>{{ __('Hosts and participants in IRMA-meet are authenticated via IRMA. The types of attributes and their trust-worthiness may differ per meeting. It is the responsibility of hosts and participants to judge whether these attributes offer a sufficiently high level of certainty.') }}</li>
                 </ul>
                 <p>{{ __('IRMA-meet does not offer end-to-end encryption between hosts and participants.') }}</p>
-                <p>{!! __('<a href="https://www.procolix.com">ProcoliX</a> processess only minimal personal data required for the IRMA-meet functionality. In particular, it does not record or store content from meetings, like video, audio, chat, presentations, shared screens etc. The functionality (for hosts) to record meetings within IRMA-meet is not available at this early stage. Also, personal data from authentication with IRMA, for getting access to IRMA-meet calls, is not stored by <a href="https://www.procolix.com">ProcoliX</a> beyond the meeting. Other, technical personal data such as IP-addresses will be stored and deleted in accordance <a href="https://www.procolix.com">ProcoliX</a>&apos;s general company policy. When no technical abnormalities occur, they are deleted after 2 days.') !!}</p>
-                <p>{!! __('<a href="https://www.procolix.com">ProcoliX</a> may ask hosts of meetings if their name and/or email address can be retained in order to stay informed about future IRMA-meet developments. Such processing of personal data happens on the (legal) basis of freely given consent.') !!}</p>
-                <p>{!! __('Statistical information about IRMA-meet video chats may be aggregated (duration, numbers of participants, numbers of meetings per day/week/month/year, origin etc.) and may be used by <a href="https://www.procolix.com">ProcoliX</a> and by the <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> for documentation and publications. If needed, IRMA-meet data can be used in a minimal way for technical purposes, such as maintenance and performance tuning, but they will be destroyed after a maximum of 2 days.') !!}</p>
-                <p>{!! __('Technical changes in the IRMA-meet system, or possible new services, may lead to adaptation of this privacy policy. <a href="https://www.procolix.com">ProcoliX</a> and the <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> reserve the right to make such changes and will publish the adapted privacy policy via <a href="#">this website</a> as soon as possible.') !!}</p>
-                <p>{!! __('For questions, remarks, or complaints about this data processing by <a href="https://www.procolix.com">ProcoliX</a> for IRMA-meet functionality, please contact the <a href="https://www.procolix.com">ProcoliX</a> at info@irma-meet.nl. For complaints about the IRMA-meet data processing one can also contact the Data Protection Authority of the Netherlands.') !!}</p>
+                <p>{!! __('privacy_minimal_data') !!}</p>
+                <p>{{ __('privacy_bbb_retention') }}</p>
+                <p>{!! __('privacy_policy_changes') !!}</p>
+                <p>{!! __('privacy_contact') !!}</p>
             </div>
         </main>
     </div>
@@ -358,7 +362,7 @@
             <main class="col-xl-4">
                 <div class="footer">
                     <h5>{{ __('About') }}</h5>
-                    <p>{!! __('The IRMA-meet video chat service is based on the open source video platform <a href="https://bigbluebutton.org/">BigBlueButton</a>. It runs at the hosting company <a href="https://www.procolix.com">ProcoliX</a> in the Netherlands. It has been developed jointly with the <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> with support from <a href="https://www.sidnfonds.nl">SIDNfonds</a>.') !!}</p>
+                    <p>{!! __('about_service_description') !!}</p>
                 </div>
             </main>
             <main class="col-xl-4">
@@ -372,16 +376,7 @@
             <main class="col-xl-4">
                 <div class="footer">
                     <h5>{{ __('Contact') }}</h5>
-                    <p>{!! __('Visit the <a href="https://www.procolix.com">ProcoliX website</a> for more information about the hosting company.') !!}</p>
-
                     <p>{!! __('Visit the <a href="https://www.irma.app">irma.app</a> website to learn more about the IRMA app and go to <a href="https://privacybydesign.foundation">Privacy by Design Foundation</a> for background information.') !!}</p>
-
-                    <p> <i class="fa fa-twitter"></i>
-                        {{ __('Follow us on twitter:') }}</p>
-
-                    <p>{!! __('IMRA-meet: <a href="https://twitter.com/IRMA_meet/">@IRMA_meet</a>') !!}</p>
-                    <p>{!! __('Privacy by Design Foundation: <a href="https://twitter.com/IRMA_privacy/">@IRMA_privacy') !!}</a>
-                    </p>
                 </div>
             </main>
         </div>
