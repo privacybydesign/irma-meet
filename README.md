@@ -67,6 +67,17 @@ php artisan migrate --seed
 
 Requires PHP 8.2+ and a MySQL database.
 
+## Rebuilding frontend assets
+
+The compiled CSS/JS assets are committed to `public/` so the app runs without a build step. If you need to recompile them (after changing `resources/sass/` or `resources/js/`):
+
+> **Note:** laravel-mix 6 (webpack 5) requires **Node 18 or 20**. It does not work on Node 22+.
+
+```bash
+npm install
+npm run prod
+```
+
 ## Translation
 
 The application supports English and Dutch. Translations are in:
