@@ -1,4 +1,5 @@
-FROM php:8.4-fpm-alpine
+# base: PHP-FPM only — used by local docker-compose
+FROM php:8.4-fpm-alpine AS base
 
 RUN apk add --no-cache \
     bash \
@@ -39,3 +40,15 @@ RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm"]
+
+# k8s: combined nginx + PHP-FPM — used for Kubernetes deployments
+FROM base AS k8s
+
+RUN apk add --no-cache nginx supervisor
+
+COPY docker/nginx/k8s.conf /etc/nginx/http.d/default.conf
+COPY docker/supervisord.conf /etc/supervisord.conf
+
+EXPOSE 80
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
+      target: base
     volumes:
       - .:/var/www/html
       - /var/www/html/vendor  # keep vendor inside container
