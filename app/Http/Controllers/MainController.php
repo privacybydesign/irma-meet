@@ -25,7 +25,7 @@ class MainController extends Controller
     {
         $version = \Tremby\LaravelGitVersion\GitVersionHelper::getVersion();
         return view('layout/mainlayout')->with([
-            'message' => '<img id="card-image" class="img-fluid" src="'.url('/') .'/img/IRMA-meet.png" alt="IRMA-meet logo v.' . $version . '"><section class="irma-web-form" style="display: none"/>',
+            'message' => '<img id="card-image" class="img-fluid" src="'.url('/') .'/img/yivi-meet.png" alt="Yivi Meet logo v.' . $version . '"><section class="irma-web-form" style="display: none"/>',
             'title' => __('Welcome'),
             'buttons' => view('layout.partials.buttons')->render(),
             'more' => __('more')
