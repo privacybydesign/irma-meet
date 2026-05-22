@@ -204,35 +204,7 @@
                     </div>
                 </main>
             </div>
-            <div class="row img-warp tight no-gutters">
-                <main class="col-sm-3">
-                    <div class="type">
-                        <p class="typeH">{{ __('Video medical consult') }}</p><img class="circles" src="{{ url('/') }}/img/medical.svg" />
-                    </div>
-                    <div>
-
-                    </div>
-                </main>
-                <main class="col-sm-9">
-                    <div class="info">
-                        <div class="speech-bubble">
-                            <p>
-                                <b>{{ __('For whom?') }}</b> {{ __('Doctors and other medical professionals in the Netherlands can use IRMA-meet for confidential medical video consults with patients.') }}
-                            </p>
-                            <span id="medical" style="display: none;">
-                                <p>
-                                    <b>{{ __('How does it work?') }}</b> {{ __('The medical professional proves that they are a registered medical professional with the IRMA app, sets up the meeting and sends the meeting link to the patient. The patient has to prove who (s)he is with the IRMA app before entering the medical consult. The medical professional then knows for sure who the patient is.') }}
-                                </p>
-                                <p>
-                                    <b>{{ __('What do you need?') }}</b> {!! __('To set up a medical consult, the medical professional needs his/her <a href="https://irma-agb.nuts.nl/" class="light">medical registration number (AGB-code)</a> in their IRMA app. Patients need their name, date of birth and national registration number (BSN) from the <a href="https://services.nijmegen.nl/irma/gemeente/start" class="light">national civil registry (BRP)</a> in their IRMA app.') !!}
-                                </p>
-                            </span>
-                            <p class="toggle" onclick="toggleMoreInfo('medical')" id="medicalBtn">{{ __('Show more') }}</p>
-                        </div>
-                        </p>
-                    </div>
-                </main>
-            </div>
+            {{-- Medical consult section hidden: requires deprecated Yivi credentials (AGB-code/BSN) --}}
         </div>
 
         <script>
