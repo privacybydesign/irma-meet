@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\Invitation;
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -138,7 +139,7 @@ class IrmaSessionController extends Controller
         //we use an md5 hash from the bbb session id. The bbb session id is not exposed, so md5 should be enough protection
         $createParams->setAttendeePassword(hash('sha256', 'participant' . $bbbSessionId));
         $createParams->setModeratorPassword(hash('sha256', 'hoster' . $bbbSessionId));
-        $isMeetingRunning = $bbb->isMeetingRunning($createParams);
+        $isMeetingRunning = $bbb->isMeetingRunning(new IsMeetingRunningParameters($bbbSessionId));
         if (! $isMeetingRunning->isRunning()) {
             $response = $bbb->createMeeting($createParams);
             if ($response->getReturnCode() == 'FAILED') {

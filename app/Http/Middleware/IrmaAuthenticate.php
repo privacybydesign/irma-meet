@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Session;
-use Config;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class IrmaAuthenticate
 {

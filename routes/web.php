@@ -1,40 +1,35 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\IrmaAuthController;
+use App\Http\Controllers\IrmaSessionController;
+use App\Http\Controllers\LocalizationController;
+use App\Http\Controllers\MainController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use TCG\Voyager\Facades\Voyager;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
- */
+Route::get('/', [MainController::class, 'index'])->name('home');
 
-Route::get('/', 'MainController@index')->name('home');
+Route::get('/irma_auth/start/{disclosureType}', [IrmaAuthController::class, 'start'])->name('irma_auth.start')->middleware('irma_auth');
 
-Route::get('/irma_auth/start/{disclosureType}', 'IrmaAuthController@start')->name('irma_auth.start')->middleware('irma_auth');
+Route::get('/irma_session/authenticate/{disclosureType}/{url}', [IrmaAuthController::class, 'authenticate'])->name('irma_session.authenticate');
 
-Route::get('/irma_session/authenticate/{disclosureType}/{url}', 'IrmaAuthController@authenticate')->name('irma_session.authenticate');
+Route::get('/irma_session/create/{meetingType}', [IrmaSessionController::class, 'create'])->name('irma_session.create')->middleware('irma_auth');
 
-Route::get('/irma_session/create/{meetingType}', 'IrmaSessionController@create')->name('irma_session.create')->middleware('irma_auth');
+Route::post('/irma_session/store', [IrmaSessionController::class, 'store'])->name('irma_session.store');
 
-Route::post('/irma_session/store', 'IrmaSessionController@store')->name('irma_session.store');
+Route::get('/irma_session/join/{irmaSessionId}', [IrmaSessionController::class, 'join'])->name('irma_session.join');
 
-Route::get('/irma_session/join/{irmaSessionId}', 'IrmaSessionController@join')->name('irma_session.join');
+Route::get('/irma_session/join_host/{irmaSessionId}', [IrmaSessionController::class, 'join_host'])->name('irma_session.join_host')->middleware('irma_auth');
 
-Route::get('/irma_session/join_host/{irmaSessionId}', 'IrmaSessionController@join_host')->name('irma_session.join')->middleware('irma_auth');
+Route::get('/irma_session/join_participant/{irmaSessionId}', [IrmaSessionController::class, 'join_participant'])->name('irma_session.join_participant')->middleware('irma_auth');
 
-Route::get('/irma_session/join_participant/{irmaSessionId}', 'IrmaSessionController@join_participant')->name('irma_session.join')->middleware('irma_auth');
-
-Route::get('lang/{locale}', 'LocalizationController@index');
+Route::get('lang/{locale}', [LocalizationController::class, 'index']);
 
 Auth::routes();
 
-Route::get('/admin', 'AdminController@index')->name('admin');
-
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 Route::group(['prefix' => 'voyager'], function () {
     Voyager::routes();
