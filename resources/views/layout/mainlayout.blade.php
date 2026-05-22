@@ -107,7 +107,7 @@
             <div class="row img-warp tight">
                 <main class="col-md-5">
                     <div class="">
-                        <img class="img-fluid irma_logo_info" src="{{ url('/') }}/img/irma_logo.svg" />
+                        <img class="img-fluid irma_logo_info" src="{{ url('/') }}/img/yivi-logo.svg" />
                     </div>
                 </main>
                 <main class="col-md-7">
@@ -116,7 +116,7 @@
                         <p>{!! __('You can prove who you are via <a href="https://www.irma.app">IRMA</a>. It is a freely available open source identity app; it is a wallet on your phone for collecting personal data. This data is stored only on your phone, and nowhere else. You control where you disclose it.') !!}</p>
                     </div>
                     <div>
-                        <img class="img-fluid irma_logo_small" src="{{ url('/') }}/img/irma_logo.svg" />
+                        <img class="img-fluid irma_logo_small" src="{{ url('/') }}/img/yivi-logo.svg" />
                     </div>
                 </main>
             </div>
@@ -236,7 +236,7 @@
                     <h3>{{ __('Step 1') }}</h3>
                     <h5>{{ __('Host proves who (s)he is') }}</h5>
                     <p class="explanation">{!! __('The host initiates a new meeting on <a href="#">this website</a> and makes herself/himself known, via the IRMA app.') !!}</p>
-                    <img class="step-img" src="{{ url('/') }}/img/irma_logo.svg" />
+                    <img class="step-img" src="{{ url('/') }}/img/yivi-logo.svg" />
                 </div>
             </main>
             <main class="col-lg-4">
@@ -264,7 +264,7 @@
                     <h3>{{ __('Step 4') }}</h3>
                     <h5>{{ __('Participants prove who they are') }}</h5>
                     <p class="explanation">{{ __('When a participant clicks on the link (s)he is asked to prove who (s)he via IRMA.') }}</p>
-                    <img class="step-img" src="{{ url('/') }}/img/irma_logo.svg" />
+                    <img class="step-img" src="{{ url('/') }}/img/yivi-logo.svg" />
 
                 </div>
             </main>
