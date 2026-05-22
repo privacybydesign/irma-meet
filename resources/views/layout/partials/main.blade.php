@@ -1,2 +1,2 @@
 
-<img src="{{ url('/') }}img/IRMA-meet.png alt="IRMA-meet logo">
+<img src="{{ url('/') }}img/yivi-meet.png" alt="Yivi Meet logo">
