@@ -1,4 +1,4 @@
-.PHONY: up down build shell migrate seed key logs
+.PHONY: up down build shell artisan migrate seed fresh key logs composer help
 
 up: ## Start all containers
 	docker compose up -d
@@ -15,6 +15,9 @@ shell: ## Open a shell in the app container
 key: ## Generate a new APP_KEY and write it into .env
 	@KEY=$$(docker compose exec app php -r "echo 'base64:'.base64_encode(random_bytes(32));"); \
 	sed -i '' "s|^APP_KEY=.*|APP_KEY=$$KEY|" .env && echo "APP_KEY set."
+
+artisan: ## Run an artisan command (e.g. make artisan CMD=view:clear)
+	docker compose exec app php artisan $(CMD)
 
 migrate: ## Run database migrations
 	docker compose exec app php artisan migrate
