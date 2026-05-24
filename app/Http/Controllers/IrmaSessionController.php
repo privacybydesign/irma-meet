@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\Invitation;
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -77,9 +78,9 @@ class IrmaSessionController extends Controller
             'agreed' => 'accepted',
 
         ], ['agreed.accepted' => __('Please check the box to allow processing.')]);
-        $uniqueId = bin2hex(openssl_random_pseudo_bytes(4));
+        $uniqueId = bin2hex(random_bytes(4));
         //we use another session id for bbb so the bbb session id is not exposed in the url
-        $bbbSessionId = bin2hex(openssl_random_pseudo_bytes(12));
+        $bbbSessionId = bin2hex(random_bytes(12));
         $validatedData = array_merge($validatedData, ['irma_session_id' => $uniqueId, 'start_time' => now(), 'bbb_session_id' => $bbbSessionId]);
         $irma_session = \App\IrmaMeetSessions::create($validatedData);
 
@@ -138,7 +139,7 @@ class IrmaSessionController extends Controller
         //we use an md5 hash from the bbb session id. The bbb session id is not exposed, so md5 should be enough protection
         $createParams->setAttendeePassword(hash('sha256', 'participant' . $bbbSessionId));
         $createParams->setModeratorPassword(hash('sha256', 'hoster' . $bbbSessionId));
-        $isMeetingRunning = $bbb->isMeetingRunning($createParams);
+        $isMeetingRunning = $bbb->isMeetingRunning(new IsMeetingRunningParameters($bbbSessionId));
         if (! $isMeetingRunning->isRunning()) {
             $response = $bbb->createMeeting($createParams);
             if ($response->getReturnCode() == 'FAILED') {

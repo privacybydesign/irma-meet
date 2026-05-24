@@ -5,7 +5,7 @@
 <br>
 
 <div>
-  {{ $hoster_name }} has made a reservation for an IRMA-meet
+  {{ $hoster_name }} has made a reservation for a Yivi Meet
   video exam with you as a student. This meeting has the link:
 </div>
 
@@ -28,14 +28,14 @@
 @endif
 
 <div>
-  You can join the meeting by following the above link. You will then have to login at irma-meet.nl, with your academic personal data from SURFconext from your IRMA app. Your name and student number will then be visible to everyone else in the meeting.
+  You can join the meeting by following the above link. You will then have to login at yivi-meet.nl, with your academic personal data from SURFconext from your Yivi app. Your name and student number will then be visible to everyone else in the meeting.
 </div>
 
 <br>
 
 <div>
-  In case you do not have the IRMA app on your phone yet, you need to get the IRMA app first. You need to fill it with at least
-  your academic personal data from <a href="https://privacybydesign.foundation/issuance/surfnet/surfnet/">SURFconext</a> . You can find out more at the website <a href="https://irma.app">https://irma.app</a>.</li>
+  In case you do not have the Yivi app on your phone yet, you need to get the Yivi app first. You need to fill it with at least
+  your academic personal data from <a href="https://privacybydesign.foundation/issuance/surfnet/surfnet/">SURFconext</a> . You can find out more at the website <a href="https://yivi.app">https://yivi.app</a>.</li>
 </div>
 
 <br>
@@ -45,5 +45,5 @@
 </div>
 
 <div>
-  IRMA-meet team.
+  Yivi Meet team.
 </div>

@@ -37,7 +37,7 @@ class Invitation extends Mailable
         return $this->from($this->mailinfo['from'])->
             replyTo($this->mailinfo['reply_to'])->
             view($this->mailinfo['content'])->
-            subject("IRMA-meet link for " . $this->mailinfo['meeting_name'])->
+            subject(__('Yivi Meet link for :name', ['name' => $this->mailinfo['meeting_name']]))->
             with([
                 'hoster_name' => $this->mailinfo['hoster_name'],
                 'invitation_note' => $this->mailinfo['invitation_note'],

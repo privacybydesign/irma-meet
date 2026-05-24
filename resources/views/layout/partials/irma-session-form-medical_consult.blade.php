@@ -37,7 +37,7 @@
         </div>
         <div class="form-group">
             <input type="checkbox" name="agreed" id="agreed" value="true" class="@error('agreed') is-invalid @enderror">
-            <label for="agreed"><span>{{ __("I hereby explicitly request ProcoliX to securely process the personal data of the patient that I invite, with certainty about his/her identity in the video meeting that I'm now setting up as goal, and to remove these data immediately afterwards.") }}</span></label>
+            <label for="agreed"><span>{{ __('consent_patient_data') }}</span></label>
         </div>
         
         <div class="form-group">        

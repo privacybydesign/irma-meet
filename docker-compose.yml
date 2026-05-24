@@ -1,0 +1,72 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: base
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor  # keep vendor inside container
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - irma-meet
+
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - irma-meet
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: irmameet
+      MYSQL_USER: irmameet
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "irmameet", "-psecret"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - irma-meet
+
+  irma-server:
+    image: ghcr.io/privacybydesign/irma:latest
+    command: server --no-auth -v --url http://localhost:8088 --jwt-privkey-file /etc/irma/jwt_privkey.pem
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./docker/irma/jwt_privkey.pem:/etc/irma/jwt_privkey.pem:ro
+    networks:
+      - irma-meet
+
+  mail:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    networks:
+      - irma-meet
+
+volumes:
+  db_data:
+
+networks:
+  irma-meet:
