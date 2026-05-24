@@ -6,7 +6,7 @@ Beste heer, mevrouw {{ $hoster_name }},
 
 <div>
 
-Je hebt een reservering gemaakt voor een IRMA-meet video tentamen met
+Je hebt een reservering gemaakt voor een Yivi Meet video tentamen met
 jezelf in de rol van docent (tentaminator). De link voor dit tentamen
 is:
 
@@ -24,8 +24,8 @@ is:
 
 Deze link blijft 24 uur geldig, vanaf nu. Op ieder moment tijdens deze
 24 uur kun je het tentamen starten via deze link.  Je moet dan
-(opnieuw) als docent inloggen op irma-meet.nl, met je academische
-kaartje (van SURFcontext) in je IRMA app, voordat het tentamen van
+(opnieuw) als docent inloggen op yivi-meet.nl, met je academische
+kaartje (van SURFcontext) in je Yivi app, voordat het tentamen van
 start kan gaan. Je naam en e-mail zullen dan zichtbaar zijn voor de
 student die tentamen doet.
 
@@ -38,7 +38,7 @@ student die tentamen doet.
 <br>
 <div>
 
-Het is aan jou om de student te informeren over het tijdstip van het tentamen en eventuele andere relevante details. Wanneer de student op de link klikt moet hij/zij zichzelf bekendmaken, via IRMA,
+Het is aan jou om de student te informeren over het tijdstip van het tentamen en eventuele andere relevante details. Wanneer de student op de link klikt moet hij/zij zichzelf bekendmaken, via Yivi,
 met: naam, e-mailadres en studentnummer. Deze gegevens zijn tijdens het tentamen zichtbaar.  Je kunt ze gebruiken om zeker te zijn van de identiteit van de student.
 
 </div>
@@ -54,10 +54,10 @@ tegelijkertijd hebben.
 </li>
 
 <li> Het is verstandig je studenten van te voren in te lichten dat ze de
-IRMA app nodig hebben voor deze mondelinge tentamens. Studenten moeten
+Yivi app nodig hebben voor deze mondelinge tentamens. Studenten moeten
 de app dus eerst installeren, zich registreren, en vullen met het
 academische kaartje van SURFconext. Je kunt ze verwijzen naar de
-websites <a href="https://irma.app">https://irma.app</a> en <a
+websites <a href="https://yivi.app">https://yivi.app</a> en <a
 href="https://privacybydesign.foundation/uitgifte/surfnet/surfnet/">academisch
 kaartje</a> voor meer informatie.
 </li>
@@ -68,5 +68,5 @@ Veel succes met dit videobellen met zekerheid.
 </div>
 
 <div>
-IRMA-meet team.
+Yivi Meet team.
 </div>

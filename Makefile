@@ -13,8 +13,7 @@ shell: ## Open a shell in the app container
 	docker compose exec app bash
 
 key: ## Generate a new APP_KEY and write it into .env
-	@KEY=$$(docker compose exec app php -r "echo 'base64:'.base64_encode(random_bytes(32));"); \
-	sed -i '' "s|^APP_KEY=.*|APP_KEY=$$KEY|" .env && echo "APP_KEY set."
+	docker compose exec app php artisan key:generate
 
 artisan: ## Run an artisan command (e.g. make artisan CMD=view:clear)
 	docker compose exec app php artisan $(CMD)

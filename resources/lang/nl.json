@@ -155,5 +155,6 @@
     "about_service_description": "Yivi Meet is een demonstratie van geverifieerde videovergaderingen, gebouwd op het open source videoplatform <a href=\"https://bigbluebutton.org/\">BigBlueButton</a> (gehost door Blindside Networks). Het is ontwikkeld door de <a href=\"https://privacybydesign.foundation\">stichting Privacy by Design</a> met steun van <a href=\"https://www.sidnfonds.nl\">SIDNfonds</a>.",
     "consent_student_data": "Ik ga akkoord dat de naam en het e-mailadres van de student die ik uitnodig worden gebruikt om hun identiteit te verifiëren voor deze vergadering.",
     "consent_patient_data": "Ik ga akkoord dat de naam en persoonlijke gegevens van de patiënt die ik uitnodig worden gebruikt om hun identiteit te verifiëren voor deze vergadering.",
-    "privacy_bbb_retention": "Opnames worden door BigBlueButton (Blindside Networks) maximaal 7 dagen bewaard en zijn niet downloadbaar."
+    "privacy_bbb_retention": "Opnames worden door BigBlueButton (Blindside Networks) maximaal 7 dagen bewaard en zijn niet downloadbaar.",
+    "Yivi Meet link for :name": "Yivi Meet link voor :name"
 }
