@@ -84,3 +84,9 @@ The application supports English and Dutch. Translations are in:
 
 - `resources/lang/en.json` / `resources/lang/nl.json`
 - `resources/views/emails/`
+
+Framework-level strings (form-validation messages, auth scaffolding) are
+served in English only — the `caouecs/laravel-lang` package that previously
+supplied Dutch translations for those was dropped during the Laravel 10
+upgrade and has not been re-added. Acceptable for the demo; revisit if a
+fully-Dutch UX becomes a requirement.

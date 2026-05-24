@@ -78,9 +78,9 @@ class IrmaSessionController extends Controller
             'agreed' => 'accepted',
 
         ], ['agreed.accepted' => __('Please check the box to allow processing.')]);
-        $uniqueId = bin2hex(openssl_random_pseudo_bytes(4));
+        $uniqueId = bin2hex(random_bytes(4));
         //we use another session id for bbb so the bbb session id is not exposed in the url
-        $bbbSessionId = bin2hex(openssl_random_pseudo_bytes(12));
+        $bbbSessionId = bin2hex(random_bytes(12));
         $validatedData = array_merge($validatedData, ['irma_session_id' => $uniqueId, 'start_time' => now(), 'bbb_session_id' => $bbbSessionId]);
         $irma_session = \App\IrmaMeetSessions::create($validatedData);
 
