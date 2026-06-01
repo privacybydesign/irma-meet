@@ -37,6 +37,7 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=edge,enable=${{ github.ref == 'refs/heads/master' }}
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/master' }}
 
       - uses: docker/build-push-action@v6

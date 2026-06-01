@@ -39,7 +39,9 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "irmameet", "-d", "irmameet"]
+      # psql round-trip, not pg_isready: ensures the irmameet role and
+      # database are actually initialised before app/migrations boot.
+      test: ["CMD-SHELL", "psql -U irmameet -d irmameet -c 'select 1' >/dev/null"]
       interval: 5s
       timeout: 5s
       retries: 10

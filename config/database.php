@@ -2,6 +2,18 @@
 
 use Illuminate\Support\Str;
 
+// Fail loudly when something still hands us DB_CONNECTION=mysql after the
+// MySQL → Postgres switch. Without this Laravel raises the generic
+// "Database connection [mysql] not configured", which doesn't hint at the
+// driver swap and sends people chasing the wrong fix.
+if (env('DB_CONNECTION') === 'mysql') {
+    throw new \RuntimeException(
+        'DB_CONNECTION=mysql is no longer supported by irma-meet. ' .
+        'This app moved to Postgres; set DB_CONNECTION=pgsql (or unset it ' .
+        'to use the default) and ensure the pdo_pgsql PHP extension is loaded.'
+    );
+}
+
 return [
 
     /*

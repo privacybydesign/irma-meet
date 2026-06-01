@@ -12,11 +12,14 @@ RUN apk add --no-cache \
     libpq \
     libzip-dev \
     oniguruma-dev \
-    postgresql-dev \
     unzip \
     zip
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+# postgresql-dev ships the headers needed to compile pdo_pgsql, but the
+# resulting extension only needs libpq at runtime. Stage it via a virtual
+# package and delete it once compilation finishes to keep the image small.
+RUN apk add --no-cache --virtual .build-deps postgresql-dev \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install \
         bcmath \
         exif \
@@ -25,7 +28,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         mbstring \
         opcache \
         pdo_pgsql \
-        zip
+        zip \
+ && apk del .build-deps
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
