@@ -67,16 +67,18 @@ php artisan migrate --seed
 
 Requires PHP 8.2+ and a Postgres database.
 
-## Rebuilding frontend assets
+## Frontend assets
 
-The compiled CSS/JS assets are committed to `public/` so the app runs without a build step. If you need to recompile them (after changing `resources/sass/` or `resources/js/`):
-
-> **Note:** laravel-mix 6 (webpack 5) requires **Node 18 or 20**. It does not work on Node 22+.
+Built with [Vite](https://vitejs.dev/) + Bootstrap 5. Build output lands in `public/build/` and is **not** committed — the Docker image's `assets` stage produces it during the image build. For local development against `php artisan serve`:
 
 ```bash
 npm install
-npm run prod
+npm run dev    # Vite dev server with HMR
+# — or —
+npm run build  # one-shot production build into public/build/
 ```
+
+`docker compose up --build` handles all of this automatically; the local stack does not need a host-side npm step.
 
 ## Translation
 
