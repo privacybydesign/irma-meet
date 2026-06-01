@@ -1,3 +1,16 @@
+# assets: Node 20 + Vite — produces public/build/ for inclusion in `base`.
+FROM node:20-alpine AS assets
+
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+COPY resources ./resources
+COPY vite.config.js ./
+
+RUN npm run build
+
 # base: PHP-FPM only — used by local docker-compose
 FROM php:8.4-fpm-alpine AS base
 
@@ -36,6 +49,9 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 COPY --chown=www-data:www-data . .
+
+# Vite output from the assets stage; not committed.
+COPY --from=assets --chown=www-data:www-data /app/public/build ./public/build
 
 RUN git config --global --add safe.directory /var/www/html \
  && composer install --no-interaction --no-scripts --no-dev --optimize-autoloader \

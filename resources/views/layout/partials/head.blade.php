@@ -9,10 +9,6 @@
 <title>{{ __('IRMA-meet the secure video chat') }}</title>
 {{-- key above kept for translation lookup; override value set in en/nl.json --}}
 
-<!-- Bootstrap core CSS -->
-
-<link rel="stylesheet" href="{{ url('/') }}/css/bootstrap.min.css">
-
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Karla:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -24,14 +20,12 @@
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="theme-color" content="#ffffff">
 
-<!-- Font Awesome-->
-
+<!-- Font Awesome -->
 <link rel="stylesheet" href="{{ url('/') }}/css/font-awesome.min.css">
-    
 
-<!-- Custom styles for this template -->
+<!-- Bootstrap 5 + custom CSS + JS — bundled by Vite -->
+@vite(['resources/js/app.js'])
 
-<link href="{{ url('/') }}/css/custom.css?v2" rel="stylesheet">
 <script type="text/javascript">
   const LANGUAGE='{{ session()->get('locale', 'nl') }}';
 </script>

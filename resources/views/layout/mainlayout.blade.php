@@ -26,11 +26,11 @@
             <main class="col-md-4 bg-warmwhite">
             </main>
             <main class="col-md-4 bg-warmwhite">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ms-auto">
                     <!-- Authentication Links -->
                     @php $locale = session()->get('locale'); @endphp
-                    <li class="nav-item dropdown text-right">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    <li class="nav-item dropdown text-end">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             @switch($locale)
                             @case('en')
                             <img src="{{asset('img/flags/gbr.svg')}}" width="30px" height="20x"> English
@@ -40,7 +40,7 @@
                             @endswitch
                             <span class="caret"></span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ url('/') }}/lang/en"><img src="{{asset('img/flags/gbr.svg')}}" width="30px" height="20x"> English</a>
                             <a class="dropdown-item" href="{{ url('/') }}/lang/nl"><img src="{{asset('img/flags/nld.svg')}}" width="30px" height="20x"> Nederlands</a>
                         </div>
@@ -81,7 +81,7 @@
                         </div>
                         <div id="errorbox" class="alert alert-danger alert-dismissible fade">
                             <span id="errorboxtext"></span>
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
             </main>
@@ -146,7 +146,7 @@
             <div class="info tight" style="padding-bottom: 1rem;">
                 <h2>{{ __('Choose among three free options') }}</h2>
             </div>
-            <div class="row img-warp tight no-gutters">
+            <div class="row img-warp tight g-0">
                 <main class="col-sm-3">
                     <div class="type">
                         <p class="typeH">{{ __('Video meeting') }}</p><img class="circles" src="{{ url('/') }}/img/team.svg" />
@@ -175,7 +175,7 @@
                     </div>
                 </main>
             </div>
-            <div class="row img-warp tight no-gutters">
+            <div class="row img-warp tight g-0">
                 <main class="col-sm-3">
                     <div class="type">
                         <p class="typeH">{{ __('Oral video exam') }}</p><img class="circles" src="{{ url('/') }}/img/exam.svg" />
