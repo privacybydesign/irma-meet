@@ -9,8 +9,10 @@ RUN apk add --no-cache \
     icu-dev \
     libjpeg-turbo-dev \
     libpng-dev \
+    libpq \
     libzip-dev \
     oniguruma-dev \
+    postgresql-dev \
     unzip \
     zip
 
@@ -22,7 +24,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         intl \
         mbstring \
         opcache \
-        pdo_mysql \
+        pdo_pgsql \
         zip
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

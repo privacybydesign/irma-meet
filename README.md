@@ -65,7 +65,7 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
-Requires PHP 8.2+ and a MySQL database.
+Requires PHP 8.2+ and a Postgres database.
 
 ## Rebuilding frontend assets
 
