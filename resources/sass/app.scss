@@ -1,8 +1,6 @@
+// Variables and Bootstrap (must be before any CSS rules)
+@use 'variables';
+@use 'bootstrap/scss/bootstrap';
+
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
-@import 'variables';
-
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
