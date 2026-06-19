@@ -7,7 +7,6 @@ use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use TCG\Voyager\Facades\Voyager;
 
 Route::get('/', [MainController::class, 'index'])->name('home');
 
@@ -30,7 +29,3 @@ Route::get('lang/{locale}', [LocalizationController::class, 'index']);
 Auth::routes();
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-
-Route::group(['prefix' => 'voyager'], function () {
-    Voyager::routes();
-});
