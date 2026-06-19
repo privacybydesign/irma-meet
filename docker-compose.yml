@@ -6,8 +6,7 @@ services:
       target: base
     volumes:
       - .:/var/www/html
-      - /var/www/html/vendor       # keep vendor inside container
-      - /var/www/html/public/build # keep Vite build inside container
+      - /var/www/html/vendor  # keep vendor inside container
     environment:
       APP_ENV: local
       APP_DEBUG: "true"

@@ -1,6 +1,12 @@
-// Import Bootstrap's JS bundle (includes Popper). Exposed on window so the
-// pre-existing data-attribute auto-init markers (data-bs-toggle, data-bs-target,
-// data-bs-dismiss) continue to work.
-import * as bootstrap from 'bootstrap';
+import _ from 'lodash';
+window._ = _;
 
-window.bootstrap = bootstrap;
+import * as Popper from '@popperjs/core';
+window.Popper = Popper;
+
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
+import axios from 'axios';
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

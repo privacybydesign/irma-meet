@@ -1,0 +1,369 @@
+html, body {
+	font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Karla', sans-serif;
+	font-family: 'Karla', sans-serif;
+}
+
+h2 {
+	padding-bottom: 1rem;
+}
+
+p, li {
+	font-size: 18px;
+	line-height: 1.7;
+}
+
+.row-full {
+	width: 100vw;
+	position: relative;
+	margin-left: -50vw;
+	left: 50%;
+}
+
+.tight {
+	max-width: 1200px;
+	margin: auto;
+}
+
+.btn-blue {
+	background-color: #1B4D8C;
+	border-radius: 5rem;
+}
+
+.btn-primary {
+	border-color: #FFF;
+	border-width: 2px;
+}
+
+.btn-secondary {
+	background-color: #FFF;
+	border-color: #1B4D8C;
+	border-width: 2px;
+	color: #1B4D8C;
+}
+
+.btn-secondary:hover {
+	background-color: #1B4D8C;
+	border-color: #FFF;
+}
+
+.bg-blue {
+	background-color: #1B4D8C;
+	color: #FFF;
+}
+
+.bg-warmwhite {
+	background-color: #F2F5F8;
+	color: #111;
+}
+
+.bg-grey {
+	background-color: #E0E6ED;
+	color: #000;
+}
+
+.bg-light-grey {
+	background-color: #F2F5F8;
+	color: #000;
+}
+
+.title {
+	margin: 1em;
+	font-size: 2em;
+}
+
+.content {
+	margin: 0;
+}
+
+.content p {
+	color: #999;
+}
+
+.info, .footer {
+	padding: 3rem;
+}
+
+.info a {
+	color: #1B4D8C;
+}
+
+.step {
+	padding-bottom: 3rem;
+	padding-right: 0.5rem;
+	padding-left: 0.5rem;
+	text-align: center;
+}
+
+.step-img {
+	display: block;
+	position: relative;
+	padding: 0.1rem 0.1rem 0.1rem 0.1rem;
+	left: 50%;
+	transform: translateX(-50%);
+	max-height: none;
+	max-width: 36%;
+	min-height: 100px;
+}
+
+.explanation {
+	min-height: 5em;
+}
+
+.footer p {
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+.footer a {
+	color: white;
+	text-decoration: underline;
+}
+
+.footer a:hover {
+	color: #F2F5F8;
+}
+
+.card-header {
+	background: rgba(0, 0, 0, .15)
+}
+
+.card-body {
+	align-items: center;
+	justify-content: center;
+}
+
+.card-body .irma-web-form {
+	width: 100%;
+	background: transparent;
+	border-color: transparent;
+	height: auto;
+	min-height: 325px;
+    max-width:none;
+}
+
+.card-body .irma-web-header {
+	padding: 0 0 2em 0 !important;
+}
+
+.card-body .irma-web-form p, .card-body .irma-web-form a {
+	color: #111 !important;
+	font-family: inherit !important;
+}
+
+.img-warp {
+	position: relative;
+	min-height: 100%;
+}
+
+.two-column-text ul {
+	margin-top: 0;
+	margin-bottom: 1rem;
+	padding-left: 1rem;
+}
+
+.two-column-text li {
+	padding-left: 1rem;
+}
+
+.irma_logo_info, .getready {
+	max-height: 100%;
+	max-width: 100%;
+	width: auto;
+	height: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	padding: 3rem;
+	padding-top: 3rem;
+}
+
+.prove {
+	padding-left: 48px;
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	max-height: 90%;
+}
+
+.know {
+	padding-right: 48px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	max-height: 80%;
+}
+
+.two-column-text {
+	padding-left: 3rem;
+	padding-right: 3rem;
+	-webkit-column-count: 2;
+	-moz-column-count: 2;
+	column-count: 2;
+	-webkit-column-gap: 3em;
+	-moz-column-gap: 3em;
+	column-gap: 3em;
+	padding-bottom: 3rem;
+}
+
+.speech-bubble {
+	position: relative;
+	background: #1B4D8C;
+	border-radius: .4em;
+	padding: 1em;
+	color: white;
+	min-height: 10rem;
+}
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 21px solid transparent;
+	border-right-color: #1B4D8C;
+	border-left: 0;
+	margin-top: -21px;
+	margin-left: -21px;
+}
+
+.light {
+	color: #FFF !important;
+	text-decoration: underline;
+}
+
+.type {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.typeH {
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: 'Karla', sans-serif;
+	position: relative;
+	top: -5.0rem;
+}
+
+.circles {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.toggle {
+	font-size: 0.9em;
+	text-decoration: underline;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.toggle:hover {
+	font-weight: bold;
+}
+
+#more {
+	display: none;
+}
+
+@media (max-width: 575.98px) {
+	.type {
+		top: 5em;
+	}
+	.speech-bubble:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 50%;
+		width: 0;
+		height: 0;
+		border: 21px solid transparent;
+		border-bottom-color: #1B4D8C;
+		border-top: 0;
+		margin-left: -21px;
+		margin-top: -20px;
+	}
+	.speech-bubble {
+		margin-top: 8em;
+		min-height: 0px;
+	}
+}
+
+@media (min-width: 767.98px) {
+	.card {
+		margin-left: -33.333333%;
+		margin-right: 3rem;
+		margin-bottom: 3rem;
+		box-shadow: rgba(0, 0, 0, 0.22) 0px 2rem 2rem;
+	}
+	.irma_logo_small {
+		display: none;
+	}
+}
+
+@media (max-width: 767.98px) {
+	.nopadding-md {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.info {
+		padding-bottom: 0px;
+	}
+	.know, .getready {
+		position: relative;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 0px;
+		left: 50%;
+		transform: translateX(-50%);
+		max-height: none;
+		max-width: 50%;
+	}
+	.irma_logo_info {
+		display: none;
+	}
+	.irma_logo_small {
+		display: block;
+		position: relative;
+		padding: 1rem 1rem 1rem 1rem;
+		left: 50%;
+		transform: translateX(-50%);
+		max-height: none;
+		max-width: 40%;
+	}
+	.content {
+		padding: 3rem;
+	}
+	.two-column-text {
+		-webkit-column-count: 1;
+		-moz-column-count: 1;
+		column-count: 1;
+	}
+	.info, .footer {
+		padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+	}
+}
+
+@media (max-width: 992px) {
+	.step-img {
+		max-width: 20%;
+	}
+	.step {
+		text-align: left;
+		padding-left: 3rem;
+	}
+}

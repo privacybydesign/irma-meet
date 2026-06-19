@@ -2,17 +2,17 @@
 
         <form method="post" class="" action="{{ route('irma_session.store') }}">
             {{ csrf_field() }}
-            <div class="mb-3">
+            <div class="form-group">
                 <label class="control-label"  for="meeting_name">{{ __('Meeting name') }}</label>
                     <input id="meeting_name" name="meeting_name"  value="{{ old('meeting_name') }}" type="text" class="form-control @error('meeting_name') is-invalid @enderror">
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label class="control-label"  for="hoster_name">{{ __('Host name') }}</label>
                     <input id="hoster_name" name="hoster_name"  value="{{ $validated_name }}" type="text" class="form-control @error('hoster_name') is-invalid @enderror" readonly>
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label class="control-label"  for="hoster_email_address">{{ __('Host email address') }}</label>
                     <input id="hoster_email_address"  value="{{ $validated_email }}" name="hoster_email_address" type="text" class="form-control @error('hoster_email_address') is-invalid @enderror" readonly>
             </div>
@@ -30,7 +30,7 @@
             </div>
             @endfor
             -->
-            <div class="mb-3"> 
+            <div class="form-group"> 
                 <input id="meeting_type" name="meeting_type"  value="free" type="hidden">
                 <input type="hidden" name="agreed" value="yes"> 
                 <button type="submit" class="btn btn-primary">{{ __('Send invite') }}</button>
