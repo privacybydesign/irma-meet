@@ -1,4 +1,9 @@
 {
+    "The meeting could not be started because the Yivi session was cancelled. This usually means your Yivi app does not yet contain the credentials required for this meeting, or you declined the disclosure request. Please make sure the requested data is loaded in your Yivi app and try again.": "De vergadering kon niet worden gestart omdat de Yivi-sessie is geannuleerd. Meestal betekent dit dat je Yivi-app de voor deze vergadering vereiste gegevens nog niet bevat, of dat je het uitleesverzoek hebt geweigerd. Zorg dat de gevraagde gegevens in je Yivi-app geladen zijn en probeer het opnieuw.",
+    "The meeting could not be started because the Yivi session timed out. Please try again and approve the disclosure request in your Yivi app.": "De vergadering kon niet worden gestart omdat de Yivi-sessie is verlopen. Probeer het opnieuw en keur het uitleesverzoek in je Yivi-app goed.",
+    "The meeting could not be started because the Yivi server could not be reached. Please try again in a moment.": "De vergadering kon niet worden gestart omdat de Yivi-server niet bereikbaar was. Probeer het zo meteen opnieuw.",
+    "The meeting could not be started because the Yivi session did not complete. Please make sure your Yivi app contains the required credentials and try again.": "De vergadering kon niet worden gestart omdat de Yivi-sessie niet is voltooid. Zorg dat je Yivi-app de vereiste gegevens bevat en probeer het opnieuw.",
+    "Read which credentials you need and how to load them": "Lees welke gegevens je nodig hebt en hoe je ze laadt",
     "Can\\'t create room! please contact our administrator": "",
     "Meeting is created.": "Bijeenkomst is aangemaakt",
     "Share the link below with participants": "Deel zelf onderstaande link met de deelnemers",
