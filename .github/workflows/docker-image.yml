@@ -2,10 +2,10 @@ name: Docker image
 
 on:
   push:
-    branches: [demo-pivot, master]
+    branches: [master]
     tags: ['v*.*.*']
   pull_request:
-    branches: [demo-pivot, master]
+    branches: [master]
 
 env:
   REGISTRY: ghcr.io
@@ -37,7 +37,7 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=edge,enable=${{ github.ref == format('refs/heads/{0}', 'demo-pivot') }}
+            type=raw,value=edge,enable=${{ github.ref == 'refs/heads/master' }}
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/master' }}
 
       - uses: docker/build-push-action@v6

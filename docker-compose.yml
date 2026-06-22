@@ -29,18 +29,19 @@ services:
       - irma-meet
 
   db:
-    image: mysql:8.0
+    image: postgres:16-alpine
     environment:
-      MYSQL_DATABASE: irmameet
-      MYSQL_USER: irmameet
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
+      POSTGRES_DB: irmameet
+      POSTGRES_USER: irmameet
+      POSTGRES_PASSWORD: secret
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - db_data:/var/lib/mysql
+      - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "irmameet", "-psecret"]
+      # psql round-trip, not pg_isready: ensures the irmameet role and
+      # database are actually initialised before app/migrations boot.
+      test: ["CMD-SHELL", "psql -U irmameet -d irmameet -c 'select 1' >/dev/null"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -66,7 +67,7 @@ services:
       - irma-meet
 
 volumes:
-  db_data:
+  pg_data:
 
 networks:
   irma-meet:
