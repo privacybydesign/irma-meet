@@ -34,7 +34,7 @@ class IrmaSessionController extends Controller
     {
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        $validatedEmail = $this->_getEmailAddress($disclosureTypeHost, '');
+        $validatedEmail = $this->_getEmailAddress($disclosureTypeHost);
         $validatedName = $this->_get_name($disclosureTypeHost);
         $form = view('layout.partials.irma-session-form-' . $meetingType)->with([
             'validated_email' => $validatedEmail,
@@ -60,7 +60,7 @@ class IrmaSessionController extends Controller
         $meetingType = $request->get('meeting_type');
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
-        $validatedEmail = $this->_getEmailAddress($disclosureTypeHost, '');
+        $validatedEmail = $this->_getEmailAddress($disclosureTypeHost);
         //TODO: find a way to have infinite participan_email_addresses in validation
         $validatedData = $request->validate([
             'meeting_name' => 'required|max:255',
@@ -146,7 +146,7 @@ class IrmaSessionController extends Controller
                 return __('Can\'t create room! please contact our administrator.');
             }
         }
-        $email = $this->_getEmailAddress($disclosureTypeHost, $disclosureType);
+        $email = $this->_getEmailAddress($disclosureTypeHost);
 
         if (($email !== '') && ($email === $hosterEmailAddress)) {
             //hoster is already logged in
@@ -279,7 +279,7 @@ class IrmaSessionController extends Controller
 
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        $email = $this->_getEmailAddress($disclosureTypeHost, $disclosureType);
+        $email = $this->_getEmailAddress($disclosureTypeHost);
 
         if ($email === $hosterEmailAddress) {
             $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
@@ -320,19 +320,12 @@ class IrmaSessionController extends Controller
         }
     }
 
-    private function _getEmailAddress($disclosureType, $disclosureTypeAlt)
+    private function _getEmailAddress($disclosureType)
     {
-        $validatedEmail = null;
+        $validatedEmail = '';
         foreach (Config::get('disclosure-types.' . $disclosureType . '.email') as $emailField) {
             if (Session::get($emailField, '') != '') {
                 $validatedEmail = Session::get($emailField);
-            };
-        }
-        if ($validatedEmail == null) {
-            foreach (Config::get('disclosure-types.' . $disclosureType . '.email') as $emailField) {
-                if (Session::get($emailField, '') != '') {
-                    $validatedEmail = Session::get($emailField);
-                };
             }
         }
         return strtolower($validatedEmail);
