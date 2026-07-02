@@ -1,3 +1,17 @@
+# assets: build the front-end bundles with Vite (Bootstrap 5, app JS/SCSS).
+# The compiled manifest + assets land in public/build and are copied into the
+# runtime image below; @vite() reads public/build/manifest.json at request time.
+FROM node:22-alpine AS assets
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY vite.config.js ./
+COPY resources ./resources
+RUN npm run build
+
 # base: PHP-FPM only — used by local docker-compose
 FROM php:8.4-fpm-alpine AS base
 
@@ -34,6 +48,10 @@ COPY --chown=www-data:www-data . .
 RUN git config --global --add safe.directory /var/www/html \
  && composer install --no-interaction --no-scripts --no-dev --optimize-autoloader \
  && chown -R www-data:www-data storage bootstrap/cache
+
+# Vite-built front-end assets (public/build is gitignored, so it is produced
+# in the assets stage above rather than copied from the build context).
+COPY --from=assets --chown=www-data:www-data /app/public/build ./public/build
 
 COPY docker/php/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

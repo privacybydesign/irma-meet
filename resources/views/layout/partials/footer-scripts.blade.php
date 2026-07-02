@@ -1,12 +1,6 @@
-<!-- Bootstrap core JavaScript
+<!-- Bootstrap's JavaScript is bundled via Vite (loaded from the <head>).
+     Placed at the end of the document so the pages load faster. -->
 
-================================================= -->
-
-<!-- Placed at the end of the document so the pages load faster -->
-
-<script src="{{ url('/') }}/js/jquery-3.4.1.slim.min.js"></script>
-<script src="{{ url('/') }}/js/popper.min.js"></script>
-<script src="{{ url('/') }}/js/bootstrap.min.js"></script>
 <script src="{{ url('/') }}/js/irma.js?v2&i={{rand()}}" defer></script>
 <script type="text/javascript">
   // Human-readable feedback for failed Yivi disclosure sessions, keyed by the
