@@ -32,6 +32,7 @@ class IrmaSessionController extends Controller
      */
     public function create($meetingType)
     {
+        $meetingType = $this->_validMeetingType($meetingType);
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         $validatedEmail = $this->_getEmailAddress($disclosureTypeHost);
@@ -57,7 +58,7 @@ class IrmaSessionController extends Controller
      */
     public function store(Request $request)
     {
-        $meetingType = $request->get('meeting_type');
+        $meetingType = $this->_validMeetingType($request->get('meeting_type'));
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
         $validatedEmail = $this->_getEmailAddress($disclosureTypeHost);
@@ -74,14 +75,24 @@ class IrmaSessionController extends Controller
             'participant_email_address4' => 'nullable|email',
             'participant_email_address5' => 'nullable|email',
             'participant_email_address6' => 'nullable|email',
-            'meeting_type' => 'required',
+            'meeting_type' => 'required|in:' . implode(',', array_keys(Config::get('meeting-types', []))),
             'agreed' => 'accepted',
 
         ], ['agreed.accepted' => __('Please check the box to allow processing.')]);
-        $uniqueId = bin2hex(random_bytes(4));
+        // 16 random bytes (32 hex chars) makes the invitation link unguessable;
+        // the old 4-byte id was small enough to enumerate. See GHSA-gpgv-24vm-q4vr.
+        $uniqueId = bin2hex(random_bytes(16));
         //we use another session id for bbb so the bbb session id is not exposed in the url
         $bbbSessionId = bin2hex(random_bytes(12));
-        $validatedData = array_merge($validatedData, ['irma_session_id' => $uniqueId, 'start_time' => now(), 'bbb_session_id' => $bbbSessionId]);
+        // Independent random room passwords. Deriving them from the (stored)
+        // session id made them predictable for anyone who learned the id.
+        $validatedData = array_merge($validatedData, [
+            'irma_session_id' => $uniqueId,
+            'start_time' => now(),
+            'bbb_session_id' => $bbbSessionId,
+            'bbb_moderator_password' => bin2hex(random_bytes(16)),
+            'bbb_attendee_password' => bin2hex(random_bytes(16)),
+        ]);
         $irma_session = \App\IrmaMeetSessions::create($validatedData);
 
         // for all participants store data
@@ -126,26 +137,19 @@ class IrmaSessionController extends Controller
     public function join($irmaSessionId)
     {
         $irmaSession = \App\IrmaMeetSessions::where('irma_session_id', $irmaSessionId)->first();
+        if (! $irmaSession) {
+            abort(404);
+        }
         $meetingType = $irmaSession->meeting_type;
         $hosterEmailAddress = $irmaSession->hoster_email_address;
         $disclosureType = Config::get('meeting-types.' . $meetingType . '.irma_disclosure');
         $disclosureTypeHost = Config::get('meeting-types.' . $meetingType . '.irma_disclosure_host', $disclosureType);
 
-        //Create session in BBB
-        $bbbSessionId = $irmaSession->bbb_session_id;
-        $meeting_name = $irmaSession->meeting_name;
-        $bbb = new BigBlueButton();
-        $createParams = new CreateMeetingParameters($bbbSessionId, $meeting_name);
-        //we use an md5 hash from the bbb session id. The bbb session id is not exposed, so md5 should be enough protection
-        $createParams->setAttendeePassword(hash('sha256', 'participant' . $bbbSessionId));
-        $createParams->setModeratorPassword(hash('sha256', 'hoster' . $bbbSessionId));
-        $isMeetingRunning = $bbb->isMeetingRunning(new IsMeetingRunningParameters($bbbSessionId));
-        if (! $isMeetingRunning->isRunning()) {
-            $response = $bbb->createMeeting($createParams);
-            if ($response->getReturnCode() == 'FAILED') {
-                return __('Can\'t create room! please contact our administrator.');
-            }
-        }
+        // NB: creating the BigBlueButton room is deliberately NOT done here.
+        // This landing page is reachable without IRMA disclosure so invitees can
+        // pick their role; the room is created lazily in _join(), which only runs
+        // behind the irma_auth-protected join_host / join_participant routes (or
+        // for an already-authenticated host below). See GHSA-gpgv-24vm-q4vr.
         $email = $this->_getEmailAddress($disclosureTypeHost);
 
         if (($email !== '') && ($email === $hosterEmailAddress)) {
@@ -271,6 +275,9 @@ class IrmaSessionController extends Controller
     private function _join($irmaSessionId)
     {
         $irmaSession = \App\IrmaMeetSessions::where('irma_session_id', $irmaSessionId)->first();
+        if (! $irmaSession) {
+            abort(404);
+        }
         //$hosterName = $irmaSession->hoster_name;
         $hosterEmailAddress = $irmaSession->hoster_email_address;
         $bbbSessionId = $irmaSession->bbb_session_id;
@@ -295,11 +302,18 @@ class IrmaSessionController extends Controller
             $bbbName = $validatedName;
         }
 
+        [$moderatorPassword, $attendeePassword] = $this->_ensureBbbPasswords($irmaSession);
+
         if (($email !== '') && ($bbbName !== '') && ($irmaSessionId !== '')) {
+            // Create the room lazily now that the requester is authenticated,
+            // rather than on the unauthenticated join landing page.
+            if (! $this->_ensureMeetingRunning($bbb, $irmaSession, $moderatorPassword, $attendeePassword)) {
+                return __('Can\'t create room! please contact our administrator.');
+            }
             if ($email === $hosterEmailAddress) {
-                $password = hash('sha256', 'hoster' . $bbbSessionId);
+                $password = $moderatorPassword;
             } else {
-                $password = hash('sha256', 'participant' . $bbbSessionId);
+                $password = $attendeePassword;
             }
             //redirect to bbb
             $joinParams = new JoinMeetingParameters($bbbSessionId, $bbbName, $password);
@@ -318,6 +332,61 @@ class IrmaSessionController extends Controller
                     ]
             );
         }
+    }
+
+    /**
+     * Validate a user-supplied meeting type against the configured allowlist.
+     * The value is interpolated into a Blade view path and used for config
+     * lookups, so anything outside the known set must be rejected with a 404
+     * rather than resolving an arbitrary template. See GHSA-gpgv-24vm-q4vr.
+     */
+    private function _validMeetingType($meetingType)
+    {
+        if (! is_string($meetingType) || ! array_key_exists($meetingType, Config::get('meeting-types', []))) {
+            abort(404);
+        }
+        return $meetingType;
+    }
+
+    /**
+     * Return [moderatorPassword, attendeePassword] for a session, generating and
+     * persisting random passwords on the fly for legacy rows created before the
+     * random-password columns existed.
+     */
+    private function _ensureBbbPasswords($irmaSession)
+    {
+        $dirty = false;
+        if (empty($irmaSession->bbb_moderator_password)) {
+            $irmaSession->bbb_moderator_password = bin2hex(random_bytes(16));
+            $dirty = true;
+        }
+        if (empty($irmaSession->bbb_attendee_password)) {
+            $irmaSession->bbb_attendee_password = bin2hex(random_bytes(16));
+            $dirty = true;
+        }
+        if ($dirty) {
+            $irmaSession->save();
+        }
+        return [$irmaSession->bbb_moderator_password, $irmaSession->bbb_attendee_password];
+    }
+
+    /**
+     * Ensure the BigBlueButton room exists with the given passwords. Idempotent:
+     * an already-running meeting is left untouched. Returns false only when
+     * creation was attempted and BBB reported a failure.
+     */
+    private function _ensureMeetingRunning($bbb, $irmaSession, $moderatorPassword, $attendeePassword)
+    {
+        $bbbSessionId = $irmaSession->bbb_session_id;
+        $isMeetingRunning = $bbb->isMeetingRunning(new IsMeetingRunningParameters($bbbSessionId));
+        if ($isMeetingRunning->isRunning()) {
+            return true;
+        }
+        $createParams = new CreateMeetingParameters($bbbSessionId, $irmaSession->meeting_name);
+        $createParams->setAttendeePassword($attendeePassword);
+        $createParams->setModeratorPassword($moderatorPassword);
+        $response = $bbb->createMeeting($createParams);
+        return $response->getReturnCode() != 'FAILED';
     }
 
     private function _getEmailAddress($disclosureType)

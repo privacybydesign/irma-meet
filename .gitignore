@@ -4,6 +4,10 @@
 /public/storage
 /storage/*.key
 /vendor
+# IRMA JWT signing key and generated server config must never be committed;
+# they are generated locally by the irma-init service (see docker-compose.yml).
+/docker/irma/jwt_privkey.pem
+/docker/irma/config.json
 /database/database.sqlite
 .env
 .env.backup

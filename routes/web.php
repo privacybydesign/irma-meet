@@ -16,8 +16,14 @@ Route::get('/irma_session/authenticate/{disclosureType}/{url}', [IrmaAuthControl
 
 Route::get('/irma_session/create/{meetingType}', [IrmaSessionController::class, 'create'])->name('irma_session.create')->middleware('irma_auth');
 
-Route::post('/irma_session/store', [IrmaSessionController::class, 'store'])->name('irma_session.store');
+Route::post('/irma_session/store', [IrmaSessionController::class, 'store'])->name('irma_session.store')->middleware('irma_auth');
 
+// The join landing page must stay reachable by unauthenticated invitees so they
+// can choose their role (host vs participant); the disclosure type differs per
+// role and per meeting type, so a blanket middleware here would force the wrong
+// disclosure. Instead, join() verifies the session exists and defers every side
+// effect (BigBlueButton room creation) to the irma_auth-protected join_host /
+// join_participant routes below. See GHSA-gpgv-24vm-q4vr.
 Route::get('/irma_session/join/{irmaSessionId}', [IrmaSessionController::class, 'join'])->name('irma_session.join');
 
 Route::get('/irma_session/join_host/{irmaSessionId}', [IrmaSessionController::class, 'join_host'])->name('irma_session.join_host')->middleware('irma_auth');

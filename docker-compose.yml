@@ -10,6 +10,10 @@ services:
     environment:
       APP_ENV: local
       APP_DEBUG: "true"
+      # The app authenticates to the IRMA server with this token; it must match
+      # the token the irma-init service writes into the server config.
+      IRMA_API_TOKEN: ${IRMA_API_TOKEN:?set IRMA_API_TOKEN in your .env}
+      IRMA_SERVER_URL: http://irma-server:8088
     depends_on:
       db:
         condition: service_healthy
@@ -47,13 +51,47 @@ services:
     networks:
       - irma-meet
 
+  # Generates a fresh JWT signing key (never committed) and writes the IRMA
+  # server config with requestor token auth enabled, using IRMA_API_TOKEN from
+  # the environment. Runs once before irma-server and exits.
+  irma-init:
+    image: alpine:3.20
+    environment:
+      IRMA_API_TOKEN: ${IRMA_API_TOKEN:?set IRMA_API_TOKEN in your .env}
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        apk add --no-cache openssl >/dev/null
+        if [ ! -f /etc/irma/jwt_privkey.pem ]; then
+          openssl genrsa -out /etc/irma/jwt_privkey.pem 2048
+        fi
+        cat > /etc/irma/config.json <<EOF
+        {
+          "url": "http://localhost:8088",
+          "jwt_privkey_file": "/etc/irma/jwt_privkey.pem",
+          "no_auth": false,
+          "requestors": {
+            "irma-meet": { "auth_method": "token", "key": "$IRMA_API_TOKEN" }
+          }
+        }
+        EOF
+    volumes:
+      - irma_config:/etc/irma
+    networks:
+      - irma-meet
+
   irma-server:
     image: ghcr.io/privacybydesign/irma:latest
-    command: server --no-auth -v --url http://localhost:8088 --jwt-privkey-file /etc/irma/jwt_privkey.pem
+    command: server -v --config /etc/irma/config.json
     ports:
       - "8088:8088"
+    depends_on:
+      irma-init:
+        condition: service_completed_successfully
     volumes:
-      - ./docker/irma/jwt_privkey.pem:/etc/irma/jwt_privkey.pem:ro
+      - irma_config:/etc/irma:ro
     networks:
       - irma-meet
 
@@ -67,6 +105,7 @@ services:
 
 volumes:
   db_data:
+  irma_config:
 
 networks:
   irma-meet:
