@@ -115,7 +115,7 @@ class IrmaSessionController extends Controller
         //send emails to hoster and participants
         $this->_send_mail($validatedData, $invitationLink);
 
-        $mainContent = '<p>' . sprintf(__('The meeting <b>%s</b> has been created and remains available for 24 hours'), $validatedData['meeting_name']). '</p>';
+        $mainContent = '<p>' . sprintf(__('The meeting <b>%s</b> has been created and remains available for 24 hours'), e($validatedData['meeting_name'])). '</p>';
         $mainContent .= '<p>' . __('Use the link below to share with your participants:') . '</p>';
         $mainContent .= '<p><a href="' . $invitationLink . '">' . $invitationLink . '</a></p>';
         $mainContent .= '<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="copy(\'' . $invitationLink . '\');">' . __('copy to clipboard') . '</button>';
