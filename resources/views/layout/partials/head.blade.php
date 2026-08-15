@@ -9,9 +9,9 @@
 <title>{{ __('IRMA-meet the secure video chat') }}</title>
 {{-- key above kept for translation lookup; override value set in en/nl.json --}}
 
-<!-- Bootstrap core CSS -->
+<!-- Bootstrap (core CSS + JS) bundled via Vite -->
 
-<link rel="stylesheet" href="{{ url('/') }}/css/bootstrap.min.css">
+@vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Karla:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">

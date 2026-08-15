@@ -1,4 +1,9 @@
 {
+    "The meeting could not be started because the Yivi session was cancelled. This usually means your Yivi app does not yet contain the credentials required for this meeting, or you declined the disclosure request. Please make sure the requested data is loaded in your Yivi app and try again.": "",
+    "The meeting could not be started because the Yivi session timed out. Please try again and approve the disclosure request in your Yivi app.": "",
+    "The meeting could not be started because the Yivi server could not be reached. Please try again in a moment.": "",
+    "The meeting could not be started because the Yivi session did not complete. Please make sure your Yivi app contains the required credentials and try again.": "",
+    "Read which credentials you need and how to load them": "",
     "Can\\'t create room! please contact our administrator.": "",
     "Meeting is created.": "",
     "Use the link below to share with your participants:": "",

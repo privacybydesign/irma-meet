@@ -1,0 +1,50 @@
+name: Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # The repo restricts Actions to an allowlist (GitHub-owned + verified
+      # creators + golangci-lint), which excludes shivammathur/setup-php, so
+      # PHP 8.4 is installed from the ondrej/php PPA instead. 8.4 matches the
+      # composer `config.platform.php` pin; sqlite3 provides the pdo_sqlite
+      # driver used by phpunit.xml's :memory: database.
+      - name: Setup PHP 8.4
+        run: |
+          sudo add-apt-repository -y ppa:ondrej/php
+          sudo apt-get update
+          sudo apt-get install -y \
+            php8.4-cli \
+            php8.4-sqlite3 \
+            php8.4-mbstring \
+            php8.4-xml \
+            php8.4-curl \
+            php8.4-zip
+          sudo update-alternatives --set php /usr/bin/php8.4
+          php -v | grep -q 'PHP 8\.4' || { echo '::error::PHP 8.4 is not the active CLI'; php -v; exit 1; }
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run tests
+        run: php artisan test
