@@ -58,13 +58,15 @@ func New(cfg config.Mail) (*Mailer, error) {
 	m := &Mailer{cfg: cfg, templates: map[string]*template.Template{}}
 
 	for _, locale := range []string{i18n.English, i18n.Dutch} {
-		entries, err := templateFS.ReadDir("templates/" + locale)
+		dir := "templates/" + locale
+
+		entries, err := templateFS.ReadDir(dir)
 		if err != nil {
 			return nil, err
 		}
 
 		for _, entry := range entries {
-			path := "templates/" + locale + "/" + entry.Name()
+			path := dir + "/" + entry.Name()
 
 			tmpl, err := template.ParseFS(templateFS, path)
 			if err != nil {

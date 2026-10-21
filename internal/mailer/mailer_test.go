@@ -10,6 +10,14 @@ import (
 	"github.com/privacybydesign/irma-meet/internal/testutil"
 )
 
+const (
+	headerBcc         = "Bcc"
+	headerContentType = "Content-Type"
+	headerFrom        = "From"
+	headerReplyTo     = "Reply-To"
+	headerSubject     = "Subject"
+)
+
 func newMailer(t *testing.T, smtp *testutil.FakeSMTP) *mailer.Mailer {
 	t.Helper()
 
@@ -108,15 +116,15 @@ func TestSendDeliversAll(t *testing.T) {
 		t.Errorf("envelope %+v", first)
 	}
 
-	if got := first.Header("Subject"); got != "Hello é" {
+	if got := first.Header(headerSubject); got != "Hello é" {
 		t.Errorf("subject %q", got)
 	}
 
-	if got := first.Header("From"); !strings.Contains(got, "Yivi Meet") {
+	if got := first.Header(headerFrom); !strings.Contains(got, "Yivi Meet") {
 		t.Errorf("From %q", got)
 	}
 
-	if got := first.Header("Content-Type"); !strings.HasPrefix(got, "text/html") {
+	if got := first.Header(headerContentType); !strings.HasPrefix(got, "text/html") {
 		t.Errorf("Content-Type %q", got)
 	}
 }
@@ -130,7 +138,7 @@ func TestReplyToIsOptional(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if got := smtp.Mails()[0].Header("Reply-To"); got != "" {
+	if got := smtp.Mails()[0].Header(headerReplyTo); got != "" {
 		t.Errorf("Reply-To %q, want none", got)
 	}
 }
@@ -148,7 +156,7 @@ func TestSubjectIsSingleLine(t *testing.T) {
 	}
 
 	mail := smtp.Mails()[0]
-	if mail.Header("Bcc") != "" || mail.Header("X-Evil") != "" {
+	if mail.Header(headerBcc) != "" || mail.Header("X-Evil") != "" {
 		t.Errorf("headers were injected through the subject:\n%s", mail.Raw)
 	}
 }

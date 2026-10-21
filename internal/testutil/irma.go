@@ -13,6 +13,18 @@ import (
 	"testing"
 )
 
+const (
+	headerAuthorization = "Authorization"
+	headerContentType   = "Content-Type"
+	contentTypeJSON     = "application/json"
+
+	tokenPrefix       = "FakeToken"
+	clientTokenPrefix = "ClientToken"
+
+	statusDone            = "DONE"
+	sessionTypeDisclosing = "disclosing"
+)
+
 // FakeIRMA is an IRMA server that starts sessions and reports the results
 // the test gives it.
 type FakeIRMA struct {
@@ -83,7 +95,7 @@ func (f *FakeIRMA) FailLatest(proofStatus string) {
 }
 
 func (f *FakeIRMA) serve(w http.ResponseWriter, r *http.Request) {
-	if r.Header.Get("Authorization") != f.apiToken {
+	if r.Header.Get(headerAuthorization) != f.apiToken {
 		http.Error(w, "forbidden", http.StatusForbidden)
 		return
 	}
@@ -106,14 +118,14 @@ func (f *FakeIRMA) start(w http.ResponseWriter, r *http.Request) {
 	}
 
 	f.mu.Lock()
-	token := fmt.Sprintf("FakeToken%011d", len(f.tokens)+1)
+	token := fmt.Sprintf(tokenPrefix+"%011d", len(f.tokens)+1)
 	f.tokens = append(f.tokens, token)
 	f.started = append(f.started, request)
 	f.mu.Unlock()
 
 	writeJSON(w, map[string]any{
 		"token":      token,
-		"sessionPtr": map[string]string{"u": f.server.URL + "/irma/" + strings.Replace(token, "FakeToken", "ClientToken", 1), "irmaqr": "disclosing"},
+		"sessionPtr": map[string]string{"u": f.server.URL + "/irma/" + strings.Replace(token, tokenPrefix, clientTokenPrefix, 1), "irmaqr": sessionTypeDisclosing},
 	})
 }
 
@@ -135,13 +147,13 @@ func (f *FakeIRMA) result(w http.ResponseWriter, token string) {
 	}
 
 	if proof, failed := f.failures[token]; failed {
-		writeJSON(w, map[string]any{"token": token, "status": "DONE", "type": "disclosing", "proofStatus": proof})
+		writeJSON(w, map[string]any{"token": token, "status": statusDone, "type": sessionTypeDisclosing, "proofStatus": proof})
 		return
 	}
 
 	res, done := f.results[token]
 	if !done {
-		writeJSON(w, map[string]any{"token": token, "status": "INITIALIZED", "type": "disclosing"})
+		writeJSON(w, map[string]any{"token": token, "status": "INITIALIZED", "type": sessionTypeDisclosing})
 		return
 	}
 
@@ -158,12 +170,12 @@ func (f *FakeIRMA) result(w http.ResponseWriter, token string) {
 	}
 
 	writeJSON(w, map[string]any{
-		"token": token, "status": "DONE", "type": "disclosing", "proofStatus": "VALID",
+		"token": token, "status": statusDone, "type": sessionTypeDisclosing, "proofStatus": "VALID",
 		"disclosed": [][]map[string]any{group},
 	})
 }
 
 func writeJSON(w http.ResponseWriter, v any) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set(headerContentType, contentTypeJSON)
 	_ = json.NewEncoder(w).Encode(v)
 }

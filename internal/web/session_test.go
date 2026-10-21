@@ -6,8 +6,10 @@ import (
 	"time"
 )
 
+const aesKeyLen = 32
+
 func TestSealedCodecRoundTrip(t *testing.T) {
-	codec, err := newSealedCodec(bytes.Repeat([]byte{1}, 32))
+	codec, err := newSealedCodec(bytes.Repeat([]byte{1}, aesKeyLen))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -37,8 +39,8 @@ func TestSealedCodecRoundTrip(t *testing.T) {
 }
 
 func TestSealedCodecUnreadable(t *testing.T) {
-	codec, _ := newSealedCodec(bytes.Repeat([]byte{1}, 32))
-	otherKey, _ := newSealedCodec(bytes.Repeat([]byte{2}, 32))
+	codec, _ := newSealedCodec(bytes.Repeat([]byte{1}, aesKeyLen))
+	otherKey, _ := newSealedCodec(bytes.Repeat([]byte{2}, aesKeyLen))
 
 	sealed, _ := codec.Encode(time.Now().Add(time.Hour), map[string]any{"k": []byte("v")})
 	tampered := append([]byte(nil), sealed...)

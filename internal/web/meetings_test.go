@@ -104,7 +104,7 @@ func TestHostGetsConfirmationMail(t *testing.T) {
 	mail := mails[0]
 	link := e.srv.URL + "/irma_session/join/" + m.ID
 
-	if got := mail.Header("Subject"); got != "Yivi Meet link voor Weekly sync" {
+	if got := mail.Header(headerSubject); got != "Yivi Meet link voor Weekly sync" {
 		t.Errorf("subject %q", got)
 	}
 
@@ -126,7 +126,7 @@ func TestMailsFollowLanguage(t *testing.T) {
 
 	mail := e.smtp.To("host@example.com")[0]
 
-	if got := mail.Header("Subject"); got != "Yivi Meet link for Weekly sync" {
+	if got := mail.Header(headerSubject); got != "Yivi Meet link for Weekly sync" {
 		t.Errorf("subject %q", got)
 	}
 
@@ -169,7 +169,7 @@ func TestHostCreatesExamMeeting(t *testing.T) {
 		t.Errorf("invitation misses the note or the teacher:\n%s", invitation[0].Body())
 	}
 
-	if got := invitation[0].Header("Reply-To"); !strings.Contains(got, "tanja@uni.example") {
+	if got := invitation[0].Header(headerReplyTo); !strings.Contains(got, "tanja@uni.example") {
 		t.Errorf("Reply-To %q, want the teacher", got)
 	}
 
@@ -467,7 +467,7 @@ func TestMeetingPasswordsRandom(t *testing.T) {
 }
 
 func TestMailFailureKeepsMeeting(t *testing.T) {
-	e := newEnv(t, withSMTPPort(1))
+	e := newEnv(t, withSMTPPort(unreachablePort))
 	host := e.newUser()
 
 	host.disclose("default", defaultAttrs("Hannah Host", "host@example.com"))

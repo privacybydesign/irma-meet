@@ -14,6 +14,13 @@ import (
 	"testing"
 )
 
+const (
+	headerContentTransferEncoding = "Content-Transfer-Encoding"
+	quotedPrintable               = "quoted-printable"
+
+	replyOK = "250 ok"
+)
+
 // Mail is one message the fake SMTP server accepted.
 type Mail struct {
 	From string
@@ -41,7 +48,7 @@ func (m Mail) Body() string {
 	}
 
 	reader := io.Reader(msg.Body)
-	if strings.EqualFold(msg.Header.Get("Content-Transfer-Encoding"), "quoted-printable") {
+	if strings.EqualFold(msg.Header.Get(headerContentTransferEncoding), quotedPrintable) {
 		reader = quotedprintable.NewReader(msg.Body)
 	}
 
@@ -134,10 +141,10 @@ func (f *FakeSMTP) session(conn net.Conn) {
 			reply("250 fake.smtp")
 		case strings.HasPrefix(cmd, "MAIL FROM:"):
 			current = Mail{From: address(line)}
-			reply("250 ok")
+			reply(replyOK)
 		case strings.HasPrefix(cmd, "RCPT TO:"):
 			current.To = append(current.To, address(line))
-			reply("250 ok")
+			reply(replyOK)
 		case cmd == "DATA":
 			reply("354 go ahead")
 
@@ -152,7 +159,7 @@ func (f *FakeSMTP) session(conn net.Conn) {
 			reply("221 bye")
 			return
 		default:
-			reply("250 ok")
+			reply(replyOK)
 		}
 	}
 }

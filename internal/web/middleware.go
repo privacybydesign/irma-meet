@@ -52,8 +52,8 @@ func (a *app) recoverPanics(next http.Handler) http.Handler {
 func (a *app) secureHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		h := w.Header()
-		h.Set("X-Content-Type-Options", "nosniff")
-		h.Set("X-Frame-Options", "DENY")
+		h.Set(headerContentTypeOptions, nosniff)
+		h.Set(headerFrameOptions, frameDeny)
 
 		next.ServeHTTP(w, r)
 	})

@@ -17,6 +17,9 @@ var templateFS embed.FS
 const (
 	docsURL = "https://privacybydesign.foundation/uitgifte/"
 
+	layoutFile   = "layout.html"
+	partialsFile = "partials.html"
+
 	pageHome         = "home"
 	pageAuthenticate = "authenticate"
 	pageCreateFree   = "create_free"
@@ -64,7 +67,7 @@ func (v view) YiviMessages() map[string]string {
 	return map[string]string{
 		"cancelled": v.T("The meeting could not be started because the Yivi session was cancelled. This usually means your Yivi app does not yet contain the credentials required for this meeting, or you declined the disclosure request. Please make sure the requested data is loaded in your Yivi app and try again."),
 		"timeout":   v.T("The meeting could not be started because the Yivi session timed out. Please try again and approve the disclosure request in your Yivi app."),
-		"error":     v.T("The meeting could not be started because the Yivi server could not be reached. Please try again in a moment."),
+		"error":     v.T(msgYiviUnreachable),
 		"fallback":  v.T("The meeting could not be started because the Yivi session did not complete. Please make sure your Yivi app contains the required credentials and try again."),
 		"docsLabel": v.T("Read which credentials you need and how to load them"),
 		"docsUrl":   docsURL,
@@ -85,7 +88,7 @@ func newRenderer(tr *i18n.Translator) (*renderer, error) {
 	r := &renderer{tr: tr, pages: map[string]*template.Template{}}
 
 	for _, name := range pageNames {
-		tmpl, err := template.ParseFS(sub, "layout.html", "partials.html", name+".html")
+		tmpl, err := template.ParseFS(sub, layoutFile, partialsFile, name+".html")
 		if err != nil {
 			return nil, fmt.Errorf("page %s: %w", name, err)
 		}
@@ -102,12 +105,12 @@ func (r *renderer) render(w http.ResponseWriter, page, lang string, status int, 
 	var body bytes.Buffer
 
 	v := view{tr: r.tr, Lang: lang, Data: data}
-	if err := r.pages[page].ExecuteTemplate(&body, "layout.html", v); err != nil {
+	if err := r.pages[page].ExecuteTemplate(&body, layoutFile, v); err != nil {
 		return err
 	}
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Header().Set("Cache-Control", "no-store")
+	w.Header().Set(headerContentType, contentTypeHTML)
+	w.Header().Set(headerCacheControl, cacheNoStore)
 	w.WriteHeader(status)
 	_, err := w.Write(body.Bytes())
 

@@ -15,6 +15,12 @@ import (
 	"github.com/privacybydesign/irma-meet/internal/testutil"
 )
 
+const (
+	attrEmail     = "pbdf.pbdf.email.email"
+	attrFullName  = "pbdf.gemeente.personalData.fullname"
+	attrSurfEmail = "pbdf.pbdf.surfnet-2.email"
+)
+
 var t0 = time.Date(2026, 10, 21, 12, 0, 0, 0, time.UTC)
 
 type fakeRooms struct {
@@ -67,7 +73,7 @@ func newFixture(t *testing.T) *fixture {
 
 func host() identity.Verified {
 	return identity.Verified{Type: identity.TypeDefault, Attrs: map[string]string{
-		"pbdf.gemeente.personalData.fullname": "Hannah Host", "pbdf.pbdf.email.email": "Host@Example.com",
+		attrFullName: "Hannah Host", attrEmail: "Host@Example.com",
 	}}
 }
 
@@ -97,11 +103,11 @@ func TestHostRoleNeedsTypeAndEmail(t *testing.T) {
 		who  identity.Verified
 		want bool
 	}{
-		{"host", free, attrs(identity.TypeDefault, "pbdf.pbdf.email.email", "HOST@example.com"), true},
-		{"other person", free, attrs(identity.TypeDefault, "pbdf.pbdf.email.email", "guest@example.com"), false},
+		{"host", free, attrs(identity.TypeDefault, attrEmail, "HOST@example.com"), true},
+		{"other person", free, attrs(identity.TypeDefault, attrEmail, "guest@example.com"), false},
 		{"nobody", free, identity.Verified{}, false},
-		{"teacher", exam, attrs(identity.TypeTeacher, "pbdf.pbdf.surfnet-2.email", "tanja@uni.example"), true},
-		{"student with the teacher's email", exam, attrs(identity.TypeStudent, "pbdf.pbdf.surfnet-2.email", "tanja@uni.example"), false},
+		{"teacher", exam, attrs(identity.TypeTeacher, attrSurfEmail, "tanja@uni.example"), true},
+		{"student with the teacher's email", exam, attrs(identity.TypeStudent, attrSurfEmail, "tanja@uni.example"), false},
 	}
 
 	for _, c := range cases {
@@ -134,7 +140,7 @@ func TestCreateStoresAndMails(t *testing.T) {
 	f := newFixture(t)
 
 	created, err := f.svc.Create(context.Background(), meeting.NewMeeting{
-		Type: meeting.Free, Name: "Weekly sync", Note: "hello", Host: host(), Participants: []string{"a@example.com", "b@example.com"}, Locale: "en",
+		Type: meeting.Free, Name: "Weekly sync", Note: "hello", Host: host(), Participants: []string{"a@example.com", "b@example.com"}, Locale: i18n.English,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -178,7 +184,7 @@ func TestCreateStoresAndMails(t *testing.T) {
 func TestCreateWithoutGuests(t *testing.T) {
 	f := newFixture(t)
 
-	if _, err := f.svc.Create(context.Background(), meeting.NewMeeting{Type: meeting.Free, Name: "n", Host: host(), Locale: "en"}); err != nil {
+	if _, err := f.svc.Create(context.Background(), meeting.NewMeeting{Type: meeting.Free, Name: "n", Host: host(), Locale: i18n.English}); err != nil {
 		t.Fatal(err)
 	}
 
@@ -190,7 +196,7 @@ func TestCreateWithoutGuests(t *testing.T) {
 func TestCreateNeedsFullHost(t *testing.T) {
 	f := newFixture(t)
 
-	for _, who := range []identity.Verified{{}, {Type: identity.TypeDefault, Attrs: map[string]string{"pbdf.pbdf.email.email": "a@example.com"}}} {
+	for _, who := range []identity.Verified{{}, {Type: identity.TypeDefault, Attrs: map[string]string{attrEmail: "a@example.com"}}} {
 		_, err := f.svc.Create(context.Background(), meeting.NewMeeting{Type: meeting.Free, Name: "n", Host: who})
 		if !errors.Is(err, meeting.ErrNotVerified) {
 			t.Errorf("%+v: %v, want ErrNotVerified", who, err)
@@ -251,7 +257,7 @@ func TestLookupErrors(t *testing.T) {
 
 func TestJoinURLPasswordByRole(t *testing.T) {
 	f := newFixture(t)
-	created, _ := f.svc.Create(context.Background(), meeting.NewMeeting{Type: meeting.Free, Name: "Weekly sync", Host: host(), Locale: "en"})
+	created, _ := f.svc.Create(context.Background(), meeting.NewMeeting{Type: meeting.Free, Name: "Weekly sync", Host: host(), Locale: i18n.English})
 	m := created.Meeting
 
 	asHost, err := f.svc.JoinURL(context.Background(), m, host())
@@ -259,7 +265,7 @@ func TestJoinURLPasswordByRole(t *testing.T) {
 		t.Errorf("host: %q %v", asHost, err)
 	}
 
-	guest := identity.Verified{Type: identity.TypeDefault, Attrs: map[string]string{"pbdf.gemeente.personalData.fullname": "Gerrit", "pbdf.pbdf.email.email": "guest@example.com"}}
+	guest := identity.Verified{Type: identity.TypeDefault, Attrs: map[string]string{attrFullName: "Gerrit", attrEmail: "guest@example.com"}}
 
 	asGuest, err := f.svc.JoinURL(context.Background(), m, guest)
 	if err != nil || asGuest != "join://"+m.RoomID+"/Gerrit/"+m.AttendeePassword {
@@ -273,9 +279,9 @@ func TestJoinURLPasswordByRole(t *testing.T) {
 
 func TestJoinURLErrors(t *testing.T) {
 	f := newFixture(t)
-	created, _ := f.svc.Create(context.Background(), meeting.NewMeeting{Type: meeting.Free, Name: "n", Host: host(), Locale: "en"})
+	created, _ := f.svc.Create(context.Background(), meeting.NewMeeting{Type: meeting.Free, Name: "n", Host: host(), Locale: i18n.English})
 
-	incomplete := identity.Verified{Type: identity.TypeDefault, Attrs: map[string]string{"pbdf.pbdf.email.email": "guest@example.com"}}
+	incomplete := identity.Verified{Type: identity.TypeDefault, Attrs: map[string]string{attrEmail: "guest@example.com"}}
 	if _, err := f.svc.JoinURL(context.Background(), created.Meeting, incomplete); !errors.Is(err, meeting.ErrNotVerified) {
 		t.Errorf("incomplete identity: %v", err)
 	}

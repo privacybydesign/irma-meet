@@ -30,6 +30,10 @@ const (
 	attrSurfEmail    = "pbdf.pbdf.surfnet-2.email"
 	surfTypeEmployee = "employee"
 	surfTypeStudent  = "student"
+
+	// The labels are translation keys.
+	labelJoinTeacher = "Join as teacher"
+	labelJoinStudent = "Join as student"
 )
 
 // attributeRequest is one attribute in a disclosure request. It marshals to a
@@ -104,8 +108,8 @@ var specs = map[Type]spec{
 		valid:            [][]string{{attrSurfInstit, attrSurfType, attrSurfFamily, attrSurfEmail}},
 		names:            [][]string{{attrSurfFamily}},
 		emails:           []string{attrSurfEmail},
-		hostLabel:        "Join as teacher",
-		participantLabel: "Join as teacher",
+		hostLabel:        labelJoinTeacher,
+		participantLabel: labelJoinTeacher,
 	},
 	TypeStudent: {
 		disclose: [][][]attributeRequest{
@@ -114,8 +118,8 @@ var specs = map[Type]spec{
 		valid:            [][]string{{attrSurfInstit, attrSurfType, attrSurfFamily, attrSurfEmail}},
 		names:            [][]string{{attrSurfFamily}},
 		emails:           []string{attrSurfEmail},
-		hostLabel:        "Join as student",
-		participantLabel: "Join as student",
+		hostLabel:        labelJoinStudent,
+		participantLabel: labelJoinStudent,
 	},
 }
 

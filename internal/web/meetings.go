@@ -77,7 +77,7 @@ func (a *app) store(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	mt, ok := meeting.ParseType(r.PostFormValue("meeting_type"))
+	mt, ok := meeting.ParseType(r.PostFormValue(fieldMeetingType))
 	if !ok {
 		a.notFound(w, r)
 		return

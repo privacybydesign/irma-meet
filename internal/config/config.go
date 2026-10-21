@@ -17,10 +17,15 @@ const (
 	defaultDBPort   = 3306
 	defaultMailPort = 25
 
+	maxPort = 65535
+
 	// sessionKeyLen is the AES-256 key size used to encrypt stored sessions.
 	sessionKeyLen = 32
 
 	envNone = "null"
+
+	schemeHTTP  = "http"
+	schemeHTTPS = "https"
 )
 
 // MailEncryption is the MAIL_ENCRYPTION setting.
@@ -127,7 +132,7 @@ func (l *loader) appURL(name string) *url.URL {
 	}
 
 	u, err := url.Parse(raw)
-	if err != nil || (u.Scheme != "http" && u.Scheme != "https") || u.Host == "" || u.Path != "" {
+	if err != nil || (u.Scheme != schemeHTTP && u.Scheme != schemeHTTPS) || u.Host == "" || u.Path != "" {
 		l.fail(name, "must be an http(s) origin such as https://meet.example.org")
 		return nil
 	}
@@ -142,7 +147,7 @@ func (l *loader) bbbBaseURL(name string) string {
 	}
 
 	u, err := url.Parse(raw)
-	if err != nil || (u.Scheme != "http" && u.Scheme != "https") || u.Host == "" {
+	if err != nil || (u.Scheme != schemeHTTP && u.Scheme != schemeHTTPS) || u.Host == "" {
 		l.fail(name, "must be an http(s) URL")
 		return ""
 	}
@@ -152,9 +157,9 @@ func (l *loader) bbbBaseURL(name string) string {
 
 func (l *loader) nameFormat(name string) identity.NameFormat {
 	switch strings.ToLower(strings.TrimSpace(l.getenv(name))) {
-	case "", "string":
+	case "", string(identity.NameFormatString):
 		return identity.NameFormatString
-	case "json":
+	case string(identity.NameFormatJSON):
 		return identity.NameFormatJSON
 	}
 
@@ -170,7 +175,7 @@ func (l *loader) port(name string, fallback int) int {
 	}
 
 	port, err := strconv.Atoi(raw)
-	if err != nil || port < 1 || port > 65535 {
+	if err != nil || port < 1 || port > maxPort {
 		l.fail(name, "must be a port number")
 		return fallback
 	}
@@ -182,9 +187,9 @@ func (l *loader) mailEncryption(name string) MailEncryption {
 	switch strings.ToLower(strings.TrimSpace(l.getenv(name))) {
 	case "", envNone:
 		return MailPlain
-	case "tls":
+	case string(MailStartTLS):
 		return MailStartTLS
-	case "ssl":
+	case string(MailImplicitTLS):
 		return MailImplicitTLS
 	}
 

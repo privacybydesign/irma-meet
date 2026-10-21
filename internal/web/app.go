@@ -15,7 +15,24 @@ import (
 	"github.com/privacybydesign/irma-meet/internal/meeting"
 )
 
-const maxFormBytes = 64 << 10
+const (
+	maxFormBytes = 64 << 10
+
+	headerCacheControl       = "Cache-Control"
+	headerContentType        = "Content-Type"
+	headerContentTypeOptions = "X-Content-Type-Options"
+	headerFrameOptions       = "X-Frame-Options"
+
+	cacheNoCache    = "no-cache"
+	cacheNoStore    = "no-store"
+	contentTypeHTML = "text/html; charset=utf-8"
+	contentTypeJSON = "application/json"
+	frameDeny       = "DENY"
+	nosniff         = "nosniff"
+
+	// msgYiviUnreachable is a translation key.
+	msgYiviUnreachable = "The meeting could not be started because the Yivi server could not be reached. Please try again in a moment."
+)
 
 // Meetings is what the web layer needs from the meeting domain.
 type Meetings interface {

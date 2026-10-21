@@ -11,6 +11,13 @@ import (
 	"testing"
 )
 
+const (
+	returnSuccess = "SUCCESS"
+	returnFailed  = "FAILED"
+
+	paramMeetingID = "meetingID"
+)
+
 // BBBCall is one API call the fake BigBlueButton server received.
 type BBBCall struct {
 	Name   string
@@ -60,7 +67,7 @@ func (f *FakeBBB) serve(w http.ResponseWriter, r *http.Request) {
 	name := strings.TrimPrefix(r.URL.Path, "/bigbluebutton/api/")
 
 	if !f.validChecksum(name, r.URL.RawQuery) {
-		xml(w, "FAILED", "<messageKey>checksumError</messageKey>")
+		xml(w, returnFailed, "<messageKey>checksumError</messageKey>")
 		return
 	}
 
@@ -74,19 +81,19 @@ func (f *FakeBBB) serve(w http.ResponseWriter, r *http.Request) {
 	switch name {
 	case "isMeetingRunning":
 		running := "false"
-		if f.rooms[params.Get("meetingID")] {
+		if f.rooms[params.Get(paramMeetingID)] {
 			running = "true"
 		}
 
-		xml(w, "SUCCESS", "<running>"+running+"</running>")
+		xml(w, returnSuccess, "<running>"+running+"</running>")
 	case "create":
 		if f.FailCreate {
-			xml(w, "FAILED", "<messageKey>idNotUnique</messageKey>")
+			xml(w, returnFailed, "<messageKey>idNotUnique</messageKey>")
 			return
 		}
 
-		f.rooms[params.Get("meetingID")] = true
-		xml(w, "SUCCESS", "<meetingID>"+params.Get("meetingID")+"</meetingID>")
+		f.rooms[params.Get(paramMeetingID)] = true
+		xml(w, returnSuccess, "<meetingID>"+params.Get(paramMeetingID)+"</meetingID>")
 	default:
 		http.NotFound(w, r)
 	}
@@ -105,6 +112,6 @@ func (f *FakeBBB) validChecksum(name, rawQuery string) bool {
 }
 
 func xml(w http.ResponseWriter, code, extra string) {
-	w.Header().Set("Content-Type", "text/xml")
+	w.Header().Set(headerContentType, "text/xml")
 	_, _ = w.Write([]byte("<response><returncode>" + code + "</returncode>" + extra + "</response>"))
 }

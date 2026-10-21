@@ -70,7 +70,7 @@ func TestUnknownMeetingIs404(t *testing.T) {
 
 	for _, id := range []string{"deadbeefdeadbeefdeadbeefdeadbeef", "not-hex", "../etc/passwd", strings.Repeat("a", 200)} {
 		for _, route := range []string{"join", "join_host", "join_participant"} {
-			if resp := anon.get("/irma_session/" + route + "/" + id); resp.StatusCode == http.StatusOK || resp.StatusCode >= 500 {
+			if resp := anon.get("/irma_session/" + route + "/" + id); resp.StatusCode == http.StatusOK || resp.StatusCode >= http.StatusInternalServerError {
 				t.Errorf("%s/%s: status %d, want a rejection", route, id, resp.StatusCode)
 			}
 		}
@@ -259,10 +259,10 @@ func TestCrossOriginRejected(t *testing.T) {
 	host.disclose("default", defaultAttrs("Hannah Host", "host@example.com"))
 
 	cases := map[string][]string{
-		"foreign origin":     {"Origin", "https://evil.example"},
-		"cross-site fetch":   {"Sec-Fetch-Site", "cross-site"},
-		"same-site sibling":  {"Sec-Fetch-Site", "same-site"},
-		"foreign origin too": {"Origin", "http://127.0.0.1:1", "Sec-Fetch-Site", "cross-site"},
+		"foreign origin":     {headerOrigin, "https://evil.example"},
+		"cross-site fetch":   {headerSecFetchSite, "cross-site"},
+		"same-site sibling":  {headerSecFetchSite, "same-site"},
+		"foreign origin too": {headerOrigin, "http://127.0.0.1:1", headerSecFetchSite, "cross-site"},
 	}
 
 	for name, headers := range cases {
@@ -281,7 +281,7 @@ func TestCrossOriginRejected(t *testing.T) {
 		t.Error("a cross-origin request created a meeting")
 	}
 
-	same := host.post("/irma_session/store", createForm("free", "Genuine"), "Origin", e.srv.URL, "Sec-Fetch-Site", "same-origin")
+	same := host.post("/irma_session/store", createForm("free", "Genuine"), headerOrigin, e.srv.URL, headerSecFetchSite, "same-origin")
 	if same.StatusCode != http.StatusOK {
 		t.Errorf("same-origin browser request: status %d, want 200", same.StatusCode)
 	}
@@ -368,8 +368,8 @@ func TestSubjectNoHeaderInjection(t *testing.T) {
 	}
 
 	for _, mail := range e.smtp.Mails() {
-		if mail.Header("Bcc") != "" || len(mail.To) != 1 {
-			t.Errorf("header injection: Bcc %q, recipients %v", mail.Header("Bcc"), mail.To)
+		if mail.Header(headerBcc) != "" || len(mail.To) != 1 {
+			t.Errorf("header injection: Bcc %q, recipients %v", mail.Header(headerBcc), mail.To)
 		}
 	}
 }
@@ -433,8 +433,8 @@ func TestOnlyStaticFilesAreServed(t *testing.T) {
 		"/js/bootstrap.bundle.min.js": "text/javascript", "/img/yivi-logo.svg": "image/svg+xml", "/favicon.ico": "image/", "/robots.txt": "text/plain",
 	} {
 		resp := user.get(path)
-		if resp.StatusCode != http.StatusOK || !strings.Contains(resp.Header.Get("Content-Type"), contentType) {
-			t.Errorf("GET %s: status %d, content type %q", path, resp.StatusCode, resp.Header.Get("Content-Type"))
+		if resp.StatusCode != http.StatusOK || !strings.Contains(resp.Header.Get(headerContentType), contentType) {
+			t.Errorf("GET %s: status %d, content type %q", path, resp.StatusCode, resp.Header.Get(headerContentType))
 		}
 	}
 }
@@ -466,15 +466,15 @@ func TestSecurityHeaders(t *testing.T) {
 	user := e.newUser()
 
 	resp := user.get("/")
-	if resp.Header.Get("X-Content-Type-Options") != "nosniff" || resp.Header.Get("X-Frame-Options") != "DENY" {
+	if resp.Header.Get(headerContentTypeOptions) != "nosniff" || resp.Header.Get(headerFrameOptions) != "DENY" {
 		t.Errorf("security headers missing: %v", resp.Header)
 	}
 
-	if got := resp.Header.Get("Cache-Control"); got != "no-store" {
+	if got := resp.Header.Get(headerCacheControl); got != "no-store" {
 		t.Errorf("pages that show names and emails must not be cached, Cache-Control %q", got)
 	}
 
-	if got := user.get("/css/custom.css").Header.Get("Cache-Control"); got != "no-cache" {
+	if got := user.get("/css/custom.css").Header.Get(headerCacheControl); got != "no-cache" {
 		t.Errorf("static files are revalidated, Cache-Control %q", got)
 	}
 }

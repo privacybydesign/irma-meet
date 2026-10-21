@@ -16,6 +16,9 @@ const (
 	NameFormatJSON NameFormat = "json"
 )
 
+// colonEntity separates key and value in the BigBlueButton JSON name.
+const colonEntity = "&#58; "
+
 // Verified holds the attributes a person disclosed in a valid Yivi session.
 type Verified struct {
 	Type  Type              `json:"type"`
@@ -97,7 +100,7 @@ func (v Verified) jsonName(name string, ids []string) string {
 
 func writeMember(out *strings.Builder, key, value string) {
 	out.WriteString(quote(key))
-	out.WriteString("&#58; ")
+	out.WriteString(colonEntity)
 	out.WriteString(quote(value))
 }
 

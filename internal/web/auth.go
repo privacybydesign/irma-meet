@@ -9,7 +9,10 @@ import (
 	"github.com/privacybydesign/irma-meet/internal/identity"
 )
 
-const authPath = "/irma_session/authenticate/"
+const (
+	authPath    = "/irma_session/authenticate/"
+	returnParam = "return"
+)
 
 // startSession starts one Yivi session and hands its pointer to the Yivi
 // frontend. The session token stays on the server.
@@ -30,7 +33,7 @@ func (a *app) startSession(w http.ResponseWriter, r *http.Request) {
 
 	a.state.setPending(r, pending{Token: session.Token, Type: t})
 
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set(headerContentType, contentTypeJSON)
 	_, _ = w.Write(session.Ptr)
 }
 
@@ -43,7 +46,7 @@ type authenticatePage struct {
 // the return path.
 func (a *app) authenticate(w http.ResponseWriter, r *http.Request) {
 	t, ok := identity.Parse(r.PathValue("disclosureType"))
-	next := r.URL.Query().Get("return")
+	next := r.URL.Query().Get(returnParam)
 
 	if !ok || !isLocalPath(next) {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -93,7 +96,7 @@ func (a *app) identityFor(w http.ResponseWriter, r *http.Request, t identity.Typ
 	v, ok, err := a.identityOf(r)
 	if err != nil {
 		a.log.Error("verifying yivi session failed", "error", err)
-		a.fail(w, r, http.StatusBadGateway, "The meeting could not be started because the Yivi server could not be reached. Please try again in a moment.")
+		a.fail(w, r, http.StatusBadGateway, msgYiviUnreachable)
 
 		return identity.Verified{}, false
 	}
@@ -102,7 +105,7 @@ func (a *app) identityFor(w http.ResponseWriter, r *http.Request, t identity.Typ
 		return v, true
 	}
 
-	http.Redirect(w, r, authPath+url.PathEscape(string(t))+"?return="+url.QueryEscape(returnTo), http.StatusSeeOther)
+	http.Redirect(w, r, authPath+url.PathEscape(string(t))+"?"+returnParam+"="+url.QueryEscape(returnTo), http.StatusSeeOther)
 
 	return identity.Verified{}, false
 }

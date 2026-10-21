@@ -24,6 +24,17 @@ const (
 	callCreate    = "create"
 	callIsRunning = "isMeetingRunning"
 	callJoin      = "join"
+
+	apiPath           = "api/"
+	checksumSeparator = "&checksum="
+
+	paramMeetingID   = "meetingID"
+	paramName        = "name"
+	paramAttendeePW  = "attendeePW"
+	paramModeratorPW = "moderatorPW"
+	paramFullName    = "fullName"
+	paramPassword    = "password"
+	paramRedirect    = "redirect"
 )
 
 // Room is a meeting as BigBlueButton knows it.
@@ -59,16 +70,16 @@ type response struct {
 // EnsureRoom creates the room unless it is already running. It is safe to
 // call on every join.
 func (c *Client) EnsureRoom(ctx context.Context, room Room) error {
-	running, err := c.call(ctx, callIsRunning, url.Values{"meetingID": {room.ID}})
+	running, err := c.call(ctx, callIsRunning, url.Values{paramMeetingID: {room.ID}})
 	if err == nil && running.Running {
 		return nil
 	}
 
 	_, err = c.call(ctx, callCreate, url.Values{
-		"meetingID":   {room.ID},
-		"name":        {room.Name},
-		"attendeePW":  {room.AttendeePassword},
-		"moderatorPW": {room.ModeratorPassword},
+		paramMeetingID:   {room.ID},
+		paramName:        {room.Name},
+		paramAttendeePW:  {room.AttendeePassword},
+		paramModeratorPW: {room.ModeratorPassword},
 	})
 
 	return err
@@ -78,10 +89,10 @@ func (c *Client) EnsureRoom(ctx context.Context, room Room) error {
 // BigBlueButton then redirects the browser to the client.
 func (c *Client) JoinURL(roomID, fullName, password string) string {
 	return c.signedURL(callJoin, url.Values{
-		"meetingID": {roomID},
-		"fullName":  {fullName},
-		"password":  {password},
-		"redirect":  {"true"},
+		paramMeetingID: {roomID},
+		paramFullName:  {fullName},
+		paramPassword:  {password},
+		paramRedirect:  {"true"},
 	})
 }
 
@@ -118,5 +129,5 @@ func (c *Client) signedURL(name string, params url.Values) string {
 	query := params.Encode()
 	sum := sha256.Sum256([]byte(name + query + c.secret))
 
-	return c.baseURL + "api/" + name + "?" + query + "&checksum=" + hex.EncodeToString(sum[:])
+	return c.baseURL + apiPath + name + "?" + query + checksumSeparator + hex.EncodeToString(sum[:])
 }

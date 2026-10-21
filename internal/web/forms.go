@@ -13,10 +13,16 @@ const (
 	maxFieldRunes   = 255
 	maxParticipants = 6
 
+	fieldMeetingType = "meeting_type"
 	fieldMeetingName = "meeting_name"
 	fieldNote        = "invitation_note"
 	fieldAgreed      = "agreed"
 	fieldParticipant = "participant_email_address"
+
+	// The labels are translation keys.
+	labelMeetingName = "Meeting name"
+	labelNote        = "Invitation note"
+	labelParticipant = "Participant email address"
 )
 
 // createForm is the submitted "create meeting" form.
@@ -25,6 +31,11 @@ type createForm struct {
 	note         string
 	participants [maxParticipants]string
 	agreed       string
+}
+
+// participantField is the name of the i-th (from 0) participant input.
+func participantField(i int) string {
+	return fieldParticipant + string(rune('1'+i))
 }
 
 func parseCreateForm(w http.ResponseWriter, r *http.Request) (createForm, error) {
@@ -41,7 +52,7 @@ func parseCreateForm(w http.ResponseWriter, r *http.Request) (createForm, error)
 	}
 
 	for i := range f.participants {
-		f.participants[i] = strings.TrimSpace(r.PostFormValue(fieldParticipant + string(rune('1'+i))))
+		f.participants[i] = strings.TrimSpace(r.PostFormValue(participantField(i)))
 	}
 
 	return f, nil
@@ -75,29 +86,29 @@ func (f createForm) validate() []fieldError {
 	var errs []fieldError
 
 	if f.name == "" {
-		errs = append(errs, required(fieldMeetingName, "Meeting name"))
+		errs = append(errs, required(fieldMeetingName, labelMeetingName))
 	} else if utf8.RuneCountInString(f.name) > maxFieldRunes {
-		errs = append(errs, tooLong(fieldMeetingName, "Meeting name"))
+		errs = append(errs, tooLong(fieldMeetingName, labelMeetingName))
 	}
 
 	if f.note == "" && f.participants[0] != "" {
-		errs = append(errs, required(fieldNote, "Invitation note"))
+		errs = append(errs, required(fieldNote, labelNote))
 	}
 
 	if f.note != "" && utf8.RuneCountInString(f.note) > maxFieldRunes {
-		errs = append(errs, tooLong(fieldNote, "Invitation note"))
+		errs = append(errs, tooLong(fieldNote, labelNote))
 	}
 
 	if f.note != "" && f.participants[0] == "" {
-		errs = append(errs, required(fieldParticipant+"1", "Participant email address"))
+		errs = append(errs, required(participantField(0), labelParticipant))
 	}
 
 	for i, email := range f.participants {
 		if email != "" && !validEmail(email) {
 			errs = append(errs, fieldError{
-				field:   fieldParticipant + string(rune('1'+i)),
+				field:   participantField(i),
 				message: "The :attribute field must be a valid email address.",
-				label:   "Participant email address",
+				label:   labelParticipant,
 			})
 		}
 	}

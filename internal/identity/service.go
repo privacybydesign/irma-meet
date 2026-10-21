@@ -20,6 +20,18 @@ const (
 	statusDone       = "DONE"
 	proofStatusValid = "VALID"
 	attributePresent = "PRESENT"
+
+	statusInitialized = "INITIALIZED"
+	statusPairing     = "PAIRING"
+	statusConnected   = "CONNECTED"
+
+	sessionPath = "/session"
+	resultPath  = "/result"
+
+	headerAuthorization = "Authorization"
+	headerAccept        = "Accept"
+	headerContentType   = "Content-Type"
+	contentTypeJSON     = "application/json"
 )
 
 var (
@@ -34,7 +46,7 @@ var (
 var tokenPattern = regexp.MustCompile(`^[A-Za-z0-9]{1,64}$`)
 
 // running holds the IRMA session statuses before the session has ended.
-var running = map[string]bool{"INITIALIZED": true, "PAIRING": true, "CONNECTED": true}
+var running = map[string]bool{statusInitialized: true, statusPairing: true, statusConnected: true}
 
 // Session is a started Yivi session.
 type Session struct {
@@ -71,7 +83,7 @@ func (s *Service) Start(ctx context.Context, t Type) (Session, error) {
 		SessionPtr json.RawMessage `json:"sessionPtr"`
 	}
 
-	if err := s.do(ctx, http.MethodPost, "/session", body, &started); err != nil {
+	if err := s.do(ctx, http.MethodPost, sessionPath, body, &started); err != nil {
 		return Session{}, err
 	}
 
@@ -102,7 +114,7 @@ func (s *Service) Verify(ctx context.Context, token string, t Type) (Verified, e
 		Disclosed   [][]attribute `json:"disclosed"`
 	}
 
-	path := "/session/" + url.PathEscape(token) + "/result"
+	path := sessionPath + "/" + url.PathEscape(token) + resultPath
 	if err := s.do(ctx, http.MethodGet, path, nil, &result); err != nil {
 		return Verified{}, err
 	}
@@ -134,11 +146,11 @@ func (s *Service) do(ctx context.Context, method, path string, body []byte, out 
 		return err
 	}
 
-	req.Header.Set("Authorization", s.apiToken)
-	req.Header.Set("Accept", "application/json")
+	req.Header.Set(headerAuthorization, s.apiToken)
+	req.Header.Set(headerAccept, contentTypeJSON)
 
 	if body != nil {
-		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set(headerContentType, contentTypeJSON)
 	}
 
 	resp, err := s.client.Do(req)

@@ -50,7 +50,7 @@ func staticHandler() (http.Handler, error) {
 			return
 		}
 
-		w.Header().Set("Cache-Control", "no-cache")
+		w.Header().Set(headerCacheControl, cacheNoCache)
 		http.ServeContent(w, r, name, started, seeker)
 	}), nil
 }

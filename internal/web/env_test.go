@@ -31,6 +31,21 @@ const (
 	irmaToken = "irma-test-token"
 	bbbSecret = "bbb-test-secret"
 
+	// unreachablePort has no listener.
+	unreachablePort = 1
+
+	headerCacheControl       = "Cache-Control"
+	headerContentType        = "Content-Type"
+	headerContentTypeOptions = "X-Content-Type-Options"
+	headerFrameOptions       = "X-Frame-Options"
+	headerLocation           = "Location"
+	headerOrigin             = "Origin"
+	headerSecFetchSite       = "Sec-Fetch-Site"
+
+	headerBcc     = "Bcc"
+	headerReplyTo = "Reply-To"
+	headerSubject = "Subject"
+
 	attrEmail      = "pbdf.pbdf.email.email"
 	attrFullName   = "pbdf.gemeente.personalData.fullname"
 	attrSurfInst   = "pbdf.pbdf.surfnet-2.institute"
@@ -199,7 +214,7 @@ func (u *user) post(path string, form url.Values, headers ...string) response {
 	u.e.t.Helper()
 
 	req, _ := http.NewRequest(http.MethodPost, u.e.srv.URL+path, strings.NewReader(form.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set(headerContentType, "application/x-www-form-urlencoded")
 
 	for i := 0; i+1 < len(headers); i += 2 {
 		req.Header.Set(headers[i], headers[i+1])
@@ -222,7 +237,7 @@ func (u *user) disclose(disclosureType string, attrs map[string]string) {
 }
 
 func (r response) location() string {
-	return r.Header.Get("Location")
+	return r.Header.Get(headerLocation)
 }
 
 func defaultAttrs(name, email string) map[string]string {

@@ -10,10 +10,12 @@ import (
 	"github.com/privacybydesign/irma-meet/internal/identity"
 )
 
+const keyLen = 32
+
 func validEnv() map[string]string {
 	return map[string]string{
 		"APP_URL":               "https://meet.example.org/",
-		"SESSION_KEY":           base64.StdEncoding.EncodeToString(make([]byte, 32)),
+		"SESSION_KEY":           base64.StdEncoding.EncodeToString(make([]byte, keyLen)),
 		"DB_HOST":               "db",
 		"DB_DATABASE":           "irmameet",
 		"DB_USERNAME":           "irmameet",
@@ -55,7 +57,7 @@ func TestLoadValidConfig(t *testing.T) {
 		t.Errorf("default ports %d %d", cfg.Database.Port, cfg.Mail.Port)
 	}
 
-	if len(cfg.SessionKey) != 32 {
+	if len(cfg.SessionKey) != keyLen {
 		t.Errorf("session key has %d bytes", len(cfg.SessionKey))
 	}
 }
@@ -75,9 +77,9 @@ func TestMissingVarsAllReported(t *testing.T) {
 
 func TestSessionKeyFormats(t *testing.T) {
 	good := map[string]string{
-		"hex":      hex.EncodeToString(make([]byte, 32)),
-		"base64":   base64.StdEncoding.EncodeToString(make([]byte, 32)),
-		"unpadded": base64.RawStdEncoding.EncodeToString(append(make([]byte, 31), 1)),
+		"hex":      hex.EncodeToString(make([]byte, keyLen)),
+		"base64":   base64.StdEncoding.EncodeToString(make([]byte, keyLen)),
+		"unpadded": base64.RawStdEncoding.EncodeToString(append(make([]byte, keyLen-1), 1)),
 	}
 
 	for name, key := range good {
@@ -91,9 +93,9 @@ func TestSessionKeyFormats(t *testing.T) {
 
 	for name, key := range map[string]string{
 		"too short":         base64.StdEncoding.EncodeToString(make([]byte, 16)),
-		"too long":          hex.EncodeToString(make([]byte, 33)),
+		"too long":          hex.EncodeToString(make([]byte, keyLen+1)),
 		"garbage":           "not a key!",
-		"old APP_KEY style": "base64:" + base64.StdEncoding.EncodeToString(make([]byte, 32)),
+		"old APP_KEY style": "base64:" + base64.StdEncoding.EncodeToString(make([]byte, keyLen)),
 	} {
 		env := validEnv()
 		env["SESSION_KEY"] = key
