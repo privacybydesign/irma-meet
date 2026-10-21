@@ -18,7 +18,7 @@ func quietLog() *slog.Logger {
 }
 
 func TestUnknownCommand(t *testing.T) {
-	for _, args := range [][]string{{"serve"}, {"migrate", "now"}} {
+	for _, args := range [][]string{{"serve"}, {commandMigrate, "now"}} {
 		err := run(quietLog(), args)
 		if err == nil || !strings.Contains(err.Error(), "usage") {
 			t.Errorf("args %v: %v, want a usage error", args, err)
