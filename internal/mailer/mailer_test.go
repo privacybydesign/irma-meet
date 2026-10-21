@@ -121,6 +121,20 @@ func TestSendDeliversAll(t *testing.T) {
 	}
 }
 
+func TestReplyToIsOptional(t *testing.T) {
+	smtp := testutil.NewFakeSMTP(t)
+	m := newMailer(t, smtp)
+
+	err := m.Send(context.Background(), mailer.Message{Kind: mailer.Confirmation, MeetingType: "free", Locale: "en", To: "host@example.com"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if got := smtp.Mails()[0].Header("Reply-To"); got != "" {
+		t.Errorf("Reply-To %q, want none", got)
+	}
+}
+
 func TestSubjectIsSingleLine(t *testing.T) {
 	smtp := testutil.NewFakeSMTP(t)
 	m := newMailer(t, smtp)

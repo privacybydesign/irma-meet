@@ -169,6 +169,10 @@ func TestCreateStoresAndMails(t *testing.T) {
 	if f.mails.sent[0].ReplyTo != "host@example.com" || !strings.Contains(f.mails.sent[0].Data.InvitationNote, "hello") {
 		t.Errorf("invitation %+v", f.mails.sent[0])
 	}
+
+	if confirmation.ReplyTo != "" {
+		t.Errorf("the confirmation has Reply-To %q, replies must go to the sender address", confirmation.ReplyTo)
+	}
 }
 
 func TestCreateWithoutGuests(t *testing.T) {

@@ -44,7 +44,7 @@ type Message struct {
 	MeetingType string
 	Locale      string
 	To          string
-	ReplyTo     string
+	ReplyTo     string // optional
 	Subject     string
 	Data        Data
 }
@@ -132,8 +132,10 @@ func (m *Mailer) build(msg Message) (*mail.Msg, error) {
 		return nil, err
 	}
 
-	if err := out.ReplyTo(msg.ReplyTo); err != nil {
-		return nil, err
+	if msg.ReplyTo != "" {
+		if err := out.ReplyTo(msg.ReplyTo); err != nil {
+			return nil, err
+		}
 	}
 
 	out.Subject(singleLine(msg.Subject))

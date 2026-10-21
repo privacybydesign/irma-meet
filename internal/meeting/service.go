@@ -161,7 +161,7 @@ func (s *Service) sendMails(ctx context.Context, m Meeting, link string, in NewM
 
 	msgs = append(msgs, mailer.Message{
 		Kind: mailer.Confirmation, MeetingType: string(m.Type), Locale: in.Locale,
-		To: m.HostEmail, ReplyTo: m.HostEmail, Subject: subject,
+		To: m.HostEmail, Subject: subject,
 		Data: mailer.Data{HosterName: m.HostName, InvitationLink: link, InvitationNote: noteForHost},
 	})
 
