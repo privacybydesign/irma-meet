@@ -154,10 +154,10 @@ func (m *Mailer) client() (*mail.Client, error) {
 	switch m.cfg.Encryption {
 	case config.MailImplicitTLS:
 		opts = append(opts, mail.WithSSL())
-	case config.MailStartTLS:
-		opts = append(opts, mail.WithTLSPolicy(mail.TLSMandatory))
+	case config.MailNone:
+		opts = append(opts, mail.WithTLSPolicy(mail.NoTLS))
 	default:
-		opts = append(opts, mail.WithTLSPolicy(mail.TLSOpportunistic))
+		opts = append(opts, mail.WithTLSPolicy(mail.TLSMandatory))
 	}
 
 	if m.cfg.Username != "" {

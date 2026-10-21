@@ -22,8 +22,6 @@ const (
 	// sessionKeyLen is the AES-256 key size used to encrypt stored sessions.
 	sessionKeyLen = 32
 
-	envNone = "null"
-
 	schemeHTTP  = "http"
 	schemeHTTPS = "https"
 )
@@ -32,12 +30,12 @@ const (
 type MailEncryption string
 
 const (
-	// MailPlain connects without TLS, upgrading with STARTTLS when offered.
-	MailPlain MailEncryption = ""
-	// MailStartTLS requires STARTTLS.
-	MailStartTLS MailEncryption = "tls"
+	// MailStartTLS requires STARTTLS. It is the default.
+	MailStartTLS MailEncryption = "starttls"
 	// MailImplicitTLS wraps the whole connection in TLS.
-	MailImplicitTLS MailEncryption = "ssl"
+	MailImplicitTLS MailEncryption = "tls"
+	// MailNone connects without TLS.
+	MailNone MailEncryption = "none"
 )
 
 type Database struct {
@@ -185,17 +183,17 @@ func (l *loader) port(name string, fallback int) int {
 
 func (l *loader) mailEncryption(name string) MailEncryption {
 	switch strings.ToLower(strings.TrimSpace(l.getenv(name))) {
-	case "", envNone:
-		return MailPlain
-	case string(MailStartTLS):
+	case "", string(MailStartTLS):
 		return MailStartTLS
 	case string(MailImplicitTLS):
 		return MailImplicitTLS
+	case string(MailNone):
+		return MailNone
 	}
 
-	l.fail(name, `must be "tls", "ssl" or "null"`)
+	l.fail(name, `must be "starttls", "tls" or "none"`)
 
-	return MailPlain
+	return MailStartTLS
 }
 
 func (l *loader) sessionKey(name string) []byte {

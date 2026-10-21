@@ -49,7 +49,7 @@ func TestLoadValidConfig(t *testing.T) {
 		t.Errorf("BBB base url %q must end in a slash", cfg.BBBBaseURL)
 	}
 
-	if cfg.NameFormat != identity.NameFormatJSON || cfg.Mail.Encryption != config.MailStartTLS {
+	if cfg.NameFormat != identity.NameFormatJSON || cfg.Mail.Encryption != config.MailImplicitTLS {
 		t.Errorf("name format %q, encryption %q", cfg.NameFormat, cfg.Mail.Encryption)
 	}
 
@@ -118,7 +118,7 @@ func TestAppURLMustBeAnOrigin(t *testing.T) {
 }
 
 func TestMailEncryptionAndFormat(t *testing.T) {
-	for value, want := range map[string]config.MailEncryption{"": config.MailPlain, "null": config.MailPlain, "tls": config.MailStartTLS, "ssl": config.MailImplicitTLS, "SSL": config.MailImplicitTLS} {
+	for value, want := range map[string]config.MailEncryption{"": config.MailStartTLS, "starttls": config.MailStartTLS, "tls": config.MailImplicitTLS, "TLS": config.MailImplicitTLS, "none": config.MailNone} {
 		env := validEnv()
 		env["MAIL_ENCRYPTION"] = value
 
@@ -128,14 +128,16 @@ func TestMailEncryptionAndFormat(t *testing.T) {
 		}
 	}
 
-	env := validEnv()
-	env["MAIL_ENCRYPTION"] = "starttls"
+	for _, old := range []string{"ssl", "null"} {
+		env := validEnv()
+		env["MAIL_ENCRYPTION"] = old
 
-	if _, err := load(env); err == nil {
-		t.Error("an unknown MAIL_ENCRYPTION must be rejected")
+		if _, err := load(env); err == nil {
+			t.Errorf("MAIL_ENCRYPTION=%q must be rejected", old)
+		}
 	}
 
-	env = validEnv()
+	env := validEnv()
 	env["IRMA_MEET_NAME_FORMAT"] = "xml"
 
 	if _, err := load(env); err == nil {

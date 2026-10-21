@@ -37,5 +37,8 @@ BigBlueButton meetings after a Yivi disclosure. It replaced a Laravel app.
   methods, so state-changing endpoints must not be GET.
 - Translation keys are the English text. A key used in a template or handler
   needs an entry in `nl.json`; `TestTemplateKeysTranslated` checks it.
+- `MAIL_ENCRYPTION` is `starttls` (default), `tls` or `none`. The empty value
+  of `config.MailEncryption` means STARTTLS, so tests against the fake SMTP
+  server (no TLS) set `config.MailNone`.
 - The meeting tables (`irma_meet_sessions`, `irma_meet_participants`) keep the
   Laravel schema so existing databases work; migration 1 is `IF NOT EXISTS`.

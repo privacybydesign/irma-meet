@@ -21,7 +21,7 @@ const (
 func newMailer(t *testing.T, smtp *testutil.FakeSMTP) *mailer.Mailer {
 	t.Helper()
 
-	m, err := mailer.New(config.Mail{Host: smtp.Host, Port: smtp.Port, FromAddress: "noreply@yivi-meet.test", FromName: "Yivi Meet"})
+	m, err := mailer.New(config.Mail{Host: smtp.Host, Port: smtp.Port, Encryption: config.MailNone, FromAddress: "noreply@yivi-meet.test", FromName: "Yivi Meet"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -168,6 +168,24 @@ func TestInvalidRecipient(t *testing.T) {
 	err := m.Send(context.Background(), mailer.Message{Kind: mailer.Invitation, MeetingType: "free", Locale: "en", To: "not an address", ReplyTo: "host@example.com"})
 	if err == nil || len(smtp.Mails()) != 0 {
 		t.Errorf("err %v, %d mails", err, len(smtp.Mails()))
+	}
+}
+
+// The fake server does not offer STARTTLS, so a mailer that must use it
+// refuses to send. That includes the zero value of the setting.
+func TestStartTLSIsRequired(t *testing.T) {
+	for _, encryption := range []config.MailEncryption{config.MailStartTLS, ""} {
+		smtp := testutil.NewFakeSMTP(t)
+
+		m, err := mailer.New(config.Mail{Host: smtp.Host, Port: smtp.Port, Encryption: encryption, FromAddress: "noreply@yivi-meet.test"})
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		err = m.Send(context.Background(), mailer.Message{Kind: mailer.Invitation, MeetingType: "free", Locale: "en", To: "a@example.com", ReplyTo: "b@example.com"})
+		if err == nil || len(smtp.Mails()) != 0 {
+			t.Errorf("encryption %q: err %v, %d mails sent without STARTTLS", encryption, err, len(smtp.Mails()))
+		}
 	}
 }
 

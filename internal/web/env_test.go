@@ -133,7 +133,7 @@ func newEnv(t *testing.T, opts ...envOption) *env {
 		smtpPort = cfg.smtpPort
 	}
 
-	mails, err := mailer.New(config.Mail{Host: e.smtp.Host, Port: smtpPort, FromAddress: "noreply@yivi-meet.test", FromName: "Yivi Meet"})
+	mails, err := mailer.New(config.Mail{Host: e.smtp.Host, Port: smtpPort, Encryption: config.MailNone, FromAddress: "noreply@yivi-meet.test", FromName: "Yivi Meet"})
 	if err != nil {
 		t.Fatal(err)
 	}

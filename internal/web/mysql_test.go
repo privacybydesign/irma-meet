@@ -42,7 +42,7 @@ func TestEndToEndAgainstMySQL(t *testing.T) {
 	t.Cleanup(srv.Close)
 
 	text, _ := i18n.New()
-	mails, _ := mailer.New(config.Mail{Host: smtp.Host, Port: smtp.Port, FromAddress: "noreply@yivi-meet.test"})
+	mails, _ := mailer.New(config.Mail{Host: smtp.Host, Port: smtp.Port, Encryption: config.MailNone, FromAddress: "noreply@yivi-meet.test"})
 
 	meetings := meeting.NewService(meeting.Options{
 		Store: store.New(db), Rooms: bbb.New(fakeBBB.BaseURL(), bbbSecret, nil), Mails: mails, Text: text,

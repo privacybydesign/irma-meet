@@ -24,9 +24,9 @@ All configuration is read from the environment.
 | `APP_URL` | Public origin, e.g. `https://meet.example.org`. Used for the links in mails and for the CSRF check. |
 | `SESSION_KEY` | 32 random bytes, base64 or hex (`openssl rand -base64 32`). Encrypts the stored sessions. Every replica must use the same key; rotating it logs everyone out. |
 | `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | MySQL connection. The user needs rights to create tables, because the service migrates the schema on start. |
-| `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD` | SMTP server. |
-| `MAIL_ENCRYPTION` | `tls` (STARTTLS), `ssl` (TLS on connect) or `null` (plain, STARTTLS when offered). |
-| `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME` | Sender of the meeting mails. |
+| `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD` | SMTP server. Scaleway Transactional Email is `smtp.tem.scw.cloud` on port 587. |
+| `MAIL_ENCRYPTION` | `starttls` (default, refuses to send without STARTTLS), `tls` (TLS on connect) or `none` (no TLS, for a local mail catcher). |
+| `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME` | Sender of the meeting mails. `MAIL_FROM_NAME` is optional. |
 | `IRMA_SERVER_URL`, `IRMA_API_TOKEN` | IRMA server and the requestor token it expects in the `Authorization` header. |
 | `IRMA_MEET_NAME_FORMAT` | `string` (the display name) or `json` (a JSON object with the name and the disclosed attributes) as the BigBlueButton name. |
 | `BBB_SERVER_BASE_URL`, `BBB_SECRET` | BigBlueButton server, ending in `/bigbluebutton/`, and its shared secret. Calls are signed with SHA-256. |
