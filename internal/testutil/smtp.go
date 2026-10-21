@@ -40,7 +40,7 @@ func (m Mail) Body() string {
 		return ""
 	}
 
-	var reader io.Reader = msg.Body
+	reader := io.Reader(msg.Body)
 	if strings.EqualFold(msg.Header.Get("Content-Transfer-Encoding"), "quoted-printable") {
 		reader = quotedprintable.NewReader(msg.Body)
 	}
@@ -112,7 +112,7 @@ func (f *FakeSMTP) accept() {
 }
 
 func (f *FakeSMTP) session(conn net.Conn) {
-	defer conn.Close()
+	defer func() { _ = conn.Close() }()
 
 	rd := bufio.NewReader(conn)
 	reply := func(line string) { _, _ = conn.Write([]byte(line + "\r\n")) }

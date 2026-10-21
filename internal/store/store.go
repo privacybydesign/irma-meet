@@ -115,7 +115,7 @@ func (s *Store) Create(ctx context.Context, m meeting.Meeting, participantEmails
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 
 	now := time.Now().UTC()
 
@@ -189,7 +189,7 @@ func (s *Store) DeleteExpired(ctx context.Context, cutoff time.Time) (meeting.Re
 	if err != nil {
 		return meeting.Removed{}, err
 	}
-	defer tx.Rollback()
+	defer func() { _ = tx.Rollback() }()
 
 	meetings, err := tx.ExecContext(ctx, `DELETE FROM irma_meet_sessions WHERE start_time < ?`, cutoff.UTC())
 	if err != nil {

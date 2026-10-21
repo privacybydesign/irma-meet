@@ -145,7 +145,7 @@ func (s *Service) do(ctx context.Context, method, path string, body []byte, out 
 	if err != nil {
 		return fmt.Errorf("irma server: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	data, err := io.ReadAll(io.LimitReader(resp.Body, maxResponseSize))
 	if err != nil {

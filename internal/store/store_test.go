@@ -180,9 +180,18 @@ func TestDeleteExpired(t *testing.T) {
 	ctx := context.Background()
 	now := time.Date(2026, 10, 21, 12, 0, 0, 0, time.UTC)
 
-	s.Create(ctx, sample("old1", now.Add(-25*time.Hour)), []string{"a@example.com", "b@example.com"})
-	s.Create(ctx, sample("old2", now.Add(-48*time.Hour)), nil)
-	s.Create(ctx, sample("fresh", now.Add(-time.Hour)), []string{"c@example.com"})
+	for _, m := range []struct {
+		meeting meeting.Meeting
+		emails  []string
+	}{
+		{sample("old1", now.Add(-25*time.Hour)), []string{"a@example.com", "b@example.com"}},
+		{sample("old2", now.Add(-48*time.Hour)), nil},
+		{sample("fresh", now.Add(-time.Hour)), []string{"c@example.com"}},
+	} {
+		if err := s.Create(ctx, m.meeting, m.emails); err != nil {
+			t.Fatal(err)
+		}
+	}
 
 	if _, err := db.Exec("INSERT INTO irma_meet_participants (irma_session_id, email_address, authentication) VALUES ('gone-long-ago', 'orphan@example.com', 1)"); err != nil {
 		t.Fatal(err)

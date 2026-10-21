@@ -95,7 +95,7 @@ func (c *Client) call(ctx context.Context, name string, params url.Values) (resp
 	if err != nil {
 		return response{}, fmt.Errorf("bbb %s: %w", name, err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	data, err := io.ReadAll(io.LimitReader(resp.Body, maxResponseSize))
 	if err != nil {

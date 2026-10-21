@@ -177,7 +177,7 @@ func (u *user) do(req *http.Request) response {
 	if err != nil {
 		u.e.t.Fatal(err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	body, _ := io.ReadAll(resp.Body)
 

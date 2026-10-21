@@ -39,7 +39,7 @@ func staticHandler() (http.Handler, error) {
 			http.NotFound(w, r)
 			return
 		}
-		defer file.Close()
+		defer func() { _ = file.Close() }()
 
 		seeker, ok := file.(interface {
 			Read([]byte) (int, error)

@@ -56,7 +56,7 @@ func run(log *slog.Logger) error {
 	if err != nil {
 		return err
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	waitCtx, cancel := context.WithTimeout(ctx, dbWaitTimeout)
 	defer cancel()
