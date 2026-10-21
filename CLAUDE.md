@@ -1,21 +1,23 @@
 # irma-meet repo notes
 
-Go service (`net/http`, `html/template`, MySQL) that lets people create and join
+Go service (`net/http`, `html/template`, Postgres) that lets people create and join
 BigBlueButton meetings after a Yivi disclosure. It replaced a Laravel app.
 
 ## Build & test
 
 - `go vet ./... && go test ./...`. The Go version is set in `go.mod`.
-- Tests need no network, MySQL or Docker: they use the fakes in
+- Most tests need no network, Postgres or Docker: they use the fakes in
   `internal/testutil` (IRMA server, BigBlueButton, SMTP, in-memory store).
-- `internal/store` and `TestEndToEndAgainstMySQL` run against a real MySQL
-  only when `TEST_MYSQL_DSN` is set (a server DSN, e.g.
-  `root:secret@tcp(127.0.0.1:3307)/`; each test makes its own database);
-  otherwise they skip. Run them when you change SQL or a migration.
+- `internal/store`, `TestEndToEndAgainstPostgres` and `TestMigrateCommand` run
+  against a real Postgres only when `TEST_DATABASE_URL` is set (a server URL,
+  e.g. `postgresql://postgres:secret@127.0.0.1:5433/postgres?sslmode=disable`;
+  each test makes its own database); otherwise they skip. Run them when you
+  change SQL or a migration. `Dockerfile.test` (CI) starts its own Postgres.
 
 ## Layout
 
-- `main.go` wires config, store, services and the HTTP server.
+- `main.go` wires config, store, services and the HTTP server. `irma-meet
+  migrate` applies the migrations and exits; the server never migrates.
 - `internal/web` HTTP handlers, templates (`templates/`), embedded `static/`.
   Handlers call the `Meetings` and `Identities` services, never the store, the
   IRMA server or BigBlueButton directly.
@@ -37,8 +39,11 @@ BigBlueButton meetings after a Yivi disclosure. It replaced a Laravel app.
   methods, so state-changing endpoints must not be GET.
 - Translation keys are the English text. A key used in a template or handler
   needs an entry in `nl.json`; `TestTemplateKeysTranslated` checks it.
+- The server's database user has read/write rights only. Keep DDL out of the
+  server path; schema changes are goose migrations in `internal/store/migrations`
+  and run through `irma-meet migrate`.
 - `MAIL_ENCRYPTION` is `starttls` (default), `tls` or `none`. The empty value
   of `config.MailEncryption` means STARTTLS, so tests against the fake SMTP
   server (no TLS) set `config.MailNone`.
-- The meeting tables (`irma_meet_sessions`, `irma_meet_participants`) keep the
-  Laravel schema so existing databases work; migration 1 is `IF NOT EXISTS`.
+- `DATABASE_URL` holds the password: never put it, or an error that quotes it,
+  into a log or a config error message.

@@ -4,7 +4,7 @@ A demo of authenticated video meetings using [Yivi](https://yivi.app) and [BigBl
 
 > **Demo service:** sessions are limited to 60 minutes and 25 participants. Hosted on the BigBlueButton free tier (Blindside Networks).
 
-The service is a single Go binary (`net/http`, `html/template`) with MySQL for storage. It listens on port 8080 and answers `200` on `/`.
+The service is a single Go binary (`net/http`, `html/template`) with Postgres for storage. It listens on port 8080 and answers `200` on `/`.
 
 ## How it works
 
@@ -23,7 +23,7 @@ All configuration is read from the environment.
 |---|---|
 | `APP_URL` | Public origin, e.g. `https://meet.example.org`. Used for the links in mails and for the CSRF check. |
 | `SESSION_KEY` | 32 random bytes, base64 or hex (`openssl rand -base64 32`). Encrypts the stored sessions. Every replica must use the same key; rotating it logs everyone out. |
-| `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | MySQL connection. The user needs rights to create tables, because the service migrates the schema on start. |
+| `DATABASE_URL` | Postgres connection string, `postgresql://user:password@host:5432/dbname?connect_timeout=5`. The server needs read and write access only. Add `sslmode=require` or `verify-full` to refuse a connection without TLS; the default tries TLS and falls back to plain. |
 | `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD` | SMTP server. Scaleway Transactional Email is `smtp.tem.scw.cloud` on port 587. |
 | `MAIL_ENCRYPTION` | `starttls` (default, refuses to send without STARTTLS), `tls` (TLS on connect) or `none` (no TLS, for a local mail catcher). |
 | `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME` | Sender of the meeting mails. `MAIL_FROM_NAME` is optional. |
@@ -32,6 +32,16 @@ All configuration is read from the environment.
 | `BBB_SERVER_BASE_URL`, `BBB_SECRET` | BigBlueButton server, ending in `/bigbluebutton/`, and its shared secret. Calls are signed with SHA-256. |
 
 `.env.example` lists them all.
+
+## Database migrations
+
+The server never changes the schema. Run the migrations before the first start and after every update that adds one:
+
+```bash
+irma-meet migrate
+```
+
+The command reads only `DATABASE_URL`, applies the goose migrations in `internal/store/migrations` and exits. Run it with a database user that may create tables; the server itself only needs read and write access to those tables. In Kubernetes, run it as an init container with the owner user and give the server container the read/write user. Concurrent runs wait for each other.
 
 ## BigBlueButton setup
 
@@ -61,7 +71,7 @@ Fill in `SESSION_KEY` (`make key` prints one), `IRMA_API_TOKEN` and your BBB cre
 make up
 ```
 
-The app will be available at http://localhost:8080. Mailpit (local mail catcher) runs at http://localhost:8025 and the IRMA server at http://localhost:8088.
+`make up` also runs `irma-meet migrate` once before the app starts. The app will be available at http://localhost:8080. Mailpit (local mail catcher) runs at http://localhost:8025 and the IRMA server at http://localhost:8088.
 
 | Command | Description |
 |---|---|
@@ -78,7 +88,12 @@ set -a; . ./.env; set +a   # or set the variables yourself
 go run .
 ```
 
-Requires Go 1.26 and a MySQL database. The schema is created by goose migrations in `internal/store/migrations`, which run on start. The two meeting tables match the ones the PHP version created, so an existing database keeps working.
+Requires Go 1.26 and a Postgres database. Create the schema first, then start the server:
+
+```bash
+go run . migrate
+go run .
+```
 
 ## Tests
 
@@ -87,12 +102,14 @@ go vet ./...
 go test ./...
 ```
 
-The tests run the whole service against fake IRMA, BigBlueButton and SMTP servers (`internal/testutil`) and an in-memory store. The SQL and the MySQL session store are tested against a real MySQL when `TEST_MYSQL_DSN` is set. It points at a server, not a database: each test creates and drops its own database, so the user needs `CREATE` and `DROP` rights.
+The tests run the whole service against fake IRMA, BigBlueButton and SMTP servers (`internal/testutil`) and an in-memory store. The SQL, the migrations and the Postgres session store are tested against a real Postgres when `TEST_DATABASE_URL` is set. It points at a server, not a database: each test creates and drops its own database, so the user needs the right to create and drop databases.
 
 ```bash
-docker run -d --name irmameet-test -e MYSQL_ROOT_PASSWORD=secret -p 3307:3306 mysql:8.0
-TEST_MYSQL_DSN='root:secret@tcp(127.0.0.1:3307)/' go test ./...
+docker run -d --name irmameet-test -e POSTGRES_PASSWORD=secret -p 5433:5432 postgres:17
+TEST_DATABASE_URL='postgresql://postgres:secret@127.0.0.1:5433/postgres?sslmode=disable' go test ./...
 ```
+
+`Dockerfile.test`, which CI uses, installs Postgres and starts a throwaway server, so CI runs these tests too.
 
 ## Static files
 

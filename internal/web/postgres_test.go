@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alexedwards/scs/mysqlstore"
+	"github.com/alexedwards/scs/postgresstore"
 
 	"github.com/privacybydesign/irma-meet/internal/bbb"
 	"github.com/privacybydesign/irma-meet/internal/config"
@@ -24,10 +24,10 @@ import (
 	"github.com/privacybydesign/irma-meet/internal/web"
 )
 
-// TestEndToEndAgainstMySQL runs a meeting through the real store and the
-// MySQL session store. It needs TEST_MYSQL_DSN, see testutil.MySQL.
-func TestEndToEndAgainstMySQL(t *testing.T) {
-	db := testutil.MySQL(t)
+// TestEndToEndAgainstPostgres runs a meeting through the real store and the
+// Postgres session store. It needs TEST_DATABASE_URL, see testutil.Postgres.
+func TestEndToEndAgainstPostgres(t *testing.T) {
+	db := testutil.Postgres(t)
 
 	if err := store.Migrate(context.Background(), db); err != nil {
 		t.Fatal(err)
@@ -49,7 +49,7 @@ func TestEndToEndAgainstMySQL(t *testing.T) {
 		BaseURL: srv.URL, NameFormat: identity.NameFormatString,
 	})
 
-	sessionStore := mysqlstore.New(db)
+	sessionStore := postgresstore.New(db)
 	defer sessionStore.StopCleanup()
 
 	appURL, _ := url.Parse(srv.URL)

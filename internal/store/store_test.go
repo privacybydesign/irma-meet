@@ -11,11 +11,11 @@ import (
 	"github.com/privacybydesign/irma-meet/internal/testutil"
 )
 
-// The tests need a MySQL server, see testutil.MySQL.
+// The tests need a Postgres server, see testutil.Postgres.
 func openTestDB(t *testing.T) *sql.DB {
 	t.Helper()
 
-	return testutil.MySQL(t)
+	return testutil.Postgres(t)
 }
 
 func migrated(t *testing.T) (*sql.DB, *store.Store) {
@@ -47,41 +47,9 @@ func TestMigrateIsIdempotent(t *testing.T) {
 
 	for _, table := range []string{"irma_meet_sessions", "irma_meet_participants", "sessions"} {
 		var n int
-		if err := db.QueryRow("SELECT COUNT(*) FROM `" + table + "`").Scan(&n); err != nil {
+		if err := db.QueryRow(`SELECT COUNT(*) FROM ` + table).Scan(&n); err != nil {
 			t.Errorf("%s: %v", table, err)
 		}
-	}
-}
-
-// A database that the Laravel app filled keeps its rows.
-func TestMigrateKeepsLaravelData(t *testing.T) {
-	db := openTestDB(t)
-
-	for _, ddl := range []string{
-		"CREATE TABLE `irma_meet_sessions` (`id` bigint unsigned NOT NULL AUTO_INCREMENT, `irma_session_id` char(48) NOT NULL, `meeting_name` varchar(255) NOT NULL, `hoster_name` varchar(255) NOT NULL, `hoster_email_address` varchar(255) NOT NULL, `start_time` datetime NOT NULL, `invitation_note` varchar(255) DEFAULT '', `bbb_session_id` varchar(255) NOT NULL, `bbb_moderator_password` varchar(255) DEFAULT NULL, `bbb_attendee_password` varchar(255) DEFAULT NULL, `created_at` timestamp NULL DEFAULT NULL, `updated_at` timestamp NULL DEFAULT NULL, `meeting_type` varchar(255) NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `irma_meet_sessions_irma_session_id_unique` (`irma_session_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
-		"CREATE TABLE `irma_meet_participants` (`id` bigint unsigned NOT NULL AUTO_INCREMENT, `irma_session_id` char(48) NOT NULL, `email_address` varchar(255) NOT NULL, `authentication` int NOT NULL, `created_at` timestamp NULL DEFAULT NULL, `updated_at` timestamp NULL DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
-		"INSERT INTO irma_meet_sessions (irma_session_id, meeting_name, hoster_name, hoster_email_address, start_time, invitation_note, bbb_session_id, meeting_type) VALUES ('legacy1', 'Old', 'Host', 'host@example.com', '2026-10-20 10:00:00', NULL, 'bbb-legacy', 'free')",
-	} {
-		if _, err := db.Exec(ddl); err != nil {
-			t.Fatal(err)
-		}
-	}
-
-	if err := store.Migrate(context.Background(), db); err != nil {
-		t.Fatal(err)
-	}
-
-	m, err := store.New(db).Find(context.Background(), "legacy1")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if m.Name != "Old" || m.Type != meeting.Free || m.RoomID != "bbb-legacy" || m.ModeratorPassword != "" || m.InvitationNote != "" {
-		t.Errorf("legacy meeting %+v", m)
-	}
-
-	if want := time.Date(2026, 10, 20, 10, 0, 0, 0, time.UTC); !m.StartTime.Equal(want) {
-		t.Errorf("start time %s, want %s", m.StartTime, want)
 	}
 }
 
@@ -130,7 +98,7 @@ func TestSetPasswordsFillsEmpty(t *testing.T) {
 	db, s := migrated(t)
 	ctx := context.Background()
 
-	if _, err := db.Exec("INSERT INTO irma_meet_sessions (irma_session_id, meeting_name, hoster_name, hoster_email_address, start_time, bbb_session_id, bbb_moderator_password, meeting_type) VALUES ('legacy', 'n', 'h', 'h@example.com', NOW(), 'r', 'kept', 'free')"); err != nil {
+	if _, err := db.Exec("INSERT INTO irma_meet_sessions (irma_session_id, meeting_name, hoster_name, hoster_email_address, start_time, bbb_session_id, bbb_moderator_password, meeting_type) VALUES ('legacy', 'n', 'h', 'h@example.com', now(), 'r', 'kept', 'free')"); err != nil {
 		t.Fatal(err)
 	}
 

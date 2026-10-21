@@ -2,12 +2,23 @@ FROM golang:1.26.10 AS builder
 
 WORKDIR /app
 
+# The store and session tests need Postgres; CMD starts a throwaway server.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends postgresql \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY . .
 
 RUN mkdir -p /coverage
 
 RUN go mod download
 
+ENV TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:5432/postgres?sslmode=disable
+
 # CI mounts a host dir at /coverage to upload the profile.
-CMD go vet ./... && \
+CMD PGBIN="$(ls -d /usr/lib/postgresql/*/bin)" && \
+    install -d -o postgres -g postgres /tmp/pgdata && \
+    su postgres -c "$PGBIN/initdb -D /tmp/pgdata -E UTF8 --locale=C.UTF-8 -A trust >/dev/null && \
+        $PGBIN/pg_ctl -D /tmp/pgdata -w -l /tmp/pg.log start >/dev/null" && \
+    go vet ./... && \
     go test ./... -v -covermode=atomic -coverprofile=/coverage/coverage.out

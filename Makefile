@@ -6,8 +6,8 @@ up: ## Start all containers
 down: ## Stop and remove containers
 	docker compose down
 
-build: ## Rebuild the app image
-	docker compose build app
+build: ## Rebuild the images
+	docker compose build
 
 logs: ## Tail the app log
 	docker compose logs -f app

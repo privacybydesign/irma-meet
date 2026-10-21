@@ -14,7 +14,6 @@ import (
 )
 
 const (
-	defaultDBPort   = 3306
 	defaultMailPort = 25
 
 	maxPort = 65535
@@ -22,8 +21,10 @@ const (
 	// sessionKeyLen is the AES-256 key size used to encrypt stored sessions.
 	sessionKeyLen = 32
 
-	schemeHTTP  = "http"
-	schemeHTTPS = "https"
+	schemeHTTP       = "http"
+	schemeHTTPS      = "https"
+	schemePostgres   = "postgres"
+	schemePostgreSQL = "postgresql"
 )
 
 // MailEncryption is the MAIL_ENCRYPTION setting.
@@ -38,14 +39,6 @@ const (
 	MailNone MailEncryption = "none"
 )
 
-type Database struct {
-	Host     string
-	Port     int
-	Name     string
-	User     string
-	Password string
-}
-
 type Mail struct {
 	Host        string
 	Port        int
@@ -58,7 +51,7 @@ type Mail struct {
 
 type Config struct {
 	AppURL        *url.URL
-	Database      Database
+	DatabaseURL   string
 	Mail          Mail
 	IrmaServerURL string
 	IrmaAPIToken  string
@@ -80,13 +73,7 @@ func Load(getenv func(string) string) (Config, error) {
 		BBBBaseURL:    l.bbbBaseURL("BBB_SERVER_BASE_URL"),
 		BBBSecret:     l.required("BBB_SECRET"),
 		SessionKey:    l.sessionKey("SESSION_KEY"),
-		Database: Database{
-			Host:     l.required("DB_HOST"),
-			Port:     l.port("DB_PORT", defaultDBPort),
-			Name:     l.required("DB_DATABASE"),
-			User:     l.required("DB_USERNAME"),
-			Password: getenv("DB_PASSWORD"),
-		},
+		DatabaseURL:   l.databaseURL("DATABASE_URL"),
 		Mail: Mail{
 			Host:        l.required("MAIL_HOST"),
 			Port:        l.port("MAIL_PORT", defaultMailPort),
@@ -99,6 +86,15 @@ func Load(getenv func(string) string) (Config, error) {
 	}
 
 	return cfg, l.err()
+}
+
+// LoadDatabaseURL reads only DATABASE_URL, for the migrate command, which
+// needs no other setting.
+func LoadDatabaseURL(getenv func(string) string) (string, error) {
+	l := loader{getenv: getenv}
+	databaseURL := l.databaseURL("DATABASE_URL")
+
+	return databaseURL, l.err()
 }
 
 type loader struct {
@@ -136,6 +132,23 @@ func (l *loader) appURL(name string) *url.URL {
 	}
 
 	return u
+}
+
+// databaseURL checks the shape only and never repeats the value in an error,
+// because it holds the password.
+func (l *loader) databaseURL(name string) string {
+	raw := l.required(name)
+	if raw == "" {
+		return ""
+	}
+
+	u, err := url.Parse(raw)
+	if err != nil || (u.Scheme != schemePostgres && u.Scheme != schemePostgreSQL) {
+		l.fail(name, "must be a postgresql:// URL such as postgresql://user:password@host:5432/dbname")
+		return ""
+	}
+
+	return raw
 }
 
 func (l *loader) bbbBaseURL(name string) string {

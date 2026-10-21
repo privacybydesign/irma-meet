@@ -1,4 +1,4 @@
-// Package store keeps meetings in MySQL.
+// Package store keeps meetings in Postgres.
 package store
 
 import (
@@ -8,15 +8,13 @@ import (
 	"errors"
 	"fmt"
 	"io/fs"
-	"net"
-	"strconv"
 	"time"
 
-	"github.com/go-sql-driver/mysql"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/pressly/goose/v3"
 	"github.com/pressly/goose/v3/lock"
 
-	"github.com/privacybydesign/irma-meet/internal/config"
 	"github.com/privacybydesign/irma-meet/internal/meeting"
 )
 
@@ -42,26 +40,19 @@ func New(db *sql.DB) *Store {
 	return &Store{db: db}
 }
 
-// Open prepares a connection pool; it does not connect yet.
-func Open(cfg config.Database) (*sql.DB, error) {
-	c := mysql.NewConfig()
-	c.User = cfg.User
-	c.Passwd = cfg.Password
-	c.Net = "tcp"
-	c.Addr = net.JoinHostPort(cfg.Host, strconv.Itoa(cfg.Port))
-	c.DBName = cfg.Name
-	c.ParseTime = true
-	c.Loc = time.UTC
-	c.Timeout = connectTimeout
-	c.Collation = "utf8mb4_unicode_ci"
-	c.Params = map[string]string{"time_zone": "'+00:00'"}
-
-	connector, err := mysql.NewConnector(c)
+// Open prepares a connection pool for a postgresql:// URL; it does not
+// connect yet.
+func Open(databaseURL string) (*sql.DB, error) {
+	cfg, err := pgx.ParseConfig(databaseURL)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("DATABASE_URL: %w", err)
 	}
 
-	db := sql.OpenDB(connector)
+	if cfg.ConnectTimeout == 0 {
+		cfg.ConnectTimeout = connectTimeout
+	}
+
+	db := stdlib.OpenDB(*cfg)
 	db.SetConnMaxLifetime(connMaxLifetime)
 	db.SetMaxOpenConns(maxOpenConns)
 
@@ -84,10 +75,11 @@ func WaitReady(ctx context.Context, db *sql.DB) error {
 	}
 }
 
-// Migrate brings the schema up to date. A table lock keeps replicas that
-// start together from migrating at the same time.
+// Migrate brings the schema up to date. It needs the right to create tables,
+// which the server's own database user does not have. An advisory lock keeps
+// concurrent runs from migrating at the same time.
 func Migrate(ctx context.Context, db *sql.DB) error {
-	locker, err := lock.NewMySQLTableLocker()
+	locker, err := lock.NewPostgresSessionLocker()
 	if err != nil {
 		return err
 	}
@@ -97,7 +89,7 @@ func Migrate(ctx context.Context, db *sql.DB) error {
 		return err
 	}
 
-	provider, err := goose.NewProvider(goose.DialectMySQL, db, sub, goose.WithLocker(locker))
+	provider, err := goose.NewProvider(goose.DialectPostgres, db, sub, goose.WithSessionLocker(locker))
 	if err != nil {
 		return err
 	}
@@ -117,22 +109,20 @@ func (s *Store) Create(ctx context.Context, m meeting.Meeting, participantEmails
 	}
 	defer func() { _ = tx.Rollback() }()
 
-	now := time.Now().UTC()
-
 	_, err = tx.ExecContext(ctx,
-		`INSERT INTO irma_meet_sessions (`+sessionColumns+`, created_at, updated_at)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		`INSERT INTO irma_meet_sessions (`+sessionColumns+`)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
 		m.ID, string(m.Type), m.Name, m.HostName, m.HostEmail,
-		m.InvitationNote, m.RoomID, m.ModeratorPassword, m.AttendeePassword, m.StartTime, now, now)
+		m.InvitationNote, m.RoomID, m.ModeratorPassword, m.AttendeePassword, m.StartTime)
 	if err != nil {
 		return err
 	}
 
 	for _, email := range participantEmails {
 		_, err = tx.ExecContext(ctx,
-			`INSERT INTO irma_meet_participants (irma_session_id, email_address, authentication, created_at, updated_at)
-			VALUES (?, ?, ?, ?, ?)`,
-			m.ID, email, authenticationYivi, now, now)
+			`INSERT INTO irma_meet_participants (irma_session_id, email_address, authentication)
+			VALUES ($1, $2, $3)`,
+			m.ID, email, authenticationYivi)
 		if err != nil {
 			return err
 		}
@@ -143,16 +133,14 @@ func (s *Store) Create(ctx context.Context, m meeting.Meeting, participantEmails
 
 func (s *Store) Find(ctx context.Context, id string) (meeting.Meeting, error) {
 	var (
-		m                   meeting.Meeting
-		meetingType         string
-		note                sql.NullString
-		moderator, attendee sql.NullString
+		m           meeting.Meeting
+		meetingType string
 	)
 
 	err := s.db.QueryRowContext(ctx,
-		`SELECT `+sessionColumns+` FROM irma_meet_sessions WHERE irma_session_id = ?`, id).
+		`SELECT `+sessionColumns+` FROM irma_meet_sessions WHERE irma_session_id = $1`, id).
 		Scan(&m.ID, &meetingType, &m.Name, &m.HostName, &m.HostEmail,
-			&note, &m.RoomID, &moderator, &attendee, &m.StartTime)
+			&m.InvitationNote, &m.RoomID, &m.ModeratorPassword, &m.AttendeePassword, &m.StartTime)
 	if errors.Is(err, sql.ErrNoRows) {
 		return meeting.Meeting{}, meeting.ErrNotFound
 	}
@@ -162,9 +150,7 @@ func (s *Store) Find(ctx context.Context, id string) (meeting.Meeting, error) {
 	}
 
 	m.Type = meeting.Type(meetingType)
-	m.InvitationNote = note.String
-	m.ModeratorPassword = moderator.String
-	m.AttendeePassword = attendee.String
+	m.StartTime = m.StartTime.UTC()
 
 	return m, nil
 }
@@ -173,11 +159,11 @@ func (s *Store) Find(ctx context.Context, id string) (meeting.Meeting, error) {
 func (s *Store) SetPasswords(ctx context.Context, id, moderator, attendee string) error {
 	_, err := s.db.ExecContext(ctx,
 		`UPDATE irma_meet_sessions
-		SET bbb_moderator_password = IF(COALESCE(bbb_moderator_password, '') = '', ?, bbb_moderator_password),
-			bbb_attendee_password = IF(COALESCE(bbb_attendee_password, '') = '', ?, bbb_attendee_password),
-			updated_at = ?
-		WHERE irma_session_id = ?`,
-		moderator, attendee, time.Now().UTC(), id)
+		SET bbb_moderator_password = COALESCE(NULLIF(bbb_moderator_password, ''), $1),
+			bbb_attendee_password = COALESCE(NULLIF(bbb_attendee_password, ''), $2),
+			updated_at = now()
+		WHERE irma_session_id = $3`,
+		moderator, attendee, id)
 
 	return err
 }
@@ -191,15 +177,14 @@ func (s *Store) DeleteExpired(ctx context.Context, cutoff time.Time) (meeting.Re
 	}
 	defer func() { _ = tx.Rollback() }()
 
-	meetings, err := tx.ExecContext(ctx, `DELETE FROM irma_meet_sessions WHERE start_time < ?`, cutoff.UTC())
+	meetings, err := tx.ExecContext(ctx, `DELETE FROM irma_meet_sessions WHERE start_time < $1`, cutoff)
 	if err != nil {
 		return meeting.Removed{}, err
 	}
 
 	participants, err := tx.ExecContext(ctx,
-		`DELETE p FROM irma_meet_participants p
-		LEFT JOIN irma_meet_sessions s ON s.irma_session_id = p.irma_session_id
-		WHERE s.id IS NULL`)
+		`DELETE FROM irma_meet_participants p
+		WHERE NOT EXISTS (SELECT 1 FROM irma_meet_sessions s WHERE s.irma_session_id = p.irma_session_id)`)
 	if err != nil {
 		return meeting.Removed{}, err
 	}

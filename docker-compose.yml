@@ -10,8 +10,8 @@ services:
       IRMA_API_TOKEN: ${IRMA_API_TOKEN:?set IRMA_API_TOKEN in your .env}
       IRMA_SERVER_URL: http://irma-server:8088
     depends_on:
-      db:
-        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
       irma-server:
         condition: service_started
       mail:
@@ -19,19 +19,30 @@ services:
     networks:
       - irma-meet
 
-  db:
-    image: mysql:8.0
+  # The server never changes the schema; this one-off run does, then exits.
+  migrate:
+    build: .
+    command: ["migrate"]
     environment:
-      MYSQL_DATABASE: irmameet
-      MYSQL_USER: irmameet
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
+      DATABASE_URL: ${DATABASE_URL:?set DATABASE_URL in your .env}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - irma-meet
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: irmameet
+      POSTGRES_USER: irmameet
+      POSTGRES_PASSWORD: secret
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "irmameet", "-psecret"]
+      test: ["CMD", "pg_isready", "-U", "irmameet", "-d", "irmameet"]
       interval: 5s
       timeout: 5s
       retries: 10

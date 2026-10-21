@@ -10,16 +10,17 @@ import (
 	"github.com/privacybydesign/irma-meet/internal/identity"
 )
 
-const keyLen = 32
+const (
+	keyLen = 32
+
+	testDatabaseURL = "postgresql://irmameet:s3cret@db:5432/irmameet?connect_timeout=5"
+)
 
 func validEnv() map[string]string {
 	return map[string]string{
 		"APP_URL":               "https://meet.example.org/",
 		"SESSION_KEY":           base64.StdEncoding.EncodeToString(make([]byte, keyLen)),
-		"DB_HOST":               "db",
-		"DB_DATABASE":           "irmameet",
-		"DB_USERNAME":           "irmameet",
-		"DB_PASSWORD":           "secret",
+		"DATABASE_URL":          testDatabaseURL,
 		"MAIL_HOST":             "mail",
 		"MAIL_FROM_ADDRESS":     "noreply@example.org",
 		"IRMA_SERVER_URL":       "https://irma.example.org/",
@@ -53,8 +54,8 @@ func TestLoadValidConfig(t *testing.T) {
 		t.Errorf("name format %q, encryption %q", cfg.NameFormat, cfg.Mail.Encryption)
 	}
 
-	if cfg.Database.Port != 3306 || cfg.Mail.Port != 25 {
-		t.Errorf("default ports %d %d", cfg.Database.Port, cfg.Mail.Port)
+	if cfg.DatabaseURL != testDatabaseURL || cfg.Mail.Port != 25 {
+		t.Errorf("database url %q, default mail port %d", cfg.DatabaseURL, cfg.Mail.Port)
 	}
 
 	if len(cfg.SessionKey) != keyLen {
@@ -68,7 +69,7 @@ func TestMissingVarsAllReported(t *testing.T) {
 		t.Fatal("expected an error")
 	}
 
-	for _, name := range []string{"APP_URL", "SESSION_KEY", "DB_HOST", "DB_DATABASE", "DB_USERNAME", "MAIL_HOST", "MAIL_FROM_ADDRESS", "IRMA_SERVER_URL", "IRMA_API_TOKEN", "BBB_SERVER_BASE_URL", "BBB_SECRET"} {
+	for _, name := range []string{"APP_URL", "SESSION_KEY", "DATABASE_URL", "MAIL_HOST", "MAIL_FROM_ADDRESS", "IRMA_SERVER_URL", "IRMA_API_TOKEN", "BBB_SERVER_BASE_URL", "BBB_SECRET"} {
 		if !strings.Contains(err.Error(), name) {
 			t.Errorf("error does not mention %s: %v", name, err)
 		}
@@ -153,14 +154,49 @@ func TestMailEncryptionAndFormat(t *testing.T) {
 }
 
 func TestPortsMustBeNumbers(t *testing.T) {
-	for _, name := range []string{"DB_PORT", "MAIL_PORT"} {
-		for _, bad := range []string{"abc", "0", "70000"} {
-			env := validEnv()
-			env[name] = bad
+	for _, bad := range []string{"abc", "0", "70000"} {
+		env := validEnv()
+		env["MAIL_PORT"] = bad
 
-			if _, err := load(env); err == nil {
-				t.Errorf("%s=%q accepted", name, bad)
-			}
+		if _, err := load(env); err == nil {
+			t.Errorf("MAIL_PORT=%q accepted", bad)
 		}
+	}
+}
+
+func TestDatabaseURL(t *testing.T) {
+	for _, good := range []string{testDatabaseURL, "postgres://u:p@localhost/db", "postgresql://u@localhost:5432/db?sslmode=require"} {
+		env := validEnv()
+		env["DATABASE_URL"] = good
+
+		if _, err := load(env); err != nil {
+			t.Errorf("DATABASE_URL %q rejected: %v", good, err)
+		}
+	}
+
+	for _, bad := range []string{"mysql://u:p@localhost/db", "u:p@localhost/db", "host=localhost user=u", "postgresql://u:p@local host/db"} {
+		env := validEnv()
+		env["DATABASE_URL"] = bad
+
+		_, err := load(env)
+		if err == nil {
+			t.Errorf("DATABASE_URL %q accepted", bad)
+			continue
+		}
+
+		if strings.Contains(err.Error(), "p@") || strings.Contains(err.Error(), bad) {
+			t.Errorf("the error repeats the connection string: %v", err)
+		}
+	}
+}
+
+func TestLoadDatabaseURLNeedsNoOtherVariable(t *testing.T) {
+	got, err := config.LoadDatabaseURL(func(k string) string { return map[string]string{"DATABASE_URL": testDatabaseURL}[k] })
+	if err != nil || got != testDatabaseURL {
+		t.Errorf("got %q, %v", got, err)
+	}
+
+	if _, err := config.LoadDatabaseURL(func(string) string { return "" }); err == nil || !strings.Contains(err.Error(), "DATABASE_URL") {
+		t.Errorf("a missing DATABASE_URL gave %v", err)
 	}
 }

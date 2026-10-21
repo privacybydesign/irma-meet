@@ -4,6 +4,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -13,7 +14,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/alexedwards/scs/mysqlstore"
+	"github.com/alexedwards/scs/postgresstore"
 
 	"github.com/privacybydesign/irma-meet/internal/bbb"
 	"github.com/privacybydesign/irma-meet/internal/config"
@@ -26,6 +27,8 @@ import (
 )
 
 const (
+	commandMigrate = "migrate"
+
 	listenAddr = ":8080"
 
 	dbWaitTimeout   = time.Minute
@@ -37,37 +40,76 @@ const (
 func main() {
 	log := slog.New(slog.NewTextHandler(os.Stdout, nil))
 
-	if err := run(log); err != nil {
+	if err := run(log, os.Args[1:]); err != nil {
 		log.Error("irma-meet stopped", "error", err)
 		os.Exit(1)
 	}
 }
 
-func run(log *slog.Logger) error {
-	cfg, err := config.Load(os.Getenv)
+// run starts the server, or with "migrate" applies the migrations and returns.
+func run(log *slog.Logger, args []string) error {
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	switch {
+	case len(args) == 0:
+		return runServer(ctx, log)
+	case len(args) == 1 && args[0] == commandMigrate:
+		return runMigrate(ctx, log)
+	}
+
+	return fmt.Errorf("usage: irma-meet [%s]", commandMigrate)
+}
+
+func runMigrate(ctx context.Context, log *slog.Logger) error {
+	databaseURL, err := config.LoadDatabaseURL(os.Getenv)
 	if err != nil {
 		return fmt.Errorf("configuration: %w", err)
 	}
 
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-	defer stop()
-
-	db, err := store.Open(cfg.Database)
+	db, err := openDB(ctx, databaseURL)
 	if err != nil {
 		return err
 	}
 	defer func() { _ = db.Close() }()
 
+	if err := store.Migrate(ctx, db); err != nil {
+		return fmt.Errorf("migrations: %w", err)
+	}
+
+	log.Info("migrations applied")
+
+	return nil
+}
+
+func openDB(ctx context.Context, databaseURL string) (*sql.DB, error) {
+	db, err := store.Open(databaseURL)
+	if err != nil {
+		return nil, err
+	}
+
 	waitCtx, cancel := context.WithTimeout(ctx, dbWaitTimeout)
 	defer cancel()
 
 	if err := store.WaitReady(waitCtx, db); err != nil {
-		return err
+		_ = db.Close()
+		return nil, err
 	}
 
-	if err := store.Migrate(ctx, db); err != nil {
-		return fmt.Errorf("migrations: %w", err)
+	return db, nil
+}
+
+func runServer(ctx context.Context, log *slog.Logger) error {
+	cfg, err := config.Load(os.Getenv)
+	if err != nil {
+		return fmt.Errorf("configuration: %w", err)
 	}
+
+	db, err := openDB(ctx, cfg.DatabaseURL)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = db.Close() }()
 
 	text, err := i18n.New()
 	if err != nil {
@@ -89,7 +131,7 @@ func run(log *slog.Logger) error {
 		NameFormat: cfg.NameFormat,
 	})
 
-	sessionStore := mysqlstore.NewWithCleanupInterval(db, sessionSweep)
+	sessionStore := postgresstore.NewWithCleanupInterval(db, sessionSweep)
 	defer sessionStore.StopCleanup()
 
 	sessions, err := web.NewSessionManager(sessionStore, cfg.SessionKey, cfg.AppURL)
