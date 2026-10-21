@@ -2,7 +2,7 @@
 
 A demo of authenticated video meetings using [Yivi](https://yivi.app) and [BigBlueButton](https://bigbluebutton.org/). Users authenticate with their Yivi app before joining a meeting, giving the host certainty about who they are talking to.
 
-> **Demo service** — sessions are limited to 60 minutes and 25 participants. Hosted on the BigBlueButton free tier (Blindside Networks).
+> **Demo service:** sessions are limited to 60 minutes and 25 participants. Hosted on the BigBlueButton free tier (Blindside Networks).
 
 The service is a single Go binary (`net/http`, `html/template`) with MySQL for storage. It listens on port 8080 and answers `200` on `/`.
 

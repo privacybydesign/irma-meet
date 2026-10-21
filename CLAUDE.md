@@ -1,4 +1,4 @@
-# irma-meet — repo notes
+# irma-meet repo notes
 
 Go service (`net/http`, `html/template`, MySQL) that lets people create and join
 BigBlueButton meetings after a Yivi disclosure. It replaced a Laravel app.
