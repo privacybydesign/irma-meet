@@ -46,6 +46,8 @@ const (
 	headerReplyTo = "Reply-To"
 	headerSubject = "Subject"
 
+	contentTypeForm = "application/x-www-form-urlencoded"
+
 	attrEmail      = "pbdf.pbdf.email.email"
 	attrFullName   = "pbdf.gemeente.personalData.fullname"
 	attrSurfInst   = "pbdf.pbdf.surfnet-2.institute"
@@ -214,7 +216,7 @@ func (u *user) post(path string, form url.Values, headers ...string) response {
 	u.e.t.Helper()
 
 	req, _ := http.NewRequest(http.MethodPost, u.e.srv.URL+path, strings.NewReader(form.Encode()))
-	req.Header.Set(headerContentType, "application/x-www-form-urlencoded")
+	req.Header.Set(headerContentType, contentTypeForm)
 
 	for i := 0; i+1 < len(headers); i += 2 {
 		req.Header.Set(headers[i], headers[i+1])

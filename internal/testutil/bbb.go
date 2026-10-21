@@ -16,6 +16,8 @@ const (
 	returnFailed  = "FAILED"
 
 	paramMeetingID = "meetingID"
+
+	contentTypeXML = "text/xml"
 )
 
 // BBBCall is one API call the fake BigBlueButton server received.
@@ -112,6 +114,6 @@ func (f *FakeBBB) validChecksum(name, rawQuery string) bool {
 }
 
 func xml(w http.ResponseWriter, code, extra string) {
-	w.Header().Set(headerContentType, "text/xml")
+	w.Header().Set(headerContentType, contentTypeXML)
 	_, _ = w.Write([]byte("<response><returncode>" + code + "</returncode>" + extra + "</response>"))
 }

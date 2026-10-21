@@ -21,7 +21,9 @@ const (
 	tokenPrefix       = "FakeToken"
 	clientTokenPrefix = "ClientToken"
 
+	statusInitialized     = "INITIALIZED"
 	statusDone            = "DONE"
+	proofStatusValid      = "VALID"
 	sessionTypeDisclosing = "disclosing"
 
 	errorSessionUnknown = "SESSION_UNKNOWN"
@@ -168,7 +170,7 @@ func (f *FakeIRMA) result(w http.ResponseWriter, token string) {
 
 	res, done := f.results[token]
 	if !done {
-		writeJSON(w, map[string]any{"token": token, "status": "INITIALIZED", "type": sessionTypeDisclosing})
+		writeJSON(w, map[string]any{"token": token, "status": statusInitialized, "type": sessionTypeDisclosing})
 		return
 	}
 
@@ -185,7 +187,7 @@ func (f *FakeIRMA) result(w http.ResponseWriter, token string) {
 	}
 
 	writeJSON(w, map[string]any{
-		"token": token, "status": statusDone, "type": sessionTypeDisclosing, "proofStatus": "VALID",
+		"token": token, "status": statusDone, "type": sessionTypeDisclosing, "proofStatus": proofStatusValid,
 		"disclosed": [][]map[string]any{group},
 	})
 }
