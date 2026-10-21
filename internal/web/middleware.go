@@ -3,6 +3,8 @@ package web
 import (
 	"log/slog"
 	"net/http"
+	pathpkg "path"
+	"strings"
 	"time"
 )
 
@@ -16,8 +18,8 @@ func (w *statusWriter) WriteHeader(status int) {
 	w.ResponseWriter.WriteHeader(status)
 }
 
-// accessLog logs the route pattern rather than the path: join links carry
-// a secret meeting id that must not end up in logs.
+// accessLog logs requests without the meeting id of join links, which is a
+// secret that must not end up in logs.
 func (a *App) accessLog(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
@@ -27,7 +29,7 @@ func (a *App) accessLog(next http.Handler) http.Handler {
 
 		a.log.LogAttrs(r.Context(), slog.LevelInfo, "request",
 			slog.String("method", r.Method),
-			slog.String("route", r.Pattern),
+			slog.String("path", loggablePath(r.URL.Path)),
 			slog.Int("status", sw.status),
 			slog.Duration("duration", time.Since(start)),
 		)
@@ -55,4 +57,17 @@ func (a *App) secureHeaders(next http.Handler) http.Handler {
 
 		next.ServeHTTP(w, r)
 	})
+}
+
+const joinPathPrefix = "/irma_session/join"
+
+// loggablePath replaces the meeting id in /irma_session/join*/{id}.
+func loggablePath(path string) string {
+	if !strings.HasPrefix(path, joinPathPrefix) {
+		return path
+	}
+
+	dir, _ := pathpkg.Split(path)
+
+	return dir + "{id}"
 }

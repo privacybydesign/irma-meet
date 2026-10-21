@@ -1,6 +1,8 @@
 package web_test
 
 import (
+	"bytes"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"os"
@@ -466,5 +468,25 @@ func TestSecurityHeadersAndNoCaching(t *testing.T) {
 	resp := user.get("/")
 	if resp.Header.Get("X-Content-Type-Options") != "nosniff" || resp.Header.Get("X-Frame-Options") != "DENY" {
 		t.Errorf("security headers missing: %v", resp.Header)
+	}
+}
+
+func TestAccessLogHidesMeetingIDs(t *testing.T) {
+	var buf bytes.Buffer
+
+	e := newEnv(t, withLogger(slog.New(slog.NewTextHandler(&buf, nil))))
+	host := e.newUser()
+
+	m := e.newFreeMeeting(host, "Weekly sync")
+	host.get("/irma_session/join/" + m.ID)
+	host.get("/irma_session/join_host/" + m.ID)
+
+	log := buf.String()
+	if strings.Contains(log, m.ID) {
+		t.Errorf("the meeting id is in the access log:\n%s", log)
+	}
+
+	if !strings.Contains(log, "path=/irma_session/join_host/{id}") {
+		t.Errorf("join requests are not logged:\n%s", log)
 	}
 }

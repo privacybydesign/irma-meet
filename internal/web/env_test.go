@@ -72,10 +72,15 @@ type envOption func(*envConfig)
 type envConfig struct {
 	nameFormat identity.NameFormat
 	smtpPort   int
+	log        *slog.Logger
 }
 
 func withNameFormat(f identity.NameFormat) envOption {
 	return func(c *envConfig) { c.nameFormat = f }
+}
+
+func withLogger(l *slog.Logger) envOption {
+	return func(c *envConfig) { c.log = l }
 }
 
 func withSMTPPort(port int) envOption {
@@ -85,7 +90,7 @@ func withSMTPPort(port int) envOption {
 func newEnv(t *testing.T, opts ...envOption) *env {
 	t.Helper()
 
-	cfg := envConfig{nameFormat: identity.NameFormatString}
+	cfg := envConfig{nameFormat: identity.NameFormatString, log: slog.New(slog.NewTextHandler(io.Discard, nil))}
 	for _, opt := range opts {
 		opt(&cfg)
 	}
@@ -136,7 +141,7 @@ func newEnv(t *testing.T, opts ...envOption) *env {
 		Text:       text,
 		Sessions:   sessions,
 		AppURL:     appURL,
-		Log:        slog.New(slog.NewTextHandler(io.Discard, nil)),
+		Log:        cfg.log,
 	})
 	if err != nil {
 		t.Fatal(err)
