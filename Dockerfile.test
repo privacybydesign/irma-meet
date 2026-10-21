@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN mkdir -p /coverage
+
 RUN go mod download
 
 # Run vet and the tests with coverage; write to /coverage inside the container.
