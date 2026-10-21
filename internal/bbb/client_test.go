@@ -84,6 +84,22 @@ func TestUnreachableServer(t *testing.T) {
 	}
 }
 
+// A transport error quotes the request URL, which holds both room passwords.
+func TestTransportErrorHidesPasswords(t *testing.T) {
+	room := bbb.Room{ID: "room1", Name: "n", ModeratorPassword: "MODPASS", AttendeePassword: "ATTPASS"}
+
+	err := bbb.New("http://127.0.0.1:1/bigbluebutton/", secret, nil).EnsureRoom(context.Background(), room)
+	if err == nil {
+		t.Fatal("expected an error")
+	}
+
+	for _, leaked := range []string{"MODPASS", "ATTPASS", "checksum"} {
+		if strings.Contains(err.Error(), leaked) {
+			t.Errorf("error %q contains %q", err, leaked)
+		}
+	}
+}
+
 func TestJoinURLHidesSecret(t *testing.T) {
 	u, err := url.Parse(bbb.New("https://bbb.example/bigbluebutton/", secret, nil).JoinURL("r", "n", "p"))
 	if err != nil || strings.Contains(u.String(), secret) {

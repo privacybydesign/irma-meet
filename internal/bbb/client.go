@@ -104,6 +104,12 @@ func (c *Client) call(ctx context.Context, name string, params url.Values) (resp
 
 	resp, err := c.client.Do(req)
 	if err != nil {
+		// The *url.Error quotes the request URL, which holds the room passwords.
+		var uerr *url.Error
+		if errors.As(err, &uerr) {
+			err = uerr.Err
+		}
+
 		return response{}, fmt.Errorf("bbb %s: %w", name, err)
 	}
 	defer func() { _ = resp.Body.Close() }()
