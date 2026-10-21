@@ -1,0 +1,162 @@
+package config_test
+
+import (
+	"encoding/base64"
+	"encoding/hex"
+	"strings"
+	"testing"
+
+	"github.com/privacybydesign/irma-meet/internal/config"
+	"github.com/privacybydesign/irma-meet/internal/identity"
+)
+
+func validEnv() map[string]string {
+	return map[string]string{
+		"APP_URL":               "https://meet.example.org/",
+		"SESSION_KEY":           base64.StdEncoding.EncodeToString(make([]byte, 32)),
+		"DB_HOST":               "db",
+		"DB_DATABASE":           "irmameet",
+		"DB_USERNAME":           "irmameet",
+		"DB_PASSWORD":           "secret",
+		"MAIL_HOST":             "mail",
+		"MAIL_FROM_ADDRESS":     "noreply@example.org",
+		"IRMA_SERVER_URL":       "https://irma.example.org/",
+		"IRMA_API_TOKEN":        "token",
+		"BBB_SERVER_BASE_URL":   "https://bbb.example.org/bigbluebutton",
+		"BBB_SECRET":            "bbb-secret",
+		"IRMA_MEET_NAME_FORMAT": "JSON",
+		"MAIL_ENCRYPTION":       "tls",
+	}
+}
+
+func load(env map[string]string) (config.Config, error) {
+	return config.Load(func(k string) string { return env[k] })
+}
+
+func TestLoadValidConfig(t *testing.T) {
+	cfg, err := load(validEnv())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if cfg.AppURL.String() != "https://meet.example.org" || cfg.IrmaServerURL != "https://irma.example.org" {
+		t.Errorf("urls %s %s", cfg.AppURL, cfg.IrmaServerURL)
+	}
+
+	if cfg.BBBBaseURL != "https://bbb.example.org/bigbluebutton/" {
+		t.Errorf("BBB base url %q must end in a slash", cfg.BBBBaseURL)
+	}
+
+	if cfg.NameFormat != identity.NameFormatJSON || cfg.Mail.Encryption != config.MailStartTLS {
+		t.Errorf("name format %q, encryption %q", cfg.NameFormat, cfg.Mail.Encryption)
+	}
+
+	if cfg.Database.Port != 3306 || cfg.Mail.Port != 25 {
+		t.Errorf("default ports %d %d", cfg.Database.Port, cfg.Mail.Port)
+	}
+
+	if len(cfg.SessionKey) != config.SessionKeyLen {
+		t.Errorf("session key has %d bytes", len(cfg.SessionKey))
+	}
+}
+
+func TestMissingVariablesAreAllReported(t *testing.T) {
+	_, err := load(map[string]string{})
+	if err == nil {
+		t.Fatal("expected an error")
+	}
+
+	for _, name := range []string{"APP_URL", "SESSION_KEY", "DB_HOST", "DB_DATABASE", "DB_USERNAME", "MAIL_HOST", "MAIL_FROM_ADDRESS", "IRMA_SERVER_URL", "IRMA_API_TOKEN", "BBB_SERVER_BASE_URL", "BBB_SECRET"} {
+		if !strings.Contains(err.Error(), name) {
+			t.Errorf("error does not mention %s: %v", name, err)
+		}
+	}
+}
+
+func TestSessionKeyFormats(t *testing.T) {
+	good := map[string]string{
+		"hex":      hex.EncodeToString(make([]byte, 32)),
+		"base64":   base64.StdEncoding.EncodeToString(make([]byte, 32)),
+		"unpadded": base64.RawStdEncoding.EncodeToString(append(make([]byte, 31), 1)),
+	}
+
+	for name, key := range good {
+		env := validEnv()
+		env["SESSION_KEY"] = key
+
+		if _, err := load(env); err != nil {
+			t.Errorf("%s: %v", name, err)
+		}
+	}
+
+	for name, key := range map[string]string{
+		"too short":         base64.StdEncoding.EncodeToString(make([]byte, 16)),
+		"too long":          hex.EncodeToString(make([]byte, 33)),
+		"garbage":           "not a key!",
+		"old APP_KEY style": "base64:" + base64.StdEncoding.EncodeToString(make([]byte, 32)),
+	} {
+		env := validEnv()
+		env["SESSION_KEY"] = key
+
+		if _, err := load(env); err == nil {
+			t.Errorf("%s: expected an error", name)
+		}
+	}
+}
+
+func TestAppURLMustBeAnOrigin(t *testing.T) {
+	for _, bad := range []string{"meet.example.org", "ftp://meet.example.org", "https://meet.example.org/app", "https://"} {
+		env := validEnv()
+		env["APP_URL"] = bad
+
+		if _, err := load(env); err == nil {
+			t.Errorf("APP_URL %q accepted", bad)
+		}
+	}
+}
+
+func TestMailEncryptionAndNameFormatValues(t *testing.T) {
+	for value, want := range map[string]config.MailEncryption{"": config.MailPlain, "null": config.MailPlain, "tls": config.MailStartTLS, "ssl": config.MailImplicitTLS, "SSL": config.MailImplicitTLS} {
+		env := validEnv()
+		env["MAIL_ENCRYPTION"] = value
+
+		cfg, err := load(env)
+		if err != nil || cfg.Mail.Encryption != want {
+			t.Errorf("MAIL_ENCRYPTION=%q: %q, %v", value, cfg.Mail.Encryption, err)
+		}
+	}
+
+	env := validEnv()
+	env["MAIL_ENCRYPTION"] = "starttls"
+
+	if _, err := load(env); err == nil {
+		t.Error("an unknown MAIL_ENCRYPTION must be rejected")
+	}
+
+	env = validEnv()
+	env["IRMA_MEET_NAME_FORMAT"] = "xml"
+
+	if _, err := load(env); err == nil {
+		t.Error("an unknown IRMA_MEET_NAME_FORMAT must be rejected")
+	}
+
+	env = validEnv()
+	env["IRMA_MEET_NAME_FORMAT"] = ""
+
+	if cfg, err := load(env); err != nil || cfg.NameFormat != identity.NameFormatString {
+		t.Errorf("default name format %q, %v", cfg.NameFormat, err)
+	}
+}
+
+func TestPortsMustBeNumbers(t *testing.T) {
+	for _, name := range []string{"DB_PORT", "MAIL_PORT"} {
+		for _, bad := range []string{"abc", "0", "70000"} {
+			env := validEnv()
+			env[name] = bad
+
+			if _, err := load(env); err == nil {
+				t.Errorf("%s=%q accepted", name, bad)
+			}
+		}
+	}
+}
