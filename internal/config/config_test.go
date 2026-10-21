@@ -14,13 +14,15 @@ const (
 	keyLen = 32
 
 	testDatabaseURL = "postgresql://irmameet:s3cret@db:5432/irmameet?connect_timeout=5"
+
+	envDatabaseURL = "DATABASE_URL"
 )
 
 func validEnv() map[string]string {
 	return map[string]string{
 		"APP_URL":               "https://meet.example.org/",
 		"SESSION_KEY":           base64.StdEncoding.EncodeToString(make([]byte, keyLen)),
-		"DATABASE_URL":          testDatabaseURL,
+		envDatabaseURL:          testDatabaseURL,
 		"MAIL_HOST":             "mail",
 		"MAIL_FROM_ADDRESS":     "noreply@example.org",
 		"IRMA_SERVER_URL":       "https://irma.example.org/",
@@ -167,7 +169,7 @@ func TestPortsMustBeNumbers(t *testing.T) {
 func TestDatabaseURL(t *testing.T) {
 	for _, good := range []string{testDatabaseURL, "postgres://u:p@localhost/db", "postgresql://u@localhost:5432/db?sslmode=require"} {
 		env := validEnv()
-		env["DATABASE_URL"] = good
+		env[envDatabaseURL] = good
 
 		if _, err := load(env); err != nil {
 			t.Errorf("DATABASE_URL %q rejected: %v", good, err)
@@ -176,7 +178,7 @@ func TestDatabaseURL(t *testing.T) {
 
 	for _, bad := range []string{"mysql://u:p@localhost/db", "u:p@localhost/db", "host=localhost user=u", "postgresql://u:p@local host/db"} {
 		env := validEnv()
-		env["DATABASE_URL"] = bad
+		env[envDatabaseURL] = bad
 
 		_, err := load(env)
 		if err == nil {
@@ -191,12 +193,12 @@ func TestDatabaseURL(t *testing.T) {
 }
 
 func TestLoadDatabaseURLNeedsNoOtherVariable(t *testing.T) {
-	got, err := config.LoadDatabaseURL(func(k string) string { return map[string]string{"DATABASE_URL": testDatabaseURL}[k] })
+	got, err := config.LoadDatabaseURL(func(k string) string { return map[string]string{envDatabaseURL: testDatabaseURL}[k] })
 	if err != nil || got != testDatabaseURL {
 		t.Errorf("got %q, %v", got, err)
 	}
 
-	if _, err := config.LoadDatabaseURL(func(string) string { return "" }); err == nil || !strings.Contains(err.Error(), "DATABASE_URL") {
+	if _, err := config.LoadDatabaseURL(func(string) string { return "" }); err == nil || !strings.Contains(err.Error(), envDatabaseURL) {
 		t.Errorf("a missing DATABASE_URL gave %v", err)
 	}
 }

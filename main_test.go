@@ -11,6 +11,8 @@ import (
 	"github.com/privacybydesign/irma-meet/internal/testutil"
 )
 
+const envDatabaseURL = "DATABASE_URL"
+
 func quietLog() *slog.Logger {
 	return slog.New(slog.NewTextHandler(io.Discard, nil))
 }
@@ -25,10 +27,10 @@ func TestUnknownCommand(t *testing.T) {
 }
 
 func TestMigrateNeedsDatabaseURL(t *testing.T) {
-	t.Setenv("DATABASE_URL", "")
+	t.Setenv(envDatabaseURL, "")
 
 	err := run(quietLog(), []string{commandMigrate})
-	if err == nil || !strings.Contains(err.Error(), "DATABASE_URL") {
+	if err == nil || !strings.Contains(err.Error(), envDatabaseURL) {
 		t.Errorf("got %v, want an error naming DATABASE_URL", err)
 	}
 }
@@ -37,7 +39,7 @@ func TestMigrateNeedsDatabaseURL(t *testing.T) {
 // container does not need the other secrets.
 func TestMigrateCommand(t *testing.T) {
 	databaseURL := testutil.PostgresURL(t)
-	t.Setenv("DATABASE_URL", databaseURL)
+	t.Setenv(envDatabaseURL, databaseURL)
 
 	for range 2 {
 		if err := run(quietLog(), []string{commandMigrate}); err != nil {

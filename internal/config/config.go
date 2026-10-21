@@ -25,6 +25,8 @@ const (
 	schemeHTTPS      = "https"
 	schemePostgres   = "postgres"
 	schemePostgreSQL = "postgresql"
+
+	envDatabaseURL = "DATABASE_URL"
 )
 
 // MailEncryption is the MAIL_ENCRYPTION setting.
@@ -73,7 +75,7 @@ func Load(getenv func(string) string) (Config, error) {
 		BBBBaseURL:    l.bbbBaseURL("BBB_SERVER_BASE_URL"),
 		BBBSecret:     l.required("BBB_SECRET"),
 		SessionKey:    l.sessionKey("SESSION_KEY"),
-		DatabaseURL:   l.databaseURL("DATABASE_URL"),
+		DatabaseURL:   l.databaseURL(envDatabaseURL),
 		Mail: Mail{
 			Host:        l.required("MAIL_HOST"),
 			Port:        l.port("MAIL_PORT", defaultMailPort),
@@ -92,7 +94,7 @@ func Load(getenv func(string) string) (Config, error) {
 // needs no other setting.
 func LoadDatabaseURL(getenv func(string) string) (string, error) {
 	l := loader{getenv: getenv}
-	databaseURL := l.databaseURL("DATABASE_URL")
+	databaseURL := l.databaseURL(envDatabaseURL)
 
 	return databaseURL, l.err()
 }
