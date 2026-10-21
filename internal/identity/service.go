@@ -41,6 +41,17 @@ var (
 	ErrPending = errors.New("yivi session not finished")
 )
 
+// statusError is an answer of the IRMA server other than 200.
+type statusError struct {
+	method string
+	path   string
+	status int
+}
+
+func (e *statusError) Error() string {
+	return fmt.Sprintf("irma server: %s %s returned %d", e.method, e.path, e.status)
+}
+
 // tokenPattern matches the session tokens the IRMA server hands out. Tokens
 // end up in a request path, so nothing else is let through.
 var tokenPattern = regexp.MustCompile(`^[A-Za-z0-9]{1,64}$`)
@@ -116,6 +127,13 @@ func (s *Service) Verify(ctx context.Context, token string, t Type) (Verified, e
 
 	path := sessionPath + "/" + url.PathEscape(token) + resultPath
 	if err := s.do(ctx, http.MethodGet, path, nil, &result); err != nil {
+		// The server answers 400 SESSION_UNKNOWN for a session that has
+		// expired or that it no longer remembers.
+		var serr *statusError
+		if errors.As(err, &serr) && serr.status == http.StatusBadRequest {
+			return Verified{}, ErrNotVerified
+		}
+
 		return Verified{}, err
 	}
 
@@ -165,7 +183,7 @@ func (s *Service) do(ctx context.Context, method, path string, body []byte, out 
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("irma server: %s %s returned %d", method, path, resp.StatusCode)
+		return &statusError{method: method, path: path, status: resp.StatusCode}
 	}
 
 	if err := json.Unmarshal(data, out); err != nil {

@@ -170,6 +170,25 @@ func TestFailureKeepsType(t *testing.T) {
 	}
 }
 
+func TestExpiredSessionRestartsDisclosure(t *testing.T) {
+	e := newEnv(t)
+	user := e.newUser()
+
+	user.post("/irma_auth/start/default", nil)
+	e.irma.ExpireLatest()
+
+	for range 2 {
+		resp := user.get("/irma_session/create/free")
+		if want := "/irma_session/authenticate/default?return=%2Firma_session%2Fcreate%2Ffree"; resp.StatusCode != http.StatusSeeOther || resp.location() != want {
+			t.Errorf("status %d, redirect %q, want a redirect to %q", resp.StatusCode, resp.location(), want)
+		}
+	}
+
+	if got := e.irma.ResultFetches(); got != 1 {
+		t.Errorf("an expired session was verified %d times, want once", got)
+	}
+}
+
 func TestUncompletedDisclosure(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()

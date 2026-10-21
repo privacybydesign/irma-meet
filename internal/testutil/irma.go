@@ -23,6 +23,8 @@ const (
 
 	statusDone            = "DONE"
 	sessionTypeDisclosing = "disclosing"
+
+	errorSessionUnknown = "SESSION_UNKNOWN"
 )
 
 // FakeIRMA is an IRMA server that starts sessions and reports the results
@@ -37,6 +39,7 @@ type FakeIRMA struct {
 	tokens   []string
 	results  map[string]fakeResult
 	failures map[string]string
+	expired  map[string]bool
 	fetches  int
 }
 
@@ -45,7 +48,7 @@ type fakeResult struct {
 }
 
 func NewFakeIRMA(t testing.TB, apiToken string) *FakeIRMA {
-	f := &FakeIRMA{apiToken: apiToken, results: map[string]fakeResult{}, failures: map[string]string{}}
+	f := &FakeIRMA{apiToken: apiToken, results: map[string]fakeResult{}, failures: map[string]string{}, expired: map[string]bool{}}
 	f.server = httptest.NewServer(http.HandlerFunc(f.serve))
 	t.Cleanup(f.server.Close)
 
@@ -92,6 +95,15 @@ func (f *FakeIRMA) FailLatest(proofStatus string) {
 	defer f.mu.Unlock()
 
 	f.failures[f.tokens[len(f.tokens)-1]] = proofStatus
+}
+
+// ExpireLatest makes the server forget the newest session, as it does once a
+// session has timed out or the server has restarted.
+func (f *FakeIRMA) ExpireLatest() {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+
+	f.expired[f.tokens[len(f.tokens)-1]] = true
 }
 
 func (f *FakeIRMA) serve(w http.ResponseWriter, r *http.Request) {
@@ -141,8 +153,11 @@ func (f *FakeIRMA) result(w http.ResponseWriter, token string) {
 		known = known || t == token
 	}
 
-	if !known {
-		http.NotFound(w, nil)
+	if !known || f.expired[token] {
+		w.Header().Set(headerContentType, contentTypeJSON)
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(map[string]any{"status": http.StatusBadRequest, "error": errorSessionUnknown})
+
 		return
 	}
 

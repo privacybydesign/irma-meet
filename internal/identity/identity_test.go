@@ -221,6 +221,23 @@ func TestVerifyRejectsInvalid(t *testing.T) {
 	}
 }
 
+// The IRMA server answers 400 SESSION_UNKNOWN once a session has expired.
+func TestVerifyExpiredSession(t *testing.T) {
+	irma := testutil.NewFakeIRMA(t, "tok")
+	svc := identity.NewService(irma.URL(), "tok", nil)
+
+	expired, _ := svc.Start(context.Background(), identity.TypeDefault)
+	irma.ExpireLatest()
+
+	if _, err := svc.Verify(context.Background(), expired.Token, identity.TypeDefault); !errors.Is(err, identity.ErrNotVerified) {
+		t.Errorf("expired session: %v, want ErrNotVerified", err)
+	}
+
+	if _, err := svc.Verify(context.Background(), "NeverStarted1", identity.TypeDefault); !errors.Is(err, identity.ErrNotVerified) {
+		t.Errorf("unknown session: %v, want ErrNotVerified", err)
+	}
+}
+
 func TestVerifyDropsAbsentAttrs(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte(`{"status":"DONE","proofStatus":"VALID","disclosed":[[
