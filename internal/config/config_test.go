@@ -192,7 +192,7 @@ func TestDatabaseURL(t *testing.T) {
 	}
 }
 
-func TestLoadDatabaseURLNeedsNoOtherVariable(t *testing.T) {
+func TestLoadDatabaseURLOnly(t *testing.T) {
 	got, err := config.LoadDatabaseURL(func(k string) string { return map[string]string{envDatabaseURL: testDatabaseURL}[k] })
 	if err != nil || got != testDatabaseURL {
 		t.Errorf("got %q, %v", got, err)
