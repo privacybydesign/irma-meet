@@ -85,7 +85,7 @@ func TestUnreachableServer(t *testing.T) {
 }
 
 // A transport error quotes the request URL, which holds both room passwords.
-func TestTransportErrorHidesPasswords(t *testing.T) {
+func TestBBBErrorHidesPasswords(t *testing.T) {
 	room := bbb.Room{ID: "room1", Name: "n", ModeratorPassword: "MODPASS", AttendeePassword: "ATTPASS"}
 
 	err := bbb.New("http://127.0.0.1:1/bigbluebutton/", secret, nil).EnsureRoom(context.Background(), room)

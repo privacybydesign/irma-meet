@@ -170,7 +170,7 @@ func TestFailureKeepsType(t *testing.T) {
 	}
 }
 
-func TestExpiredSessionRestartsDisclosure(t *testing.T) {
+func TestExpiredSessionRedirects(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
