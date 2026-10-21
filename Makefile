@@ -1,7 +1,7 @@
-.PHONY: up down build shell artisan migrate seed fresh key logs composer help
+.PHONY: up down build logs test key help
 
 up: ## Start all containers
-	docker compose up -d
+	docker compose up -d --build
 
 down: ## Stop and remove containers
 	docker compose down
@@ -9,29 +9,15 @@ down: ## Stop and remove containers
 build: ## Rebuild the app image
 	docker compose build app
 
-shell: ## Open a shell in the app container
-	docker compose exec app bash
+logs: ## Tail the app log
+	docker compose logs -f app
 
-key: ## Generate a new APP_KEY and write it into .env
-	docker compose exec app php artisan key:generate
+test: ## Run vet and the tests
+	go vet ./...
+	go test ./...
 
-artisan: ## Run an artisan command (e.g. make artisan CMD=view:clear)
-	docker compose exec app php artisan $(CMD)
-
-migrate: ## Run database migrations
-	docker compose exec app php artisan migrate
-
-seed: ## Seed the database
-	docker compose exec app php artisan db:seed
-
-fresh: ## Drop all tables and re-run migrations + seeds
-	docker compose exec app php artisan migrate:fresh --seed
-
-logs: ## Tail Laravel log
-	docker compose exec app tail -f storage/logs/laravel.log
-
-composer: ## Run composer (pass CMD="install", "update", etc.)
-	docker compose exec app composer $(CMD)
+key: ## Print a new SESSION_KEY
+	@openssl rand -base64 32
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'

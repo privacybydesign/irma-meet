@@ -1,10 +1,6 @@
 .git
-node_modules
-vendor
-public/build
-public/hot
-public/storage
-storage/logs/*
+.github
 .env
-.env.backup
-.phpunit.result.cache
+.env.*
+!.env.docker
+*.md

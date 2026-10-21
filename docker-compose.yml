@@ -1,15 +1,10 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: docker/php/Dockerfile
-      target: base
-    volumes:
-      - .:/var/www/html
-      - /var/www/html/vendor  # keep vendor inside container
+    build: .
+    ports:
+      - "8080:8080"
+    env_file: .env
     environment:
-      APP_ENV: local
-      APP_DEBUG: "true"
       # The app authenticates to the IRMA server with this token; it must match
       # the token the irma-init service writes into the server config.
       IRMA_API_TOKEN: ${IRMA_API_TOKEN:?set IRMA_API_TOKEN in your .env}
@@ -17,18 +12,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    networks:
-      - irma-meet
-
-  web:
-    image: nginx:1.27-alpine
-    ports:
-      - "8080:80"
-    volumes:
-      - .:/var/www/html:ro
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - app
+      irma-server:
+        condition: service_started
+      mail:
+        condition: service_started
     networks:
       - irma-meet
 
