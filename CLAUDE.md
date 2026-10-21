@@ -31,11 +31,11 @@ BigBlueButton meetings after a Yivi disclosure. It replaced a Laravel app.
   *translation string* as trusted markup; never pass user input to `.HTML`.
   `.HTMLf` escapes its arguments.
 - A session holds the disclosed attributes (`verified`) once, so handlers do
-  not ask the IRMA server again. `identityFor` in `internal/web/auth.go` is the
+  not ask the IRMA server again. `identityOf` in `internal/web/auth.go` is the
   only place that verifies a pending Yivi session.
 - CSRF protection is `http.CrossOriginProtection`; it only checks unsafe
   methods, so state-changing endpoints must not be GET.
 - Translation keys are the English text. A key used in a template or handler
-  needs an entry in `nl.json`; `TestEveryTemplateKeyIsTranslated` checks it.
+  needs an entry in `nl.json`; `TestTemplateKeysTranslated` checks it.
 - The meeting tables (`irma_meet_sessions`, `irma_meet_participants`) keep the
   Laravel schema so existing databases work; migration 1 is `IF NOT EXISTS`.

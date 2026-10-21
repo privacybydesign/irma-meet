@@ -1,12 +1,9 @@
-# Local configuration; copy .env.docker to .env.
-.env
-.env.backup
-
 # IRMA JWT signing key and generated server config must never be committed;
 # they are generated locally by the irma-init service (see docker-compose.yml).
 /docker/irma/jwt_privkey.pem
 /docker/irma/config.json
-
+.env
+.env.backup
 /irma-meet
 coverage.out
 .DS_Store

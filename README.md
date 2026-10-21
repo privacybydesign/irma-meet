@@ -61,7 +61,7 @@ Fill in `SESSION_KEY` (`make key` prints one), `IRMA_API_TOKEN` and your BBB cre
 make up
 ```
 
-The app is available at http://localhost:8080, the IRMA server at http://localhost:8088 and Mailpit (local mail catcher) at http://localhost:8025.
+The app will be available at http://localhost:8080. Mailpit (local mail catcher) runs at http://localhost:8025 and the IRMA server at http://localhost:8088.
 
 | Command | Description |
 |---|---|
@@ -74,7 +74,7 @@ The app is available at http://localhost:8080, the IRMA server at http://localho
 ## Running without Docker
 
 ```bash
-export $(grep -v '^#' .env | xargs)   # or set the variables yourself
+set -a; . ./.env; set +a   # or set the variables yourself
 go run .
 ```
 
