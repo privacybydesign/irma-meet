@@ -117,7 +117,7 @@ func TestHostGetsConfirmationMail(t *testing.T) {
 	}
 }
 
-func TestMailsFollowInterfaceLanguage(t *testing.T) {
+func TestMailsFollowLanguage(t *testing.T) {
 	e := newEnv(t)
 	host := e.newUser()
 
@@ -219,7 +219,7 @@ func TestExamTeacherAndStudentJoin(t *testing.T) {
 	}
 }
 
-func TestStudentWithTheTeachersEmailIsNoHost(t *testing.T) {
+func TestStudentWithTeacherEmail(t *testing.T) {
 	e := newEnv(t)
 	teacher, impostor := e.newUser(), e.newUser()
 
@@ -239,7 +239,7 @@ func TestStudentWithTheTeachersEmailIsNoHost(t *testing.T) {
 	}
 }
 
-func TestHostJoinsOwnMeetingDirectly(t *testing.T) {
+func TestHostJoinsDirectly(t *testing.T) {
 	e := newEnv(t)
 	host := e.newUser()
 
@@ -271,7 +271,7 @@ func TestHostJoinsOwnMeetingDirectly(t *testing.T) {
 	}
 }
 
-func TestParticipantChoosesRoleAndJoins(t *testing.T) {
+func TestParticipantChoosesRole(t *testing.T) {
 	e := newEnv(t)
 	host, guest := e.newUser(), e.newUser()
 
@@ -304,7 +304,7 @@ func TestParticipantChoosesRoleAndJoins(t *testing.T) {
 	}
 }
 
-func TestChoosingHostWithAnotherEmailJoinsAsAttendee(t *testing.T) {
+func TestHostChoiceOtherEmail(t *testing.T) {
 	e := newEnv(t)
 	host, guest := e.newUser(), e.newUser()
 
@@ -318,7 +318,7 @@ func TestChoosingHostWithAnotherEmailJoinsAsAttendee(t *testing.T) {
 	}
 }
 
-func TestJoinNamesUseJSONFormatWhenConfigured(t *testing.T) {
+func TestJoinNameJSONFormat(t *testing.T) {
 	e := newEnv(t, withNameFormat("json"))
 	host := e.newUser()
 
@@ -334,7 +334,7 @@ func TestJoinNamesUseJSONFormatWhenConfigured(t *testing.T) {
 	}
 }
 
-func TestMeetingLinkExpiresAfter24Hours(t *testing.T) {
+func TestLinkExpiresAfter24h(t *testing.T) {
 	e := newEnv(t)
 	host := e.newUser()
 
@@ -396,7 +396,7 @@ func TestExpiredMeetingsAreDeleted(t *testing.T) {
 	}
 }
 
-func TestAttributesComeFromTheSession(t *testing.T) {
+func TestAttrsComeFromSession(t *testing.T) {
 	e := newEnv(t)
 	host := e.newUser()
 
@@ -419,7 +419,7 @@ func TestAttributesComeFromTheSession(t *testing.T) {
 	}
 }
 
-func TestHostIdentityCannotBeSpoofedInTheForm(t *testing.T) {
+func TestHostIdentityNotSpoofable(t *testing.T) {
 	e := newEnv(t)
 	host := e.newUser()
 
@@ -443,7 +443,7 @@ func TestHostIdentityCannotBeSpoofedInTheForm(t *testing.T) {
 	}
 }
 
-func TestEachMeetingGetsOwnRandomPasswords(t *testing.T) {
+func TestMeetingPasswordsRandom(t *testing.T) {
 	e := newEnv(t)
 	host := e.newUser()
 
@@ -466,7 +466,7 @@ func TestEachMeetingGetsOwnRandomPasswords(t *testing.T) {
 	}
 }
 
-func TestMailFailureStillCreatesMeeting(t *testing.T) {
+func TestMailFailureKeepsMeeting(t *testing.T) {
 	e := newEnv(t, withSMTPPort(1))
 	host := e.newUser()
 

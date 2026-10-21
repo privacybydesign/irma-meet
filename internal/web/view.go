@@ -107,6 +107,7 @@ func (r *renderer) render(w http.ResponseWriter, page, lang string, status int, 
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set("Cache-Control", "no-store")
 	w.WriteHeader(status)
 	_, err := w.Write(body.Bytes())
 

@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TestSealedCodecRoundTripsAndHidesTheData(t *testing.T) {
+func TestSealedCodecRoundTrip(t *testing.T) {
 	codec, err := newSealedCodec(bytes.Repeat([]byte{1}, 32))
 	if err != nil {
 		t.Fatal(err)
@@ -36,7 +36,7 @@ func TestSealedCodecRoundTripsAndHidesTheData(t *testing.T) {
 	}
 }
 
-func TestSealedCodecTreatsUnreadableDataAsAnEmptySession(t *testing.T) {
+func TestSealedCodecUnreadable(t *testing.T) {
 	codec, _ := newSealedCodec(bytes.Repeat([]byte{1}, 32))
 	otherKey, _ := newSealedCodec(bytes.Repeat([]byte{2}, 32))
 

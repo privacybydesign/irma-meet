@@ -83,7 +83,7 @@ func TestExpiryBoundary(t *testing.T) {
 	}
 }
 
-func TestHostRoleNeedsHostDisclosureAndEmail(t *testing.T) {
+func TestHostRoleNeedsTypeAndEmail(t *testing.T) {
 	free := meeting.Meeting{Type: meeting.Free, HostEmail: "host@example.com"}
 	exam := meeting.Meeting{Type: meeting.Exam, HostEmail: "tanja@uni.example"}
 
@@ -130,7 +130,7 @@ func TestMeetingTypes(t *testing.T) {
 	}
 }
 
-func TestCreateStoresTheMeetingAndSendsMails(t *testing.T) {
+func TestCreateStoresAndMails(t *testing.T) {
 	f := newFixture(t)
 
 	created, err := f.svc.Create(context.Background(), meeting.NewMeeting{
@@ -171,7 +171,7 @@ func TestCreateStoresTheMeetingAndSendsMails(t *testing.T) {
 	}
 }
 
-func TestCreateWithoutParticipantsAsksTheHostToShareTheLink(t *testing.T) {
+func TestCreateWithoutGuests(t *testing.T) {
 	f := newFixture(t)
 
 	if _, err := f.svc.Create(context.Background(), meeting.NewMeeting{Type: meeting.Free, Name: "n", Host: host(), Locale: "en"}); err != nil {
@@ -183,7 +183,7 @@ func TestCreateWithoutParticipantsAsksTheHostToShareTheLink(t *testing.T) {
 	}
 }
 
-func TestCreateNeedsACompleteHostIdentity(t *testing.T) {
+func TestCreateNeedsFullHost(t *testing.T) {
 	f := newFixture(t)
 
 	for _, who := range []identity.Verified{{}, {Type: identity.TypeDefault, Attrs: map[string]string{"pbdf.pbdf.email.email": "a@example.com"}}} {
@@ -199,7 +199,7 @@ func TestCreateNeedsACompleteHostIdentity(t *testing.T) {
 }
 
 // Meetings that predate the stored passwords get independent random ones, once.
-func TestLookupBackfillsMissingPasswords(t *testing.T) {
+func TestLookupBackfillsPasswords(t *testing.T) {
 	f := newFixture(t)
 
 	for _, id := range []string{"aaaa1111", "bbbb2222"} {
@@ -245,7 +245,7 @@ func TestLookupErrors(t *testing.T) {
 	}
 }
 
-func TestJoinURLPicksThePasswordByRole(t *testing.T) {
+func TestJoinURLPasswordByRole(t *testing.T) {
 	f := newFixture(t)
 	created, _ := f.svc.Create(context.Background(), meeting.NewMeeting{Type: meeting.Free, Name: "Weekly sync", Host: host(), Locale: "en"})
 	m := created.Meeting
@@ -287,7 +287,7 @@ func TestJoinURLErrors(t *testing.T) {
 	}
 }
 
-func TestCleanupDeletesExpiredMeetings(t *testing.T) {
+func TestCleanupDeletesExpired(t *testing.T) {
 	f := newFixture(t)
 	f.store.Insert(meeting.Meeting{ID: "old", StartTime: t0.Add(-25 * time.Hour)}, "a@example.com")
 	f.store.Insert(meeting.Meeting{ID: "new", StartTime: t0.Add(-23 * time.Hour)}, "b@example.com")

@@ -17,8 +17,8 @@ const (
 	defaultDBPort   = 3306
 	defaultMailPort = 25
 
-	// SessionKeyLen is the AES-256 key size used to encrypt stored sessions.
-	SessionKeyLen = 32
+	// sessionKeyLen is the AES-256 key size used to encrypt stored sessions.
+	sessionKeyLen = 32
 
 	envNone = "null"
 )
@@ -200,8 +200,8 @@ func (l *loader) sessionKey(name string) []byte {
 	}
 
 	key, err := decodeKey(raw)
-	if err != nil || len(key) != SessionKeyLen {
-		l.fail(name, "must be %d random bytes, hex or base64 encoded (for example `openssl rand -base64 32`)", SessionKeyLen)
+	if err != nil || len(key) != sessionKeyLen {
+		l.fail(name, "must be %d random bytes, hex or base64 encoded (for example `openssl rand -base64 32`)", sessionKeyLen)
 		return nil
 	}
 

@@ -3,19 +3,15 @@ package web_test
 import (
 	"bytes"
 	"context"
-	"database/sql"
 	"io"
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"os"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/alexedwards/scs/mysqlstore"
-	"github.com/go-sql-driver/mysql"
 
 	"github.com/privacybydesign/irma-meet/internal/bbb"
 	"github.com/privacybydesign/irma-meet/internal/config"
@@ -29,35 +25,9 @@ import (
 )
 
 // TestEndToEndAgainstMySQL runs a meeting through the real store and the
-// MySQL session store. It needs TEST_MYSQL_DSN, a database that may be wiped.
+// MySQL session store. It needs TEST_MYSQL_DSN, see testutil.MySQL.
 func TestEndToEndAgainstMySQL(t *testing.T) {
-	dsn := os.Getenv("TEST_MYSQL_DSN")
-	if dsn == "" {
-		t.Skip("TEST_MYSQL_DSN is not set")
-	}
-
-	cfg, err := mysql.ParseDSN(dsn)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	cfg.ParseTime = true
-	cfg.Loc = time.UTC
-	cfg.Params = map[string]string{"time_zone": "'+00:00'"}
-
-	connector, err := mysql.NewConnector(cfg)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	db := sql.OpenDB(connector)
-	t.Cleanup(func() { _ = db.Close() })
-
-	for _, table := range []string{"irma_meet_participants", "irma_meet_sessions", "sessions", "goose_db_version", "goose_lock"} {
-		if _, err := db.Exec("DROP TABLE IF EXISTS `" + table + "`"); err != nil {
-			t.Fatal(err)
-		}
-	}
+	db := testutil.MySQL(t)
 
 	if err := store.Migrate(context.Background(), db); err != nil {
 		t.Fatal(err)
@@ -82,14 +52,13 @@ func TestEndToEndAgainstMySQL(t *testing.T) {
 	sessionStore := mysqlstore.New(db)
 	defer sessionStore.StopCleanup()
 
-	key := bytes.Repeat([]byte{7}, config.SessionKeyLen)
+	appURL, _ := url.Parse(srv.URL)
+	key := bytes.Repeat([]byte{7}, sessionKeyLen)
 
-	sessions, err := web.NewSessionManager(sessionStore, key, false)
+	sessions, err := web.NewSessionManager(sessionStore, key, appURL)
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	appURL, _ := url.Parse(srv.URL)
 
 	handler, err = web.New(web.Options{
 		Meetings: meetings, Identities: identity.NewService(irma.URL(), irmaToken, nil), Text: text,

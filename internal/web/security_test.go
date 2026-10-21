@@ -13,7 +13,7 @@ import (
 	"github.com/privacybydesign/irma-meet/internal/meeting"
 )
 
-func TestStoreRequiresYiviDisclosure(t *testing.T) {
+func TestStoreNeedsDisclosure(t *testing.T) {
 	e := newEnv(t)
 	anon := e.newUser()
 
@@ -32,7 +32,7 @@ func TestStoreRequiresYiviDisclosure(t *testing.T) {
 	}
 }
 
-func TestCreateFormRequiresDisclosureOfTheHostType(t *testing.T) {
+func TestCreateFormNeedsHostType(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -44,7 +44,7 @@ func TestCreateFormRequiresDisclosureOfTheHostType(t *testing.T) {
 	}
 }
 
-func TestJoinRoleRoutesRequireDisclosure(t *testing.T) {
+func TestJoinRoutesNeedDisclosure(t *testing.T) {
 	e := newEnv(t)
 	host := e.newUser()
 
@@ -81,7 +81,7 @@ func TestUnknownMeetingIs404(t *testing.T) {
 	}
 }
 
-func TestInvalidMeetingTypeIsRejected(t *testing.T) {
+func TestInvalidMeetingType(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -102,7 +102,7 @@ func TestInvalidMeetingTypeIsRejected(t *testing.T) {
 	}
 }
 
-func TestStartAcceptsOnlyKnownDisclosureTypes(t *testing.T) {
+func TestStartKnownTypesOnly(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -117,7 +117,7 @@ func TestStartAcceptsOnlyKnownDisclosureTypes(t *testing.T) {
 	}
 }
 
-func TestStartStartsExactlyOneSessionPerRequest(t *testing.T) {
+func TestStartOneSessionPerRequest(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -135,7 +135,7 @@ func TestStartStartsExactlyOneSessionPerRequest(t *testing.T) {
 	}
 }
 
-func TestStartRequestsTheRightAttributes(t *testing.T) {
+func TestStartRequestsAttributes(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -149,7 +149,7 @@ func TestStartRequestsTheRightAttributes(t *testing.T) {
 	}
 }
 
-func TestFailedDisclosureKeepsTheDisclosureTypeInTheRedirect(t *testing.T) {
+func TestFailureKeepsType(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -170,7 +170,7 @@ func TestFailedDisclosureKeepsTheDisclosureTypeInTheRedirect(t *testing.T) {
 	}
 }
 
-func TestUncompletedDisclosureIsNotAccepted(t *testing.T) {
+func TestUncompletedDisclosure(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -182,7 +182,7 @@ func TestUncompletedDisclosureIsNotAccepted(t *testing.T) {
 	}
 }
 
-func TestDisclosureOfOneVisitorDoesNotAuthenticateAnother(t *testing.T) {
+func TestDisclosureIsPerVisitor(t *testing.T) {
 	e := newEnv(t)
 	alice, mallory := e.newUser(), e.newUser()
 
@@ -193,7 +193,7 @@ func TestDisclosureOfOneVisitorDoesNotAuthenticateAnother(t *testing.T) {
 	}
 }
 
-func TestSessionTokenChangesAfterDisclosure(t *testing.T) {
+func TestSessionTokenRenewed(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -220,7 +220,7 @@ func TestSessionTokenChangesAfterDisclosure(t *testing.T) {
 	}
 }
 
-func TestAuthenticateOnlyContinuesToLocalPaths(t *testing.T) {
+func TestAuthenticateLocalOnly(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -252,7 +252,7 @@ func TestAuthenticateOnlyContinuesToLocalPaths(t *testing.T) {
 	}
 }
 
-func TestCrossOriginPostsAreRejected(t *testing.T) {
+func TestCrossOriginRejected(t *testing.T) {
 	e := newEnv(t)
 	host := e.newUser()
 
@@ -315,7 +315,7 @@ func TestMeetingNameIsHTMLEscaped(t *testing.T) {
 	}
 }
 
-func TestUserInputIsEscapedEverywhere(t *testing.T) {
+func TestUserInputEscaped(t *testing.T) {
 	e := newEnv(t)
 	host := e.newUser()
 
@@ -356,7 +356,7 @@ func TestUserInputIsEscapedEverywhere(t *testing.T) {
 	}
 }
 
-func TestMailSubjectCannotInjectHeaders(t *testing.T) {
+func TestSubjectNoHeaderInjection(t *testing.T) {
 	e := newEnv(t)
 	host := e.newUser()
 
@@ -439,7 +439,7 @@ func TestOnlyStaticFilesAreServed(t *testing.T) {
 	}
 }
 
-func TestEverythingEmbeddedIsMeantToBePublic(t *testing.T) {
+func TestEmbeddedFilesArePublic(t *testing.T) {
 	var files []string
 
 	err := filepath.WalkDir("static", func(path string, d os.DirEntry, err error) error {
@@ -461,13 +461,21 @@ func TestEverythingEmbeddedIsMeantToBePublic(t *testing.T) {
 	}
 }
 
-func TestSecurityHeadersAndNoCaching(t *testing.T) {
+func TestSecurityHeaders(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
 	resp := user.get("/")
 	if resp.Header.Get("X-Content-Type-Options") != "nosniff" || resp.Header.Get("X-Frame-Options") != "DENY" {
 		t.Errorf("security headers missing: %v", resp.Header)
+	}
+
+	if got := resp.Header.Get("Cache-Control"); got != "no-store" {
+		t.Errorf("pages that show names and emails must not be cached, Cache-Control %q", got)
+	}
+
+	if got := user.get("/css/custom.css").Header.Get("Cache-Control"); got != "no-cache" {
+		t.Errorf("static files are revalidated, Cache-Control %q", got)
 	}
 }
 

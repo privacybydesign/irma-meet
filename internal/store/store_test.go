@@ -3,50 +3,19 @@ package store_test
 import (
 	"context"
 	"database/sql"
-	"os"
 	"testing"
 	"time"
 
-	"github.com/go-sql-driver/mysql"
-
 	"github.com/privacybydesign/irma-meet/internal/meeting"
 	"github.com/privacybydesign/irma-meet/internal/store"
+	"github.com/privacybydesign/irma-meet/internal/testutil"
 )
 
-// These tests need a MySQL database that they may wipe, e.g.
-// TEST_MYSQL_DSN='root:secret@tcp(127.0.0.1:3307)/irmameet_test'.
+// The tests need a MySQL server, see testutil.MySQL.
 func openTestDB(t *testing.T) *sql.DB {
 	t.Helper()
 
-	dsn := os.Getenv("TEST_MYSQL_DSN")
-	if dsn == "" {
-		t.Skip("TEST_MYSQL_DSN is not set")
-	}
-
-	cfg, err := mysql.ParseDSN(dsn)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	cfg.ParseTime = true
-	cfg.Loc = time.UTC
-	cfg.Params = map[string]string{"time_zone": "'+00:00'"}
-
-	connector, err := mysql.NewConnector(cfg)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	db := sql.OpenDB(connector)
-	t.Cleanup(func() { _ = db.Close() })
-
-	for _, table := range []string{"irma_meet_participants", "irma_meet_sessions", "sessions", "goose_db_version", "goose_lock"} {
-		if _, err := db.Exec("DROP TABLE IF EXISTS `" + table + "`"); err != nil {
-			t.Fatal(err)
-		}
-	}
-
-	return db
+	return testutil.MySQL(t)
 }
 
 func migrated(t *testing.T) (*sql.DB, *store.Store) {
@@ -67,7 +36,7 @@ func sample(id string, start time.Time) meeting.Meeting {
 	}
 }
 
-func TestMigrateCreatesTheTablesAndIsIdempotent(t *testing.T) {
+func TestMigrateIsIdempotent(t *testing.T) {
 	db := openTestDB(t)
 
 	for range 2 {
@@ -85,7 +54,7 @@ func TestMigrateCreatesTheTablesAndIsIdempotent(t *testing.T) {
 }
 
 // A database that the Laravel app filled keeps its rows.
-func TestMigrateReusesExistingLaravelTables(t *testing.T) {
+func TestMigrateKeepsLaravelData(t *testing.T) {
 	db := openTestDB(t)
 
 	for _, ddl := range []string{
@@ -157,7 +126,7 @@ func TestCreateIsAtomic(t *testing.T) {
 	}
 }
 
-func TestSetPasswordsOnlyFillsEmptyOnes(t *testing.T) {
+func TestSetPasswordsFillsEmpty(t *testing.T) {
 	db, s := migrated(t)
 	ctx := context.Background()
 

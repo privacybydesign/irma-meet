@@ -8,8 +8,10 @@ BigBlueButton meetings after a Yivi disclosure. It replaced a Laravel app.
 - `go vet ./... && go test ./...`. The Go version is set in `go.mod`.
 - Tests need no network, MySQL or Docker: they use the fakes in
   `internal/testutil` (IRMA server, BigBlueButton, SMTP, in-memory store).
-- `internal/store` tests run against a real MySQL only when `TEST_MYSQL_DSN`
-  is set; otherwise they skip.
+- `internal/store` and `TestEndToEndAgainstMySQL` run against a real MySQL
+  only when `TEST_MYSQL_DSN` is set (a server DSN, e.g.
+  `root:secret@tcp(127.0.0.1:3307)/`; each test makes its own database);
+  otherwise they skip. Run them when you change SQL or a migration.
 
 ## Layout
 

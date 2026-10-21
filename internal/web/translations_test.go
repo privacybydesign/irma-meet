@@ -1,12 +1,11 @@
 package web_test
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"regexp"
 	"testing"
-
-	"github.com/privacybydesign/irma-meet/internal/i18n"
 )
 
 // keysInTemplates matches {{.T `key`}}, {{.HTML `key`}} and {{.HTMLf `key` ...}}.
@@ -33,9 +32,14 @@ var keysInCode = []string{
 	"This mail mostly contains general information, but specifically for this meeting the host has added the following personal message: ",
 }
 
-func TestEveryTemplateKeyIsTranslated(t *testing.T) {
-	text, err := i18n.New()
+func TestTemplateKeysTranslated(t *testing.T) {
+	raw, err := os.ReadFile("../i18n/locales/nl.json")
 	if err != nil {
+		t.Fatal(err)
+	}
+
+	dutch := map[string]string{}
+	if err := json.Unmarshal(raw, &dutch); err != nil {
 		t.Fatal(err)
 	}
 
@@ -61,7 +65,7 @@ func TestEveryTemplateKeyIsTranslated(t *testing.T) {
 	}
 
 	for key := range keys {
-		if !text.Has(i18n.Dutch, key) {
+		if dutch[key] == "" {
 			t.Errorf("no Dutch translation for %.90q", key)
 		}
 	}

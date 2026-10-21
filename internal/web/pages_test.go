@@ -37,7 +37,7 @@ func TestUnknownPageIs404(t *testing.T) {
 }
 
 // The failure messages are injected for the Yivi frontend, in the visitor's language.
-func TestEnglishFailureMessagesAreInjected(t *testing.T) {
+func TestEnglishFailureMessages(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -61,7 +61,7 @@ func TestEnglishFailureMessagesAreInjected(t *testing.T) {
 	}
 }
 
-func TestDutchFailureMessagesAreTranslated(t *testing.T) {
+func TestDutchFailureMessages(t *testing.T) {
 	e := newEnv(t)
 	user := e.newUser()
 
@@ -98,7 +98,7 @@ func TestLanguageSwitch(t *testing.T) {
 	}
 }
 
-func TestEveryPageRendersInBothLanguages(t *testing.T) {
+func TestPagesRenderBothLangs(t *testing.T) {
 	e := newEnv(t)
 
 	for _, lang := range []string{"nl", "en"} {

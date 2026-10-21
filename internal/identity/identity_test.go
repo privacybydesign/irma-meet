@@ -37,7 +37,7 @@ func TestEmailIsLowercased(t *testing.T) {
 	}
 }
 
-func TestEmailIsEmptyWhenNotDisclosed(t *testing.T) {
+func TestEmailEmptyWhenAbsent(t *testing.T) {
 	for _, v := range []identity.Verified{
 		verified(identity.TypeDefault, nil),
 		verified(identity.TypeDefault, map[string]string{attrFullName: "Alice"}),
@@ -50,7 +50,7 @@ func TestEmailIsEmptyWhenNotDisclosed(t *testing.T) {
 	}
 }
 
-func TestEmailFromEitherEmailCredential(t *testing.T) {
+func TestEmailEitherCredential(t *testing.T) {
 	sidn := verified(identity.TypeDefault, map[string]string{attrEmailSidn: "sidn@example.com"})
 	if got := sidn.Email(); got != "sidn@example.com" {
 		t.Errorf("sidn email = %q", got)
@@ -64,7 +64,7 @@ func TestEmailFromEitherEmailCredential(t *testing.T) {
 
 // The teacher "name" and the student "email" were values the PHP code
 // iterated the wrong way, so exams answered 500.
-func TestExamDisclosureTypesYieldNameAndEmail(t *testing.T) {
+func TestExamTypesNameAndEmail(t *testing.T) {
 	for _, typ := range []identity.Type{identity.TypeTeacher, identity.TypeStudent} {
 		v := verified(typ, map[string]string{attrSurfFamily: "Jansen", attrSurfEmail: "J.Jansen@uni.example", attrSurfInst: "uni.example", attrSurfType: "x"})
 
@@ -119,7 +119,7 @@ func TestBBBName(t *testing.T) {
 	}
 }
 
-func TestBBBNameJSONEscapesAttributeValues(t *testing.T) {
+func TestBBBNameJSONEscapes(t *testing.T) {
 	v := verified(identity.TypeDefault, map[string]string{attrFullName: `Al "Quote" <b>\`, attrEmail: "a@example.com"})
 
 	got := v.BBBName(identity.NameFormatJSON)
@@ -132,7 +132,7 @@ func TestBBBNameJSONEscapesAttributeValues(t *testing.T) {
 	}
 }
 
-func TestBBBNameIsEmptyWithoutACompleteIdentity(t *testing.T) {
+func TestBBBNameNeedsFullIdentity(t *testing.T) {
 	onlyName := verified(identity.TypeDefault, map[string]string{attrFullName: "Alice Jansen"})
 
 	if got := onlyName.BBBName(identity.NameFormatJSON); got != "" {
@@ -144,7 +144,7 @@ func TestBBBNameIsEmptyWithoutACompleteIdentity(t *testing.T) {
 	}
 }
 
-func TestParseKnowsOnlyTheKeptTypes(t *testing.T) {
+func TestParseKeptTypesOnly(t *testing.T) {
 	for _, name := range []string{"default", "teacher", "student"} {
 		if _, ok := identity.Parse(name); !ok {
 			t.Errorf("%s should parse", name)
@@ -158,7 +158,7 @@ func TestParseKnowsOnlyTheKeptTypes(t *testing.T) {
 	}
 }
 
-func TestStartPostsOneRequestWithTheRequestorToken(t *testing.T) {
+func TestStartPostsOneRequest(t *testing.T) {
 	irma := testutil.NewFakeIRMA(t, "secret-token")
 	svc := identity.NewService(irma.URL(), "secret-token", nil)
 
@@ -181,7 +181,7 @@ func TestStartPostsOneRequestWithTheRequestorToken(t *testing.T) {
 	}
 }
 
-func TestVerifyReadsAValidDisclosure(t *testing.T) {
+func TestVerifyValidDisclosure(t *testing.T) {
 	irma := testutil.NewFakeIRMA(t, "tok")
 	svc := identity.NewService(irma.URL(), "tok", nil)
 
@@ -198,7 +198,7 @@ func TestVerifyReadsAValidDisclosure(t *testing.T) {
 	}
 }
 
-func TestVerifyRejectsWhatIsNotAValidDisclosure(t *testing.T) {
+func TestVerifyRejectsInvalid(t *testing.T) {
 	irma := testutil.NewFakeIRMA(t, "tok")
 	svc := identity.NewService(irma.URL(), "tok", nil)
 
@@ -221,7 +221,7 @@ func TestVerifyRejectsWhatIsNotAValidDisclosure(t *testing.T) {
 	}
 }
 
-func TestVerifyDropsAttributesThatAreNotPresent(t *testing.T) {
+func TestVerifyDropsAbsentAttrs(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte(`{"status":"DONE","proofStatus":"VALID","disclosed":[[
 			{"id":"` + attrEmail + `","rawvalue":"a@example.com","status":"PRESENT"},
@@ -239,7 +239,7 @@ func TestVerifyDropsAttributesThatAreNotPresent(t *testing.T) {
 	}
 }
 
-func TestVerifyReportsServerFailuresAsErrors(t *testing.T) {
+func TestVerifyServerFailure(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "boom", http.StatusInternalServerError)
 	}))

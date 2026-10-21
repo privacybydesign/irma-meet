@@ -21,14 +21,27 @@ func newMailer(t *testing.T, smtp *testutil.FakeSMTP) *mailer.Mailer {
 	return m
 }
 
+// sendBody sends msg and returns the body the SMTP server received.
+func sendBody(t *testing.T, msg mailer.Message) (string, error) {
+	t.Helper()
+
+	smtp := testutil.NewFakeSMTP(t)
+	msg.To, msg.ReplyTo = "guest@example.com", "host@example.com"
+
+	if err := newMailer(t, smtp).Send(context.Background(), msg); err != nil {
+		return "", err
+	}
+
+	return smtp.Mails()[0].Body(), nil
+}
+
 func TestEveryTemplateRenders(t *testing.T) {
-	m := newMailer(t, testutil.NewFakeSMTP(t))
 	data := mailer.Data{HosterName: "Hannah", InvitationLink: "https://meet.example/irma_session/join/abc", InvitationNote: "A note"}
 
 	for _, locale := range []string{"nl", "en"} {
 		for _, kind := range []mailer.Kind{mailer.Confirmation, mailer.Invitation} {
 			for _, meetingType := range []string{"free", "exam"} {
-				body, err := m.Render(mailer.Message{Kind: kind, MeetingType: meetingType, Locale: locale, Data: data})
+				body, err := sendBody(t, mailer.Message{Kind: kind, MeetingType: meetingType, Locale: locale, Data: data})
 				if err != nil {
 					t.Errorf("%s/%s/%s: %v", locale, kind, meetingType, err)
 					continue
@@ -43,17 +56,13 @@ func TestEveryTemplateRenders(t *testing.T) {
 }
 
 func TestMedicalConsultIsGone(t *testing.T) {
-	m := newMailer(t, testutil.NewFakeSMTP(t))
-
-	if _, err := m.Render(mailer.Message{Kind: mailer.Invitation, MeetingType: "medical_consult", Locale: "en"}); err == nil {
+	if _, err := sendBody(t, mailer.Message{Kind: mailer.Invitation, MeetingType: "medical_consult", Locale: "en"}); err == nil {
 		t.Error("the medical_consult mails were dropped")
 	}
 }
 
 func TestTemplatesEscapeData(t *testing.T) {
-	m := newMailer(t, testutil.NewFakeSMTP(t))
-
-	body, err := m.Render(mailer.Message{
+	body, err := sendBody(t, mailer.Message{
 		Kind: mailer.Invitation, MeetingType: "free", Locale: "en",
 		Data: mailer.Data{HosterName: `<script>alert(1)</script>`, InvitationLink: `https://x.example/"><img src=x>`, InvitationNote: `<b>bold</b>`},
 	})
@@ -69,17 +78,15 @@ func TestTemplatesEscapeData(t *testing.T) {
 }
 
 func TestInvitationNoteIsOptional(t *testing.T) {
-	m := newMailer(t, testutil.NewFakeSMTP(t))
-
-	without, _ := m.Render(mailer.Message{Kind: mailer.Invitation, MeetingType: "free", Locale: "en", Data: mailer.Data{HosterName: "Hannah"}})
-	with, _ := m.Render(mailer.Message{Kind: mailer.Invitation, MeetingType: "free", Locale: "en", Data: mailer.Data{HosterName: "Hannah", InvitationNote: "Bring snacks"}})
+	without, _ := sendBody(t, mailer.Message{Kind: mailer.Invitation, MeetingType: "free", Locale: "en", Data: mailer.Data{HosterName: "Hannah"}})
+	with, _ := sendBody(t, mailer.Message{Kind: mailer.Invitation, MeetingType: "free", Locale: "en", Data: mailer.Data{HosterName: "Hannah", InvitationNote: "Bring snacks"}})
 
 	if strings.Contains(without, "*******") || !strings.Contains(with, "Bring snacks") {
 		t.Error("the note block must only appear when there is a note")
 	}
 }
 
-func TestSendDeliversAllMessagesOverOneConnection(t *testing.T) {
+func TestSendDeliversAll(t *testing.T) {
 	smtp := testutil.NewFakeSMTP(t)
 	m := newMailer(t, smtp)
 
@@ -132,7 +139,7 @@ func TestSubjectIsSingleLine(t *testing.T) {
 	}
 }
 
-func TestInvalidRecipientIsRejectedBeforeSending(t *testing.T) {
+func TestInvalidRecipient(t *testing.T) {
 	smtp := testutil.NewFakeSMTP(t)
 	m := newMailer(t, smtp)
 
@@ -142,7 +149,7 @@ func TestInvalidRecipientIsRejectedBeforeSending(t *testing.T) {
 	}
 }
 
-func TestUnreachableServerIsAnError(t *testing.T) {
+func TestUnreachableServer(t *testing.T) {
 	m, err := mailer.New(config.Mail{Host: "127.0.0.1", Port: 1, FromAddress: "noreply@yivi-meet.test"})
 	if err != nil {
 		t.Fatal(err)

@@ -55,12 +55,12 @@ func TestLoadValidConfig(t *testing.T) {
 		t.Errorf("default ports %d %d", cfg.Database.Port, cfg.Mail.Port)
 	}
 
-	if len(cfg.SessionKey) != config.SessionKeyLen {
+	if len(cfg.SessionKey) != 32 {
 		t.Errorf("session key has %d bytes", len(cfg.SessionKey))
 	}
 }
 
-func TestMissingVariablesAreAllReported(t *testing.T) {
+func TestMissingVarsAllReported(t *testing.T) {
 	_, err := load(map[string]string{})
 	if err == nil {
 		t.Fatal("expected an error")
@@ -115,7 +115,7 @@ func TestAppURLMustBeAnOrigin(t *testing.T) {
 	}
 }
 
-func TestMailEncryptionAndNameFormatValues(t *testing.T) {
+func TestMailEncryptionAndFormat(t *testing.T) {
 	for value, want := range map[string]config.MailEncryption{"": config.MailPlain, "null": config.MailPlain, "tls": config.MailStartTLS, "ssl": config.MailImplicitTLS, "SSL": config.MailImplicitTLS} {
 		env := validEnv()
 		env["MAIL_ENCRYPTION"] = value

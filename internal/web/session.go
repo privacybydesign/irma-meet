@@ -9,6 +9,7 @@ import (
 	"errors"
 	"log/slog"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
@@ -28,8 +29,9 @@ const (
 
 // NewSessionManager returns a session manager over store. Session data is
 // encrypted with key before it reaches the store, because it holds the names
-// and email addresses people disclosed.
-func NewSessionManager(store scs.Store, key []byte, secure bool) (*scs.SessionManager, error) {
+// and email addresses people disclosed. The cookie is Secure when appURL is
+// https.
+func NewSessionManager(store scs.Store, key []byte, appURL *url.URL) (*scs.SessionManager, error) {
 	codec, err := newSealedCodec(key)
 	if err != nil {
 		return nil, err
@@ -42,9 +44,9 @@ func NewSessionManager(store scs.Store, key []byte, secure bool) (*scs.SessionMa
 	sm.Cookie.Name = sessionCookie
 	sm.Cookie.HttpOnly = true
 	sm.Cookie.SameSite = http.SameSiteLaxMode
-	sm.Cookie.Secure = secure
+	sm.Cookie.Secure = appURL.Scheme == "https"
 
-	if secure {
+	if sm.Cookie.Secure {
 		sm.Cookie.Name = secureSessionCookie
 	}
 

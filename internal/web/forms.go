@@ -3,6 +3,7 @@ package web
 import (
 	"net/http"
 	"net/mail"
+	"strconv"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -116,7 +117,7 @@ func required(field, label string) fieldError {
 }
 
 func tooLong(field, label string) fieldError {
-	return fieldError{field: field, message: "The :attribute field must not be greater than :max characters.", label: label, maxChars: "255"}
+	return fieldError{field: field, message: "The :attribute field must not be greater than :max characters.", label: label, maxChars: strconv.Itoa(maxFieldRunes)}
 }
 
 // emails returns the participant addresses that were filled in.

@@ -73,8 +73,3 @@ func (t *Translator) Tr(locale, key string, replace map[string]string) string {
 
 	return line
 }
-
-// Has reports whether key has a non-empty translation in locale.
-func (t *Translator) Has(locale, key string) bool {
-	return t.catalogs[Normalize(locale)][key] != ""
-}

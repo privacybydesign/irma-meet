@@ -25,6 +25,9 @@ import (
 )
 
 const (
+	// sessionKeyLen is the size of the AES-256 session key.
+	sessionKeyLen = 32
+
 	irmaToken = "irma-test-token"
 	bbbSecret = "bbb-test-secret"
 
@@ -130,7 +133,7 @@ func newEnv(t *testing.T, opts ...envOption) *env {
 
 	appURL, _ := url.Parse(e.srv.URL)
 
-	sessions, err := web.NewSessionManager(scs.New().Store, make([]byte, config.SessionKeyLen), false)
+	sessions, err := web.NewSessionManager(scs.New().Store, make([]byte, sessionKeyLen), appURL)
 	if err != nil {
 		t.Fatal(err)
 	}

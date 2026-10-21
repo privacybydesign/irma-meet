@@ -87,11 +87,11 @@ go vet ./...
 go test ./...
 ```
 
-The tests run the whole service against fake IRMA, BigBlueButton and SMTP servers (`internal/testutil`) and an in-memory store. The SQL itself is tested against a real MySQL when `TEST_MYSQL_DSN` is set, for example:
+The tests run the whole service against fake IRMA, BigBlueButton and SMTP servers (`internal/testutil`) and an in-memory store. The SQL and the MySQL session store are tested against a real MySQL when `TEST_MYSQL_DSN` is set. It points at a server, not a database: each test creates and drops its own database, so the user needs `CREATE` and `DROP` rights.
 
 ```bash
-docker run -d --name irmameet-test -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=irmameet_test -p 3307:3306 mysql:8.0
-TEST_MYSQL_DSN='root:secret@tcp(127.0.0.1:3307)/irmameet_test' go test ./internal/store
+docker run -d --name irmameet-test -e MYSQL_ROOT_PASSWORD=secret -p 3307:3306 mysql:8.0
+TEST_MYSQL_DSN='root:secret@tcp(127.0.0.1:3307)/' go test ./...
 ```
 
 ## Static files

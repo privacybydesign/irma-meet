@@ -92,7 +92,7 @@ func run(log *slog.Logger) error {
 	sessionStore := mysqlstore.NewWithCleanupInterval(db, sessionSweep)
 	defer sessionStore.StopCleanup()
 
-	sessions, err := web.NewSessionManager(sessionStore, cfg.SessionKey, cfg.AppURL.Scheme == "https")
+	sessions, err := web.NewSessionManager(sessionStore, cfg.SessionKey, cfg.AppURL)
 	if err != nil {
 		return err
 	}

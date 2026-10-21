@@ -20,7 +20,7 @@ func checksum(call, query string) string {
 	return hex.EncodeToString(sum[:])
 }
 
-func TestJoinURLIsSignedOverTheQueryString(t *testing.T) {
+func TestJoinURLIsSigned(t *testing.T) {
 	c := bbb.New("https://bbb.example/bigbluebutton/", secret, nil)
 
 	got := c.JoinURL("room1", "Alice & Bob", "pw")
@@ -33,7 +33,7 @@ func TestJoinURLIsSignedOverTheQueryString(t *testing.T) {
 	}
 }
 
-func TestEnsureRoomCreatesOnlyWhenNotRunning(t *testing.T) {
+func TestEnsureRoomCreatesOnce(t *testing.T) {
 	fake := testutil.NewFakeBBB(t, secret)
 	c := bbb.New(fake.BaseURL(), secret, nil)
 	room := bbb.Room{ID: "room1", Name: "Weekly sync", ModeratorPassword: "mod", AttendeePassword: "att"}
@@ -68,7 +68,7 @@ func TestEnsureRoomReportsFailures(t *testing.T) {
 	}
 }
 
-func TestWrongSecretIsRejectedByTheServer(t *testing.T) {
+func TestWrongSecretRejected(t *testing.T) {
 	fake := testutil.NewFakeBBB(t, secret)
 
 	err := bbb.New(fake.BaseURL(), "other-secret", nil).EnsureRoom(context.Background(), bbb.Room{ID: "r"})
@@ -77,14 +77,14 @@ func TestWrongSecretIsRejectedByTheServer(t *testing.T) {
 	}
 }
 
-func TestUnreachableServerIsAnError(t *testing.T) {
+func TestUnreachableServer(t *testing.T) {
 	err := bbb.New("http://127.0.0.1:1/bigbluebutton/", secret, nil).EnsureRoom(context.Background(), bbb.Room{ID: "r"})
 	if err == nil {
 		t.Error("expected an error")
 	}
 }
 
-func TestJoinURLDoesNotLeakTheSecret(t *testing.T) {
+func TestJoinURLHidesSecret(t *testing.T) {
 	u, err := url.Parse(bbb.New("https://bbb.example/bigbluebutton/", secret, nil).JoinURL("r", "n", "p"))
 	if err != nil || strings.Contains(u.String(), secret) {
 		t.Errorf("join URL %s", u)

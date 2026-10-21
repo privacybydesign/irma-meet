@@ -78,8 +78,8 @@ func New(cfg config.Mail) (*Mailer, error) {
 	return m, nil
 }
 
-// Render returns the HTML body of msg.
-func (m *Mailer) Render(msg Message) (string, error) {
+// render returns the HTML body of msg.
+func (m *Mailer) render(msg Message) (string, error) {
 	name := i18n.Normalize(msg.Locale) + "/" + string(msg.Kind) + "_" + msg.MeetingType
 
 	tmpl, ok := m.templates[name]
@@ -117,7 +117,7 @@ func (m *Mailer) Send(ctx context.Context, msgs ...Message) error {
 }
 
 func (m *Mailer) build(msg Message) (*mail.Msg, error) {
-	body, err := m.Render(msg)
+	body, err := m.render(msg)
 	if err != nil {
 		return nil, err
 	}
