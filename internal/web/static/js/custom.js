@@ -15,7 +15,7 @@ function startInvitation(authUrl, redirectUrl) {
 
       start: {
         url: o => o.url,
-        method: "GET",
+        method: "POST",
         headers: {},
         credentials: "include"
       },
@@ -92,7 +92,7 @@ function escapeHtml(value) {
 
 function copy(text) {
   var input = document.createElement("textarea");
-  input.innerHTML = text;
+  input.value = text;
   document.body.appendChild(input);
   input.select();
   var result = document.execCommand("copy");

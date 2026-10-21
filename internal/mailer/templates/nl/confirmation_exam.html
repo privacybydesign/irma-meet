@@ -1,5 +1,5 @@
 <div>
-Beste heer, mevrouw {{ $hoster_name }},
+Beste heer, mevrouw {{.HosterName}},
 </div>
 
 <br>
@@ -15,7 +15,7 @@ is:
 <br>
 
 <div>
-<a href="{{ $invitation_link }}">{{ $invitation_link }}</a>
+<a href="{{.InvitationLink}}">{{.InvitationLink}}</a>
 </div>
 
 <br>
@@ -33,7 +33,7 @@ student die tentamen doet.
 
 <br>
 <div>
-  {{ $invitation_note }}
+  {{.InvitationNote}}
 </div>
 <br>
 <div>

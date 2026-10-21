@@ -1,5 +1,5 @@
 <div>
-Beste heer, mevrouw {{ $hoster_name }},
+Beste heer, mevrouw {{.HosterName}},
 </div>
 
 <br>
@@ -14,7 +14,7 @@ jezelf in de rol van host. De link voor dit video gesprek is:
 <br>
 
 <div>
-<a href="{{ $invitation_link }}">{{ $invitation_link }}</a>
+<a href="{{.InvitationLink}}">{{.InvitationLink}}</a>
 </div>
 
 <br>

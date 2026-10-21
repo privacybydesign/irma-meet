@@ -1,5 +1,5 @@
 <div>
-Dear Mr / Ms {{ $hoster_name }},
+Dear Mr / Ms {{.HosterName}},
 </div>
 
 <br>
@@ -12,7 +12,7 @@ video exam with yourself as examiner. This meeting has the link:
 <br>
 
 <div>
-<a href="{{ $invitation_link }}">{{ $invitation_link }}</a>
+<a href="{{.InvitationLink}}">{{.InvitationLink}}</a>
 </div>
 
 <br>
@@ -30,7 +30,7 @@ visible to the student.
 
 <br>
 <div>
-  {{ $invitation_note }}
+  {{.InvitationNote}}
 </div>
 <br>
 

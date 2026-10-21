@@ -5,27 +5,27 @@ Beste student,
 <br>
 
 <div>
-  {{ $hoster_name }} heeft een reservering gemaakt voor een Yivi Meet mondeling videotentamen
+  {{.HosterName}} heeft een reservering gemaakt voor een Yivi Meet mondeling videotentamen
   met jou als student. Dit gesprek heeft de link:
 </div>
 
 <br>
 
 <div>
-  <a href="{{ $invitation_link }}">{{ $invitation_link }}</a><br />
+  <a href="{{.InvitationLink}}">{{.InvitationLink}}</a><br />
 </div>
 
-@if (!empty($invitation_note))
+{{if .InvitationNote}}
 <div><br />
 *******************
 </div>
 <div>
-  {{ $invitation_note }}
+  {{.InvitationNote}}
 </div>
 <div>
 *******************
 </div>
-@endif
+{{end}}
 
 <div>
   Je kunt deelnemen aan het videotentamen via bovenstaande link. Je zult dan moeten inloggen op yivi-meet.nl,

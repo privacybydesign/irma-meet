@@ -1,5 +1,5 @@
 <div>
-Dear Mr / Ms {{ $hoster_name }},
+Dear Mr / Ms {{.HosterName}},
 </div>
 
 <br>
@@ -12,7 +12,7 @@ video call with yourself as host. This meeting has the link:
 <br>
 
 <div>
-<a href="{{ $invitation_link }}">{{ $invitation_link }}</a>
+<a href="{{.InvitationLink}}">{{.InvitationLink}}</a>
 </div>
 
 <br>
