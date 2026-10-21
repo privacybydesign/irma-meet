@@ -19,8 +19,8 @@ type BBBCall struct {
 
 // FakeBBB is a BigBlueButton server that checks the checksum of every call.
 type FakeBBB struct {
-	Server *httptest.Server
-	Secret string
+	server *httptest.Server
+	secret string
 
 	// FailCreate makes create answer with a FAILED return code.
 	FailCreate bool
@@ -31,15 +31,15 @@ type FakeBBB struct {
 }
 
 func NewFakeBBB(t testing.TB, secret string) *FakeBBB {
-	f := &FakeBBB{Secret: secret, rooms: map[string]bool{}}
-	f.Server = httptest.NewServer(http.HandlerFunc(f.serve))
-	t.Cleanup(f.Server.Close)
+	f := &FakeBBB{secret: secret, rooms: map[string]bool{}}
+	f.server = httptest.NewServer(http.HandlerFunc(f.serve))
+	t.Cleanup(f.server.Close)
 
 	return f
 }
 
 // BaseURL is the value for BBB_SERVER_BASE_URL.
-func (f *FakeBBB) BaseURL() string { return f.Server.URL + "/bigbluebutton/" }
+func (f *FakeBBB) BaseURL() string { return f.server.URL + "/bigbluebutton/" }
 
 func (f *FakeBBB) Calls(name string) []BBBCall {
 	f.mu.Lock()
@@ -99,7 +99,7 @@ func (f *FakeBBB) validChecksum(name, rawQuery string) bool {
 		return false
 	}
 
-	sum := sha256.Sum256([]byte(name + query + f.Secret))
+	sum := sha256.Sum256([]byte(name + query + f.secret))
 
 	return hex.EncodeToString(sum[:]) == checksum
 }

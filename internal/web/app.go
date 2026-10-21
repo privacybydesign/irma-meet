@@ -40,7 +40,7 @@ type Options struct {
 	Log    *slog.Logger
 }
 
-type App struct {
+type app struct {
 	meetings   Meetings
 	identities Identities
 	text       *i18n.Translator
@@ -61,7 +61,7 @@ func New(o Options) (http.Handler, error) {
 		return nil, err
 	}
 
-	a := &App{
+	a := &app{
 		meetings:   o.Meetings,
 		identities: o.Identities,
 		text:       o.Text,
@@ -103,11 +103,11 @@ func New(o Options) (http.Handler, error) {
 	return a.accessLog(h), nil
 }
 
-func (a *App) lang(r *http.Request) string {
+func (a *app) lang(r *http.Request) string {
 	return i18n.Normalize(a.state.locale(r))
 }
 
-func (a *App) page(w http.ResponseWriter, r *http.Request, page string, status int, data any) {
+func (a *app) page(w http.ResponseWriter, r *http.Request, page string, status int, data any) {
 	if err := a.views.render(w, page, a.lang(r), status, data); err != nil {
 		a.log.Error("render failed", "page", page, "error", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -119,25 +119,25 @@ type errorPage struct {
 	Message string
 }
 
-func (a *App) fail(w http.ResponseWriter, r *http.Request, status int, messageKey string) {
+func (a *app) fail(w http.ResponseWriter, r *http.Request, status int, messageKey string) {
 	a.page(w, r, pageError, status, errorPage{Message: messageKey})
 }
 
-func (a *App) notFound(w http.ResponseWriter, r *http.Request) {
+func (a *app) notFound(w http.ResponseWriter, r *http.Request) {
 	a.fail(w, r, http.StatusNotFound, "Page not found.")
 }
 
-func (a *App) serverError(w http.ResponseWriter, r *http.Request, what string, err error) {
+func (a *app) serverError(w http.ResponseWriter, r *http.Request, what string, err error) {
 	a.log.Error(what, "error", err)
 	a.fail(w, r, http.StatusInternalServerError, "Something went wrong. Please try again later.")
 }
 
-func (a *App) home(w http.ResponseWriter, r *http.Request) {
+func (a *app) home(w http.ResponseWriter, r *http.Request) {
 	a.page(w, r, pageHome, http.StatusOK, nil)
 }
 
 // setLocale switches the interface language and returns to the home page.
-func (a *App) setLocale(w http.ResponseWriter, r *http.Request) {
+func (a *app) setLocale(w http.ResponseWriter, r *http.Request) {
 	if locale := r.PathValue("locale"); i18n.Supported(locale) {
 		a.state.setLocale(r, locale)
 	}

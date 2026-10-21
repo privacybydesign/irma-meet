@@ -20,7 +20,7 @@ func (w *statusWriter) WriteHeader(status int) {
 
 // accessLog logs requests without the meeting id of join links, which is a
 // secret that must not end up in logs.
-func (a *App) accessLog(next http.Handler) http.Handler {
+func (a *app) accessLog(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 		sw := &statusWriter{ResponseWriter: w, status: http.StatusOK}
@@ -36,7 +36,7 @@ func (a *App) accessLog(next http.Handler) http.Handler {
 	})
 }
 
-func (a *App) recoverPanics(next http.Handler) http.Handler {
+func (a *app) recoverPanics(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if rec := recover(); rec != nil {
@@ -49,7 +49,7 @@ func (a *App) recoverPanics(next http.Handler) http.Handler {
 	})
 }
 
-func (a *App) secureHeaders(next http.Handler) http.Handler {
+func (a *app) secureHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		h := w.Header()
 		h.Set("X-Content-Type-Options", "nosniff")

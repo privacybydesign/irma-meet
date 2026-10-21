@@ -13,7 +13,7 @@ const authPath = "/irma_session/authenticate/"
 
 // startSession starts one Yivi session and hands its pointer to the Yivi
 // frontend. The session token stays on the server.
-func (a *App) startSession(w http.ResponseWriter, r *http.Request) {
+func (a *app) startSession(w http.ResponseWriter, r *http.Request) {
 	t, ok := identity.Parse(r.PathValue("disclosureType"))
 	if !ok {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -41,7 +41,7 @@ type authenticatePage struct {
 
 // authenticate shows the page that starts a disclosure and then continues to
 // the return path.
-func (a *App) authenticate(w http.ResponseWriter, r *http.Request) {
+func (a *app) authenticate(w http.ResponseWriter, r *http.Request) {
 	t, ok := identity.Parse(r.PathValue("disclosureType"))
 	next := r.URL.Query().Get("return")
 
@@ -61,7 +61,7 @@ func (a *App) authenticate(w http.ResponseWriter, r *http.Request) {
 // identityOf returns who the visitor is. A Yivi session that was started and
 // has not been looked at yet is verified first and replaces what the session
 // held, so the latest disclosure wins.
-func (a *App) identityOf(r *http.Request) (identity.Verified, bool, error) {
+func (a *app) identityOf(r *http.Request) (identity.Verified, bool, error) {
 	if p, ok := a.state.pending(r); ok {
 		v, err := a.identities.Verify(r.Context(), p.Token, p.Type)
 
@@ -89,7 +89,7 @@ func (a *App) identityOf(r *http.Request) (identity.Verified, bool, error) {
 // identityFor returns who the visitor has proven to be, as t. When they have
 // not (yet), it responds itself, by sending them to the disclosure page for
 // t with returnTo as the place to continue, and reports false.
-func (a *App) identityFor(w http.ResponseWriter, r *http.Request, t identity.Type, returnTo string) (identity.Verified, bool) {
+func (a *app) identityFor(w http.ResponseWriter, r *http.Request, t identity.Type, returnTo string) (identity.Verified, bool) {
 	v, ok, err := a.identityOf(r)
 	if err != nil {
 		a.log.Error("verifying yivi session failed", "error", err)

@@ -46,7 +46,7 @@ type joinView struct {
 	ParticipantURL      string
 }
 
-func (a *App) createForm(w http.ResponseWriter, r *http.Request) {
+func (a *app) createForm(w http.ResponseWriter, r *http.Request) {
 	mt, ok := meeting.ParseType(r.PathValue("meetingType"))
 	if !ok {
 		a.notFound(w, r)
@@ -61,7 +61,7 @@ func (a *App) createForm(w http.ResponseWriter, r *http.Request) {
 	a.renderCreate(w, r, mt, http.StatusOK, createView{HostName: host.Name(), HostEmail: host.Email()})
 }
 
-func (a *App) renderCreate(w http.ResponseWriter, r *http.Request, mt meeting.Type, status int, v createView) {
+func (a *app) renderCreate(w http.ResponseWriter, r *http.Request, mt meeting.Type, status int, v createView) {
 	page := pageCreateFree
 	if mt == meeting.Exam {
 		page = pageCreateExam
@@ -70,7 +70,7 @@ func (a *App) renderCreate(w http.ResponseWriter, r *http.Request, mt meeting.Ty
 	a.page(w, r, page, status, v)
 }
 
-func (a *App) store(w http.ResponseWriter, r *http.Request) {
+func (a *app) store(w http.ResponseWriter, r *http.Request) {
 	form, err := parseCreateForm(w, r)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -82,8 +82,6 @@ func (a *App) store(w http.ResponseWriter, r *http.Request) {
 		a.notFound(w, r)
 		return
 	}
-
-	form.Type = mt
 
 	host, ok := a.identityFor(w, r, mt.HostIdentity(), createPath+string(mt))
 	if !ok {
@@ -97,8 +95,8 @@ func (a *App) store(w http.ResponseWriter, r *http.Request) {
 
 	created, err := a.meetings.Create(r.Context(), meeting.NewMeeting{
 		Type:         mt,
-		Name:         form.Name,
-		Note:         form.Note,
+		Name:         form.name,
+		Note:         form.note,
 		Host:         host,
 		Participants: form.emails(),
 		Locale:       a.lang(r),
@@ -116,9 +114,9 @@ func (a *App) store(w http.ResponseWriter, r *http.Request) {
 }
 
 // invalidView refills the form with what was submitted and the messages.
-func (a *App) invalidView(r *http.Request, f createForm, host identity.Verified, errs []fieldError) createView {
+func (a *app) invalidView(r *http.Request, f createForm, host identity.Verified, errs []fieldError) createView {
 	v := createView{
-		Name: f.Name, Note: f.Note, Participant: f.Participants[0],
+		Name: f.name, Note: f.note, Participant: f.participants[0],
 		HostName: host.Name(), HostEmail: host.Email(),
 		Invalid: map[string]bool{},
 	}
@@ -141,7 +139,7 @@ func (a *App) invalidView(r *http.Request, f createForm, host identity.Verified,
 
 // join is the landing page of a meeting link. Anyone may open it; the room is
 // only created once someone has disclosed through join_host or join_participant.
-func (a *App) join(w http.ResponseWriter, r *http.Request) {
+func (a *app) join(w http.ResponseWriter, r *http.Request) {
 	m, ok := a.loadMeeting(w, r)
 	if !ok {
 		return
@@ -164,17 +162,17 @@ func (a *App) join(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (a *App) joinHost(w http.ResponseWriter, r *http.Request) {
+func (a *app) joinHost(w http.ResponseWriter, r *http.Request) {
 	a.joinAs(w, r, joinHostPath, meeting.Type.HostIdentity)
 }
 
-func (a *App) joinParticipant(w http.ResponseWriter, r *http.Request) {
+func (a *app) joinParticipant(w http.ResponseWriter, r *http.Request) {
 	a.joinAs(w, r, joinParticipPath, meeting.Type.ParticipantIdentity)
 }
 
 // joinAs lets in whoever disclosed the identity role asks for. Which password
 // they get depends on who they turn out to be, not on the route they used.
-func (a *App) joinAs(w http.ResponseWriter, r *http.Request, route string, role func(meeting.Type) identity.Type) {
+func (a *app) joinAs(w http.ResponseWriter, r *http.Request, route string, role func(meeting.Type) identity.Type) {
 	m, ok := a.loadMeeting(w, r)
 	if !ok {
 		return
@@ -188,7 +186,7 @@ func (a *App) joinAs(w http.ResponseWriter, r *http.Request, route string, role 
 	a.enter(w, r, m, who)
 }
 
-func (a *App) enter(w http.ResponseWriter, r *http.Request, m meeting.Meeting, who identity.Verified) {
+func (a *app) enter(w http.ResponseWriter, r *http.Request, m meeting.Meeting, who identity.Verified) {
 	target, err := a.meetings.JoinURL(r.Context(), m, who)
 
 	switch {
@@ -204,7 +202,7 @@ func (a *App) enter(w http.ResponseWriter, r *http.Request, m meeting.Meeting, w
 	}
 }
 
-func (a *App) loadMeeting(w http.ResponseWriter, r *http.Request) (meeting.Meeting, bool) {
+func (a *app) loadMeeting(w http.ResponseWriter, r *http.Request) (meeting.Meeting, bool) {
 	id := r.PathValue("irmaSessionId")
 	if !meetingIDPattern.MatchString(id) {
 		a.notFound(w, r)

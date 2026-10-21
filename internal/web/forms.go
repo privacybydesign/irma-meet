@@ -7,8 +7,6 @@ import (
 	"strings"
 	"unicode"
 	"unicode/utf8"
-
-	"github.com/privacybydesign/irma-meet/internal/meeting"
 )
 
 const (
@@ -23,11 +21,10 @@ const (
 
 // createForm is the submitted "create meeting" form.
 type createForm struct {
-	Type         meeting.Type
-	Name         string
-	Note         string
-	Participants [maxParticipants]string
-	Agreed       string
+	name         string
+	note         string
+	participants [maxParticipants]string
+	agreed       string
 }
 
 func parseCreateForm(w http.ResponseWriter, r *http.Request) (createForm, error) {
@@ -38,13 +35,13 @@ func parseCreateForm(w http.ResponseWriter, r *http.Request) (createForm, error)
 	}
 
 	f := createForm{
-		Name:   cleanLine(r.PostFormValue(fieldMeetingName)),
-		Note:   strings.TrimSpace(r.PostFormValue(fieldNote)),
-		Agreed: strings.ToLower(strings.TrimSpace(r.PostFormValue(fieldAgreed))),
+		name:   cleanLine(r.PostFormValue(fieldMeetingName)),
+		note:   strings.TrimSpace(r.PostFormValue(fieldNote)),
+		agreed: strings.ToLower(strings.TrimSpace(r.PostFormValue(fieldAgreed))),
 	}
 
-	for i := range f.Participants {
-		f.Participants[i] = strings.TrimSpace(r.PostFormValue(fieldParticipant + string(rune('1'+i))))
+	for i := range f.participants {
+		f.participants[i] = strings.TrimSpace(r.PostFormValue(fieldParticipant + string(rune('1'+i))))
 	}
 
 	return f, nil
@@ -77,25 +74,25 @@ type fieldError struct {
 func (f createForm) validate() []fieldError {
 	var errs []fieldError
 
-	if f.Name == "" {
+	if f.name == "" {
 		errs = append(errs, required(fieldMeetingName, "Meeting name"))
-	} else if utf8.RuneCountInString(f.Name) > maxFieldRunes {
+	} else if utf8.RuneCountInString(f.name) > maxFieldRunes {
 		errs = append(errs, tooLong(fieldMeetingName, "Meeting name"))
 	}
 
-	if f.Note == "" && f.Participants[0] != "" {
+	if f.note == "" && f.participants[0] != "" {
 		errs = append(errs, required(fieldNote, "Invitation note"))
 	}
 
-	if f.Note != "" && utf8.RuneCountInString(f.Note) > maxFieldRunes {
+	if f.note != "" && utf8.RuneCountInString(f.note) > maxFieldRunes {
 		errs = append(errs, tooLong(fieldNote, "Invitation note"))
 	}
 
-	if f.Note != "" && f.Participants[0] == "" {
+	if f.note != "" && f.participants[0] == "" {
 		errs = append(errs, required(fieldParticipant+"1", "Participant email address"))
 	}
 
-	for i, email := range f.Participants {
+	for i, email := range f.participants {
 		if email != "" && !validEmail(email) {
 			errs = append(errs, fieldError{
 				field:   fieldParticipant + string(rune('1'+i)),
@@ -105,7 +102,7 @@ func (f createForm) validate() []fieldError {
 		}
 	}
 
-	if !accepted(f.Agreed) {
+	if !accepted(f.agreed) {
 		errs = append(errs, fieldError{field: fieldAgreed, message: "Please check the box to allow processing."})
 	}
 
@@ -124,7 +121,7 @@ func tooLong(field, label string) fieldError {
 func (f createForm) emails() []string {
 	var out []string
 
-	for _, email := range f.Participants {
+	for _, email := range f.participants {
 		if email != "" {
 			out = append(out, email)
 		}

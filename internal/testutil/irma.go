@@ -16,7 +16,7 @@ import (
 // FakeIRMA is an IRMA server that starts sessions and reports the results
 // the test gives it.
 type FakeIRMA struct {
-	Server *httptest.Server
+	server *httptest.Server
 
 	apiToken string
 
@@ -34,13 +34,13 @@ type fakeResult struct {
 
 func NewFakeIRMA(t testing.TB, apiToken string) *FakeIRMA {
 	f := &FakeIRMA{apiToken: apiToken, results: map[string]fakeResult{}, failures: map[string]string{}}
-	f.Server = httptest.NewServer(http.HandlerFunc(f.serve))
-	t.Cleanup(f.Server.Close)
+	f.server = httptest.NewServer(http.HandlerFunc(f.serve))
+	t.Cleanup(f.server.Close)
 
 	return f
 }
 
-func (f *FakeIRMA) URL() string { return f.Server.URL }
+func (f *FakeIRMA) URL() string { return f.server.URL }
 
 // StartedCount is how many sessions were started.
 func (f *FakeIRMA) StartedCount() int {
@@ -113,7 +113,7 @@ func (f *FakeIRMA) start(w http.ResponseWriter, r *http.Request) {
 
 	writeJSON(w, map[string]any{
 		"token":      token,
-		"sessionPtr": map[string]string{"u": f.Server.URL + "/irma/" + strings.Replace(token, "FakeToken", "ClientToken", 1), "irmaqr": "disclosing"},
+		"sessionPtr": map[string]string{"u": f.server.URL + "/irma/" + strings.Replace(token, "FakeToken", "ClientToken", 1), "irmaqr": "disclosing"},
 	})
 }
 
