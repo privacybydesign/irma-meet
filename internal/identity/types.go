@@ -59,7 +59,6 @@ type disclosureRequest struct {
 	Disclose [][][]attributeRequest `json:"disclose"`
 }
 
-// spec describes one disclosure type.
 type spec struct {
 	disclose [][][]attributeRequest
 	// valid lists the attribute sets that each prove an identity; the first

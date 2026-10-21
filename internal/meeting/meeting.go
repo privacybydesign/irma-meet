@@ -70,8 +70,7 @@ func (m Meeting) Expired(now time.Time) bool {
 	return !now.Before(m.StartTime.Add(LinkValidity))
 }
 
-// IsHost reports whether who is the host: they disclosed as the host of this
-// meeting type and the verified email is the one the meeting was created with.
+// IsHost reports whether who disclosed as the host type with the host's email.
 func (m Meeting) IsHost(who identity.Verified) bool {
 	email := who.Email()
 

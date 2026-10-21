@@ -80,7 +80,6 @@ func New(cfg config.Mail) (*Mailer, error) {
 	return m, nil
 }
 
-// render returns the HTML body of msg.
 func (m *Mailer) render(msg Message) (string, error) {
 	name := i18n.Normalize(msg.Locale) + "/" + string(msg.Kind) + "_" + msg.MeetingType
 

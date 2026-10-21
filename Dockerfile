@@ -6,7 +6,7 @@ RUN go mod download
 
 COPY . .
 
-# compile with static linking
+# No cgo, so the binary runs on the libc-free distroless static image.
 RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/irma-meet .
 
 # -----------------------------------------------------

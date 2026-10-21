@@ -79,9 +79,7 @@ type fieldError struct {
 	maxChars string
 }
 
-// validate checks the form the way the PHP application did: the meeting
-// name is required, a note and a first participant go together, every
-// participant address must be an email address, and the box must be checked.
+// validate applies the rules of the PHP application.
 func (f createForm) validate() []fieldError {
 	var errs []fieldError
 
@@ -128,7 +126,6 @@ func tooLong(field, label string) fieldError {
 	return fieldError{field: field, message: "The :attribute field must not be greater than :max characters.", label: label, maxChars: strconv.Itoa(maxFieldRunes)}
 }
 
-// emails returns the participant addresses that were filled in.
 func (f createForm) emails() []string {
 	var out []string
 

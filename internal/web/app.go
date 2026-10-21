@@ -153,7 +153,6 @@ func (a *app) home(w http.ResponseWriter, r *http.Request) {
 	a.page(w, r, pageHome, http.StatusOK, nil)
 }
 
-// setLocale switches the interface language and returns to the home page.
 func (a *app) setLocale(w http.ResponseWriter, r *http.Request) {
 	if locale := r.PathValue("locale"); i18n.Supported(locale) {
 		a.state.setLocale(r, locale)

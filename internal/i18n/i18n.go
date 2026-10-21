@@ -36,6 +36,7 @@ func New() (*Translator, error) {
 		if err := json.Unmarshal(data, &catalog); err != nil {
 			return nil, fmt.Errorf("locale %s: %w", locale, err)
 		}
+
 		t.catalogs[locale] = catalog
 	}
 

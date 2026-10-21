@@ -369,6 +369,7 @@ func TestExpiredMeetingsAreDeleted(t *testing.T) {
 	old := e.store.Meetings()[0]
 
 	e.clock.Advance(meeting.LinkValidity / 2)
+
 	host.disclose("default", defaultAttrs("Hannah Host", "host@example.com"))
 	host.post("/irma_session/store", createForm("free", "Fresh meeting"))
 

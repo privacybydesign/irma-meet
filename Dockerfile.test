@@ -8,7 +8,6 @@ RUN mkdir -p /coverage
 
 RUN go mod download
 
-# Run vet and the tests with coverage; write to /coverage inside the container.
-# In CI we'll mount a host dir to /coverage so we can upload the file.
+# CI mounts a host dir at /coverage to upload the profile.
 CMD go vet ./... && \
     go test ./... -v -covermode=atomic -coverprofile=/coverage/coverage.out
