@@ -1,0 +1,23 @@
+# Delivery: builds, scans and pushes ghcr.io/privacybydesign/irma-meet.
+# Push to the default branch -> :edge, release -> :x.y.z. PR builds are scanned
+# in Status checks; published images are re-scanned weekly by image-rescan.yml.
+name: Delivery
+
+on:
+  push:
+    branches: [master]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  docker:
+    uses: privacybydesign/github-workflows/.github/workflows/docker-publish.yml@v1
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+      id-token: write
+      attestations: write

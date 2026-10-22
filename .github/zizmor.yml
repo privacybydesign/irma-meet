@@ -1,0 +1,9 @@
+# Shared zizmor policy. Copy to .github/zizmor.yml in consuming repositories.
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        # Our own reusable workflows are referenced by the moving major tag (v1).
+        privacybydesign/*: ref-pin
+        # Everything else must be pinned to a full commit SHA.
+        "*": hash-pin
