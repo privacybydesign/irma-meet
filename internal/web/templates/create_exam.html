@@ -1,0 +1,43 @@
+{{define "title"}}{{.T `Create video meeting`}}{{end}}
+
+{{define "message"}}
+<form method="post" action="/irma_session/store">
+    <input id="meeting_type" name="meeting_type" value="exam" type="hidden">
+
+    <div class="form-group">
+        <label class="control-label" for="meeting_name">{{.T `Meeting name`}}</label>
+        <input id="meeting_name" name="meeting_name" value="{{.Data.Name}}" type="text" class="form-control{{if .Data.Invalid.meeting_name}} is-invalid{{end}}">
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="hoster_name">{{.T `Host name`}}</label>
+        <input id="hoster_name" name="hoster_name" value="{{.Data.HostName}}" type="text" class="form-control" readonly>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label" for="hoster_email_address">{{.T `Host email address`}}</label>
+        <input id="hoster_email_address" name="hoster_email_address" value="{{.Data.HostEmail}}" type="text" class="form-control" readonly>
+    </div>
+
+    <div class="form-group">
+        <label for="invitation_note">{{.T `Invitation note`}}</label>
+        <textarea id="invitation_note" name="invitation_note" class="form-control{{if .Data.Invalid.invitation_note}} is-invalid{{end}}">{{.Data.Note}}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="participant_email_address1">{{.T `Student email address`}}</label>
+        <input id="participant_email_address1" name="participant_email_address1" value="{{.Data.Participant}}" type="text" class="form-control{{if .Data.Invalid.participant_email_address1}} is-invalid{{end}}">
+    </div>
+
+    <div class="form-group">
+        <input type="checkbox" name="agreed" id="agreed" value="true" class="{{if .Data.Invalid.agreed}}is-invalid{{end}}">
+        <label for="agreed"><span>{{.T `consent_student_data`}}</span></label>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">{{.T `Send invite`}}</button>
+    </div>
+</form>
+
+{{template "form-errors" .}}
+{{end}}

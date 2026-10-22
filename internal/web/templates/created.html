@@ -1,0 +1,11 @@
+{{define "title"}}{{.T `Success`}}{{end}}
+
+{{define "message"}}
+<p>{{.HTMLf `The meeting <b>%s</b> has been created and remains available for 24 hours` .Data.Name}}</p>
+<p>{{.T `Use the link below to share with your participants:`}}</p>
+<p><a href="{{.Data.Link}}">{{.Data.Link}}</a></p>
+<button type="button" class="btn btn-primary btn-lg btn-blue" onclick="copy({{.Data.Link}});">{{.T `copy to clipboard`}}</button>
+{{if .Data.MailFailed}}
+<div class="alert alert-danger mt-3">{{.T `The invitation could not be sent by email. Please share the meeting link yourself.`}}</div>
+{{end}}
+{{end}}

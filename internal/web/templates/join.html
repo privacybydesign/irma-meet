@@ -1,0 +1,11 @@
+{{define "title"}}{{.T `Choose your role`}}{{end}}
+
+{{define "message"}}
+<div id="card-image">
+    <p>{{.T `Please authenticate with IRMA before entering the room.`}}</p>
+
+    <button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation({{.Data.HostStartURL}}, {{.Data.HostURL}});">{{.T .Data.HostLabel}}</button>
+    <button type="button" class="btn btn-primary btn-lg btn-blue" onclick="startInvitation({{.Data.ParticipantStartURL}}, {{.Data.ParticipantURL}});">{{.T .Data.ParticipantLabel}}</button>
+</div>
+<section class="irma-web-form" style="display: none"></section>
+{{end}}
