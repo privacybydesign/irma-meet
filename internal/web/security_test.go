@@ -448,7 +448,7 @@ func TestOnlyStaticFilesAreServed(t *testing.T) {
 	}
 
 	for path, contentType := range map[string]string{
-		"/css/custom.css": "text/css", "/css/bootstrap.min.css": "text/css", "/js/custom.js": "text/javascript", "/js/irma.js": "text/javascript",
+		"/css/custom.css": "text/css", "/css/bootstrap.min.css": "text/css", "/js/custom.js": "text/javascript", "/js/yivi.js": "text/javascript",
 		"/js/bootstrap.bundle.min.js": "text/javascript", "/img/yivi-logo.svg": "image/svg+xml", "/favicon.ico": "image/", "/robots.txt": "text/plain",
 	} {
 		resp := user.get(path)

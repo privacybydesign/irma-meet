@@ -136,7 +136,7 @@ p, li {
 	justify-content: center;
 }
 
-.card-body .irma-web-form {
+.card-body .yivi-web-form {
 	width: 100%;
 	background: transparent;
 	border-color: transparent;
@@ -145,11 +145,11 @@ p, li {
     max-width:none;
 }
 
-.card-body .irma-web-header {
+.card-body .yivi-web-header {
 	padding: 0 0 2em 0 !important;
 }
 
-.card-body .irma-web-form p, .card-body .irma-web-form a {
+.card-body .yivi-web-form p, .card-body .yivi-web-form a {
 	color: #111 !important;
 	font-family: inherit !important;
 }
@@ -157,6 +157,12 @@ p, li {
 .img-warp {
 	position: relative;
 	min-height: 100%;
+}
+
+/* Bootstrap 5 dropped position: relative from columns. The images and the
+   meeting type blocks are placed absolutely inside their column. */
+.img-warp > [class*="col-"] {
+	position: relative;
 }
 
 .two-column-text ul {

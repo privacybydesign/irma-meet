@@ -1,14 +1,14 @@
-var irmaFrontend;
+var yiviFrontend;
 
 function startInvitation(authUrl, redirectUrl) {
   document.getElementById("card-image").style.display = "none";
-  document.getElementsByClassName("irma-web-form")[0].removeAttribute("style");
-  if (irmaFrontend) irmaFrontend.abort();
+  document.getElementsByClassName("yivi-web-form")[0].removeAttribute("style");
+  if (yiviFrontend) yiviFrontend.abort();
 
-  irmaFrontend = irma.newWeb({
+  yiviFrontend = yivi.newWeb({
     debugging: false,
     language: LANGUAGE,
-    element: ".irma-web-form",
+    element: ".yivi-web-form",
 
     session: {
       url: authUrl,
@@ -28,7 +28,7 @@ function startInvitation(authUrl, redirectUrl) {
     }
   });
 
-  irmaFrontend
+  yiviFrontend
     .start()
     .then(() => {
       window.location.replace(redirectUrl);
