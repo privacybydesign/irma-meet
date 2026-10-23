@@ -113,7 +113,7 @@ TEST_DATABASE_URL='postgresql://postgres:secret@127.0.0.1:5433/postgres?sslmode=
 
 ## Static files
 
-Only `internal/web/static` is embedded and served; nothing else from the repository is reachable over HTTP. The Bootstrap 5.3.8 bundle (`css/bootstrap.min.css`, `js/bootstrap.bundle.min.js`) is the unmodified `dist/` build from the `bootstrap` npm package, minus the source map comment. `js/irma.js` is the Yivi web frontend. Update them by replacing the files.
+Only `internal/web/static` is embedded and served; nothing else from the repository is reachable over HTTP. The Bootstrap 5.3.8 bundle (`css/bootstrap.min.css`, `js/bootstrap.bundle.min.js`) is the unmodified `dist/` build from the `bootstrap` npm package, minus the source map comment. `js/yivi.js` is `dist/yivi.js` from the `@privacybydesign/yivi-frontend` npm package (1.0.5). Update them by replacing the files.
 
 ## Translation
 
