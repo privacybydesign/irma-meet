@@ -68,6 +68,12 @@ func (f *FakeBBB) Calls(name string) []BBBCall {
 func (f *FakeBBB) serve(w http.ResponseWriter, r *http.Request) {
 	name := strings.TrimPrefix(r.URL.Path, "/bigbluebutton/api/")
 
+	// Blindside Networks answers blockedApplication to Go's default User-Agent.
+	if strings.HasPrefix(r.UserAgent(), "Go-http-client/") {
+		xml(w, returnFailed, "<messageKey>blockedApplication</messageKey>")
+		return
+	}
+
 	if !f.validChecksum(name, r.URL.RawQuery) {
 		xml(w, returnFailed, "<messageKey>checksumError</messageKey>")
 		return
