@@ -28,6 +28,11 @@ const (
 	apiPath           = "api/"
 	checksumSeparator = "&checksum="
 
+	// Blindside Networks answers blockedApplication to Go's default
+	// User-Agent, so every call names this service instead.
+	headerUserAgent = "User-Agent"
+	userAgent       = "irma-meet (+https://github.com/privacybydesign/irma-meet)"
+
 	paramMeetingID   = "meetingID"
 	paramName        = "name"
 	paramAttendeePW  = "attendeePW"
@@ -101,6 +106,8 @@ func (c *Client) call(ctx context.Context, name string, params url.Values) (resp
 	if err != nil {
 		return response{}, err
 	}
+
+	req.Header.Set(headerUserAgent, userAgent)
 
 	resp, err := c.client.Do(req)
 	if err != nil {
