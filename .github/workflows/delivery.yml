@@ -1,6 +1,7 @@
 # Delivery: builds, scans and pushes ghcr.io/privacybydesign/irma-meet.
-# Push to the default branch -> :edge, release -> :x.y.z. PR builds are scanned
-# in Status checks; published images are re-scanned weekly by image-rescan.yml.
+# Push to master -> :edge, release vX.Y.Z -> :X.Y.Z and :latest. PR builds are
+# scanned in Status checks; published images are re-scanned weekly by
+# image-rescan.yml.
 name: Delivery
 
 on:
@@ -21,3 +22,7 @@ jobs:
       security-events: write
       id-token: write
       attestations: write
+    with:
+      # The old Docker image workflow tagged :latest; keep doing so on every
+      # stable release.
+      tag-latest: true
